@@ -1,0 +1,6 @@
+// @flow
+
+process.env.MYSQL_HOST = 'mysql.stud.ntnu.no';
+process.env.MYSQL_USER = 'trulshj_quiz';
+process.env.MYSQL_PASSWORD = 'secret';
+process.env.MYSQL_DATABASE = 'trulshj_quiz_db_test';
