@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert } from './widgets';
-import { TaskList, TaskDetails, TaskEdit, TaskNew } from './task-components';
 
 class Menu extends Component {
   render() {
@@ -31,10 +30,6 @@ if (root)
         <Alert />
         <Menu />
         <Route exact path="/" component={Home} />
-        <Route exact path="/tasks" component={TaskList} />
-        <Route exact path="/tasks/:id(\d+)" component={TaskDetails} /> {/* id must be number */}
-        <Route exact path="/tasks/:id(\d+)/edit" component={TaskEdit} /> {/* id must be number */}
-        <Route exact path="/tasks/new" component={TaskNew} />
       </div>
     </HashRouter>,
     root
