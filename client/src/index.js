@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert } from './widgets';
+// import { components } from './quiz-components';
 
 class Menu extends Component {
   render() {
