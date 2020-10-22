@@ -1,28 +1,35 @@
 // @flow
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3000/api/v2';
+axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
-export type Task = {
+export type Quiz = {
   id: number,
   title: string,
   description: string,
-  done: boolean,
+  questions: Question[],
 };
 
-class TaskService {
+export type Question = {
+  id: number,
+  question: string,
+  answer: string,
+  options: string[],
+};
+
+class QuizService {
   /**
    * Get task with given id.
    */
   get(id: number) {
-    return axios.get<Task>('/tasks/' + id).then((response) => response.data);
+    return axios.get<Quiz>('/quizzes/' + id).then((response) => response.data);
   }
 
   /**
    * Get all tasks.
    */
   getAll() {
-    return axios.get<Task[]>('/tasks').then((response) => response.data);
+    return axios.get<Quiz[]>('/quizzes').then((response) => response.data);
   }
 
   /**
@@ -30,26 +37,16 @@ class TaskService {
    *
    * Resolves the newly created task id.
    */
-  create(title: string, description: string) {
+  create(title: string, description: string, questions: Question[]) {
     return axios
-      .post<{}, { id: number }>('/tasks', { title: title, description: description })
+      .post<{}, { id: number }>('/tasks', {
+        title: title,
+        description: description,
+        questions: questions,
+      })
       .then((response) => response.data.id);
-  }
-
-  /**
-   * Update given task.
-   */
-  update(task: Task) {
-    return axios.put<Task, void>('/tasks', task).then((response) => response.data);
-  }
-
-  /**
-   * Delete task with given id.
-   */
-  delete(id: number) {
-    return axios.delete<void>('/tasks/' + id).then((response) => response.data);
   }
 }
 
-const taskService = new TaskService();
-export default taskService;
+const quizService = new QuizService();
+export default quizService;

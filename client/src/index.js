@@ -9,8 +9,10 @@ import { NavBar, Card, Alert } from './widgets';
 class Menu extends Component {
   render() {
     return (
-      <NavBar brand="Todo App">
-        <NavBar.Link to="/tasks">Tasks</NavBar.Link>
+      <NavBar brand="Quiz App">
+        <NavBar.Link to="/quizzes">Quizzes</NavBar.Link>
+        <NavBar.Link to="/newQuiz">New Quiz</NavBar.Link>
+        <NavBar.Link to="/login">Login</NavBar.Link>
       </NavBar>
     );
   }
@@ -18,7 +20,25 @@ class Menu extends Component {
 
 class Home extends Component {
   render() {
-    return <Card title="Welcome">This is Todo App</Card>;
+    return <Card title="Welcome">Quiz App for Quizzes</Card>;
+  }
+}
+
+class Quizzes extends Component {
+  render() {
+    return <Card title="Quizzez">Here be no quizzes yet!</Card>;
+  }
+}
+
+class NewQuiz extends Component {
+  render() {
+    return <Card title="New quiz">Not yet implemented</Card>;
+  }
+}
+
+class Login extends Component {
+  render() {
+    return <Card title="Login">Not yet implemented</Card>;
   }
 }
 
@@ -30,6 +50,9 @@ if (root)
         <Alert />
         <Menu />
         <Route exact path="/" component={Home} />
+        <Route exact path="/quizzes" component={Quizzes} />
+        <Route exact path="/newQuiz" component={NewQuiz} />
+        <Route exact path="/login" component={Login} />
       </div>
     </HashRouter>,
     root
