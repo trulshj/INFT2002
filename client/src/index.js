@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
-import { NavBar, Card, Alert } from './widgets';
+import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 // import { components } from './quiz-components';
 
 class Menu extends Component {
@@ -38,8 +38,33 @@ class NewQuiz extends Component {
 }
 
 class Login extends Component {
+  username = '';
+  password = '';
+  
   render() {
-    return <Card title="Login">Not yet implemented</Card>;
+    return <Card title="Login">
+      <Row>
+      <Column width={3}>
+        <Form.Input
+          value={this.username}
+          type="text"
+          placeholder="Username"
+          onChange={(event) => {this.username = event.currentTarget.value;}}
+        />
+      </Column>
+      </Row>
+      <Row>
+      <Column width={3}>
+        <Form.Input
+          value={this.password}
+          type="password"
+          placeholder="Password"
+          onChange={(event) => {this.password = event.currentTarget.value;}}
+        />
+        </Column>
+        </Row>
+        <Row><Column><Button.Success onClick={() => {Alert.danger('Not yet implemented')}}>Login</Button.Success></Column></Row>
+    </Card>;
   }
 }
 
