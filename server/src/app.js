@@ -1,7 +1,7 @@
 // @flow
 
 import express from 'express';
-import taskRouter from './task-router';
+import quizRouter from './quiz-router';
 
 /**
  * Express application.
@@ -9,8 +9,6 @@ import taskRouter from './task-router';
 const app = express<express$Request, express$Response>();
 
 app.use(express.json());
-
-// Since API is not compatible with v1, API version is increased to v2
-app.use('/api/v2', taskRouter);
+app.use('/api/v1', quizRouter);
 
 export default app;

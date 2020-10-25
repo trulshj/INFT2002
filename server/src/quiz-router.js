@@ -1,6 +1,6 @@
 // @flow
 import express from 'express';
-import taskService, { type Task } from './task-service';
+import taskService, { type Task } from './quiz-service';
 
 /**
  * Express router containing task methods.
