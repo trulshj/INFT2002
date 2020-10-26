@@ -11,8 +11,9 @@ files should not be uploaded to your git repository, and they have therefore bee
 
 Follow this steps: We have created the file `config.js.example`. Create a new file in
 `server/src/config.js`, and name it `config.js` and copy over all the information from
-`server/src/config.js.example` to the new file you created: `config.js`. Do the same procedure in
-`server/test/config.js`.
+`server/src/config.js.example` to the new file you created: `config.js`. Change
+process.env.MYSQL_PASSWORD = 'secret'; Change 'secret' and add the correct password. Do the same
+procedure in `server/test/config.js`.
 
 ## Start server
 
