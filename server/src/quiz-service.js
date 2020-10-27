@@ -56,34 +56,26 @@ class QuizService {
   }
 
   /**
-   * Delete task with given id.
+   * Delete quiz with given id.
    */
   delete(id: number) {
-    return new Promise<void>((resolve, reject) => {
-      pool.query('DELETE FROM Tasks WHERE id = ?', [id], (error, results) => {
-        if (error) return reject(error);
-        if (!results.affectedRows) reject(new Error('No row deleted'));
-
-        resolve();
-      });
-    });
+    return null;
   }
 
   /**
-   * Update given task.
+   * Update given quiz.
+   *
+   * Pass a quiz object, will update the row with the specified id with the new object
    */
-  update(task: Task) {
-    return new Promise<void>((resolve, reject) => {
-      pool.query(
-        'UPDATE Tasks SET title=?, description=?, done=? WHERE id=?',
-        [task.title, task.description, task.done, task.id],
-        (error, results) => {
-          if (error) return reject(error);
+  update(quiz: Quiz) {
+    return null;
+  }
 
-          resolve();
-        }
-      );
-    });
+  /**
+   * Add a question to a quiz
+   */
+  addQuestion(id: Number, question: Question) {
+    return null;
   }
 }
 
