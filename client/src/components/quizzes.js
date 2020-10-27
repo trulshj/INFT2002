@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button } from '../widgets';
-import quizService, { type Quiz } from '../quiz-service';
+import quizService, { type Quiz, type Category } from '../quiz-service';
 
 class Quizzes extends Component {
     categorys: Category[] = [];

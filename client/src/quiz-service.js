@@ -52,9 +52,12 @@ class QuizService {
   /**
    * Get all categorys
    */
+  getCategory(categoryname: string) {
+    return axios.get<Category>('/categorys/' + categoryname).then((response) => response.data);
+  }
 
    getAllCategorys() {
-     return axios.get<Category[]>("/quizzes").then((response) => response.data)
+     return axios.get<Category[]>("/categorys").then((response) => response.data)
    }
 }
 
