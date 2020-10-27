@@ -49,6 +49,6 @@ npm test
 
 ### Run the quiz:
 
-Run the quiz in your browser at:
+Run the quizapp in your browser at:
 
 http://localhost:3000/

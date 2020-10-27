@@ -2,20 +2,19 @@
 
 import pool from './mysql-pool';
 
-export type Task = {
-  id: number,
-  title: string,
-  description: string,
-  done: boolean,
+export type Quiz = {
+  quizid: number,
+  quizname: string,
+  quizcategory: string,
 };
 
-class TaskService {
+class QuizService {
   /**
-   * Get task with given id.
+   * Get Quiz with given id.
    */
   get(id: number) {
-    return new Promise<?Task>((resolve, reject) => {
-      pool.query('SELECT * FROM Tasks WHERE id = ?', [id], (error, results: Task[]) => {
+    return new Promise<?Quiz>((resolve, reject) => {
+      pool.query('SELECT * FROM Quiz WHERE id = ?', [id], (error, results: Quiz[]) => {
         if (error) return reject(error);
 
         resolve(results[0]);
@@ -24,11 +23,11 @@ class TaskService {
   }
 
   /**
-   * Get all tasks.
+   * Get all Quizzes.
    */
   getAll() {
-    return new Promise<Task[]>((resolve, reject) => {
-      pool.query('SELECT * FROM Tasks', (error, results) => {
+    return new Promise<Quiz[]>((resolve, reject) => {
+      pool.query('SELECT * FROM Quiz', (error, results) => {
         if (error) return reject(error);
 
         resolve(results);
@@ -37,15 +36,15 @@ class TaskService {
   }
 
   /**
-   * Create new task having the given title.
+   * Create new Quiz having the given title.
    *
-   * Resolves the newly created task id.
+   * Resolves the newly created quiz id.
    */
-  create(title: string, description: string) {
+  create(quizname: string, quizcategory: string) {
     return new Promise<number>((resolve, reject) => {
       pool.query(
-        'INSERT INTO Tasks SET title=?, description=?',
-        [title, description],
+        'INSERT INTO Quiz SET quizname=?, quizcategory=?',
+        [quizname, quizcategory],
         (error, results) => {
           if (error) return reject(error);
           if (!results.insertId) return reject(new Error('No row inserted'));
@@ -88,5 +87,5 @@ class TaskService {
   }
 }
 
-const taskService = new TaskService();
-export default taskService;
+const quizService = new QuizService();
+export default quizService;
