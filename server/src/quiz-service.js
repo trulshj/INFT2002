@@ -8,13 +8,17 @@ export type Quiz = {
   quizcategory: string,
 };
 
+export type Category = {
+  categoryname: string,
+};
+
 class QuizService {
   /**
    * Get Quiz with given id.
    */
-  get(id: number) {
+  get(quizid: number) {
     return new Promise<?Quiz>((resolve, reject) => {
-      pool.query('SELECT * FROM Quiz WHERE id = ?', [id], (error, results: Quiz[]) => {
+      pool.query('SELECT * FROM Quiz WHERE id = ?', [quizid], (error, results: Quiz[]) => {
         if (error) return reject(error);
 
         resolve(results[0]);
@@ -77,6 +81,34 @@ class QuizService {
   addQuestion(id: Number, question: Question) {
     return null;
   }
+
+ /**
+   * Categorys.
+   */
+
+    /**
+   * Get Category with given id.
+   */
+  getCategory(categoryname: string) {
+    return new Promise<?Category>((resolve, reject) => {
+      pool.query('SELECT * FROM Category WHERE categoryname = ?', [categoryname], (error, results: Category[]) => {
+        if (error) return reject(error);
+
+        resolve(results[0]);
+      });
+    });
+  }
+
+  getAllCategorys() {
+    return new Promise<Category[]>((resolve, reject) => {
+      pool.query('SELECT * FROM Category', (error, results) => {
+        if (error) return reject(error);
+
+        resolve(results);
+      });
+    });
+  }
+
 }
 
 const quizService = new QuizService();

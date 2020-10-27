@@ -15,6 +15,10 @@ export type Quizquestion = {
   question: string,
 };
 
+export type Category = {
+  categoryname: string,
+};
+
 
 class QuizService {
   /**
@@ -44,6 +48,14 @@ class QuizService {
       })
       .then((response) => response.data.id);
   }
+
+  /**
+   * Get all categorys
+   */
+
+   getAllCategorys() {
+     return axios.get<Category[]>("/quizzes").then((response) => response.data)
+   }
 }
 
 const quizService = new QuizService();
