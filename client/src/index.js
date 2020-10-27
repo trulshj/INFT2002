@@ -6,6 +6,8 @@ import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 import Login from './components/login';
+import NewQuiz from './components/newquiz';
+import Quizzes from './components/quizzes';
 
 class Menu extends Component {
   render() {
@@ -22,18 +24,6 @@ class Menu extends Component {
 class Home extends Component {
   render() {
     return <Card title="Welcome">Quiz App for Quizzes</Card>;
-  }
-}
-
-class Quizzes extends Component {
-  render() {
-    return <Card title="Quizzez">Here be no quizzes yet!</Card>;
-  }
-}
-
-class NewQuiz extends Component {
-  render() {
-    return <Card title="New quiz">Not yet implemented</Card>;
   }
 }
 
