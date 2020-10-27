@@ -47,11 +47,11 @@ class Login extends Component {
             </Button.Success>
           </Column>
         </Row>
-      <Column>
-      <Row>
-      Don't have an account?  <NavBar.Link to="/register">Sign up</NavBar.Link>
-      </Row>
-      </Column>
+        <Column>
+          <Row>
+            Don't have an account? <NavBar.Link to="/register">Sign up</NavBar.Link>
+          </Row>
+        </Column>
       </Card>
     );
   }
