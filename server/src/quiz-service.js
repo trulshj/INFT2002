@@ -2,91 +2,67 @@
 
 import pool from './mysql-pool';
 
-export type Task = {
+export type Quiz = {
   id: number,
   title: string,
   description: string,
-  done: boolean,
+  questions: Question[],
 };
 
-class TaskService {
+export type Question = {
+  id: number,
+  question: string,
+  answer: string,
+  options: string[],
+};
+
+class QuizService {
   /**
-   * Get task with given id.
+   * Get quiz with given id.
    */
   get(id: number) {
-    return new Promise<?Task>((resolve, reject) => {
-      pool.query('SELECT * FROM Tasks WHERE id = ?', [id], (error, results: Task[]) => {
-        if (error) return reject(error);
-
-        resolve(results[0]);
-      });
-    });
+    return null;
   }
 
   /**
-   * Get all tasks.
+   * Get all quizzes.
    */
   getAll() {
-    return new Promise<Task[]>((resolve, reject) => {
-      pool.query('SELECT * FROM Tasks', (error, results) => {
-        if (error) return reject(error);
-
-        resolve(results);
-      });
-    });
+    return null;
   }
 
   /**
-   * Create new task having the given title.
+   * Create new quiz having the given title and description
    *
-   * Resolves the newly created task id.
+   * Resolves the newly created quiz id.
    */
   create(title: string, description: string) {
-    return new Promise<number>((resolve, reject) => {
-      pool.query(
-        'INSERT INTO Tasks SET title=?, description=?',
-        [title, description],
-        (error, results) => {
-          if (error) return reject(error);
-          if (!results.insertId) return reject(new Error('No row inserted'));
-
-          resolve(Number(results.insertId));
-        }
-      );
-    });
+    return null;
   }
 
   /**
-   * Delete task with given id.
+   * Delete quiz with given id.
    */
   delete(id: number) {
-    return new Promise<void>((resolve, reject) => {
-      pool.query('DELETE FROM Tasks WHERE id = ?', [id], (error, results) => {
-        if (error) return reject(error);
-        if (!results.affectedRows) reject(new Error('No row deleted'));
-
-        resolve();
-      });
-    });
+    return null;
   }
 
   /**
-   * Update given task.
+   * Update given quiz.
+   *
+   * Pass a quiz object, will update the row with the specified id with the new object
    */
-  update(task: Task) {
-    return new Promise<void>((resolve, reject) => {
-      pool.query(
-        'UPDATE Tasks SET title=?, description=?, done=? WHERE id=?',
-        [task.title, task.description, task.done, task.id],
-        (error, results) => {
-          if (error) return reject(error);
+  update(quiz: Quiz) {
+    return null;
+  }
 
-          resolve();
-        }
-      );
-    });
+  /**
+   * Add a question to a quiz
+   */
+  addQuestion(id: Number, question: Question) {
+    return null;
   }
 }
 
-const taskService = new TaskService();
-export default taskService;
+const quizService = new QuizService();
+export default quizService;
