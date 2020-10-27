@@ -8,6 +8,7 @@ import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 import Login from './components/login';
 import NewQuiz from './components/newquiz';
 import Quizzes from './components/quizzes';
+import Register from './components/register';
 
 class Menu extends Component {
   render() {
@@ -38,6 +39,7 @@ if (root)
         <Route exact path="/quizzes" component={Quizzes} />
         <Route exact path="/newQuiz" component={NewQuiz} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
       </div>
     </HashRouter>,
     root,

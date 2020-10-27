@@ -5,13 +5,13 @@ import { NavLink } from 'react-router-dom';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 
-class Login extends Component {
+class Register extends Component {
   username = '';
   password = '';
 
   render() {
     return (
-      <Card title="Login">
+      <Card title="Enter your username and password">
         <Row>
           <Column width={3}>
             <Form.Input
@@ -43,18 +43,13 @@ class Login extends Component {
                 Alert.danger('Not yet implemented');
               }}
             >
-              Login
+              Create user
             </Button.Success>
           </Column>
         </Row>
-      <Column>
-      <Row>
-      Don't have an account?  <NavBar.Link to="/register">Sign up</NavBar.Link>
-      </Row>
-      </Column>
       </Card>
     );
   }
 }
 
-export default Login;
+export default Register;
