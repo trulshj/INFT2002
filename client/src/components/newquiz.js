@@ -61,6 +61,5 @@ class NewQuiz extends Component {
       );
     }
   }
-}
 
 export default NewQuiz;
