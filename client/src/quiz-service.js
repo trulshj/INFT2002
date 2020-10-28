@@ -4,19 +4,19 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
 export type Quiz = {
-  quizid: number,
-  quizname: string,
-  quizcategory: string,
+  quizId: number,
+  quizName: string,
+  quizCategory: string,
 };
 
 export type Quizquestion = {
-  quizquestionid: number,
-  quizid: number,
+  quizQuestionId: number,
+  quizId: number,
   question: string,
 };
 
 export type Category = {
-  categoryname: string,
+  category: string,
 };
 
 
@@ -24,8 +24,8 @@ class QuizService {
   /**
    * Get quiz with given id.
    */
-  get(id: number) {
-    return axios.get<Quiz>('/quizzes/' + id).then((response) => response.data);
+  get(quizId: number) {
+    return axios.get<Quiz>('/quizzes/' + quizId).then((response) => response.data);
   }
 
   /**
@@ -40,20 +40,20 @@ class QuizService {
    *
    * Resolves the newly created task id.
    */
-  create(quizname: string, quizcategory: string) {
+  create(quizName: string, category: string) {
     return axios
       .post<{}, { id: number }>('/quizzes', {
-        quizname: quizname,
-        quizcategory: quizcategory,
+        quizName: quizName,
+        category: category,
       })
-      .then((response) => response.data.id);
+      .then((response) => response.data.quizId);
   }
 
   /**
    * Get all categorys
    */
-  getCategory(categoryname: string) {
-    return axios.get<Category>('/categorys/' + categoryname).then((response) => response.data);
+  getCategory(category: string) {
+    return axios.get<Category>('/categorys/' + category).then((response) => response.data);
   }
 
    getAllCategorys() {

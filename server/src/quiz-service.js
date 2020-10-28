@@ -3,22 +3,22 @@
 import pool from './mysql-pool';
 
 export type Quiz = {
-  quizid: number,
-  quizname: string,
-  quizcategory: string,
+  quizId: number,
+  quizName: string,
+  quizCategory: string,
 };
 
 export type Category = {
-  categoryname: string,
+  categoryName: string,
 };
 
 class QuizService {
   /**
    * Get Quiz with given id.
    */
-  get(quizid: number) {
+  get(quizId: number) {
     return new Promise<?Quiz>((resolve, reject) => {
-      pool.query('SELECT * FROM Quiz WHERE id = ?', [quizid], (error, results: Quiz[]) => {
+      pool.query('SELECT * FROM quiz WHERE id = ?', [quizId], (error, results: Quiz[]) => {
         if (error) return reject(error);
 
         resolve(results[0]);
@@ -31,7 +31,7 @@ class QuizService {
    */
   getAll() {
     return new Promise<Quiz[]>((resolve, reject) => {
-      pool.query('SELECT * FROM Quiz', (error, results) => {
+      pool.query('SELECT * FROM quiz', (error, results) => {
         if (error) return reject(error);
 
         resolve(results);
@@ -44,11 +44,11 @@ class QuizService {
    *
    * Resolves the newly created quiz id.
    */
-  create(quizname: string, quizcategory: string) {
+  create(quizName: string, quizCategory: string) {
     return new Promise<number>((resolve, reject) => {
       pool.query(
-        'INSERT INTO Quiz SET quizname=?, quizcategory=?',
-        [quizname, quizcategory],
+        'INSERT INTO quiz SET quiz_name=?, quiz_category=?',
+        [quizName, quizCategory],
         (error, results) => {
           if (error) return reject(error);
           if (!results.insertId) return reject(new Error('No row inserted'));
@@ -89,9 +89,9 @@ class QuizService {
     /**
    * Get Category with given id.
    */
-  getCategory(categoryname: string) {
+  getCategory(categoryName: string) {
     return new Promise<?Category>((resolve, reject) => {
-      pool.query('SELECT * FROM Category WHERE categoryname = ?', [categoryname], (error, results: Category[]) => {
+      pool.query('SELECT * FROM category WHERE category_name = ?', [categoryName], (error, results: Category[]) => {
         if (error) return reject(error);
 
         resolve(results[0]);
@@ -101,7 +101,7 @@ class QuizService {
 
   getAllCategorys() {
     return new Promise<Category[]>((resolve, reject) => {
-      pool.query('SELECT * FROM Category', (error, results) => {
+      pool.query('SELECT * FROM category', (error, results) => {
         if (error) return reject(error);
 
         resolve(results);

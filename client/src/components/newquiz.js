@@ -3,18 +3,33 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button } from '../widgets';
-import quizService, { type Quiz } from '../quiz-service';
-import Dropdown from 'react-overlays/Dropdown';
+import quizService, { type Category } from '../quiz-service';
+import Dropdown from 'react-dropdown'
+
+
 
 //Component for creating new quizzes
 
 class NewQuiz extends Component {
-  quizname = '';
+  quizName = '';
+  categorys: Category[] = [];
+ 
+  
+  
+
+  
 
   render() {
+    const options = [
+      'one', 'two', 'three'
+    ]
+    const defaultOption = options[0]
+
+
+    
     return (
       <>
-        <Card quizname="New Quiz">
+        <Card title="New Quiz">
           <Row>
             <Column width={2}>
               <Form.Label>Quiz Name:</Form.Label>
@@ -22,8 +37,8 @@ class NewQuiz extends Component {
             <Column>
               <Form.Input
                 type="text"
-                value={this.quizname}
-                onChange={(event) => (this.quizname = event.currentTarget.value)}
+                value={this.quizName}
+                onChange={(event) => (this.quizName = event.currentTarget.value)}
               />
             </Column>
           </Row>
@@ -34,8 +49,8 @@ class NewQuiz extends Component {
             <Column>
               <Form.Input
                 type="text"
-                value={this.quizcategory}
-                onChange={(event) => (this.quizcategory = event.currentTarget.value)}
+                value={this.quizCategory}
+                onChange={(event) => (this.quizCategory = event.currentTarget.value)}
               />
             </Column>
           </Row>
@@ -44,16 +59,15 @@ class NewQuiz extends Component {
               <Form.Label>Category:</Form.Label>
             </Column>
             <Column>
-              Nedtreksboks med alle categoryene her, når man lager quizen går man til en side for
-              create questions: value=this.quizcategory
+            <select>{this.categorys.map(category => (<options key={category} value={category}>{category}</options>))}</select>
             </Column>
           </Row>
         </Card>
         <Button.Success
           onClick={() => {
             quizService
-              .create(this.quizname, this.quizcategory)
-              .then((id) => history.push('/newQuiz/quizQuestions'))
+              .create(this.quizName, this.category)
+              .then((quizId) => history.push('/newQuiz/quizQuestions'))
               .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
           }}
         >
@@ -61,6 +75,12 @@ class NewQuiz extends Component {
         </Button.Success>
       </>
     );
+  }
+  mounted() {
+    quizService
+      .getAll()
+      .then((categorys) => (this.categorys = categorys))
+      .catch((error: Error) => Alert.danger('Error getting tasks: ' + error.message));
   }
 }
 
