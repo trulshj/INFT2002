@@ -13,20 +13,15 @@ import Dropdown from 'react-dropdown'
 class NewQuiz extends Component {
   quizName = '';
   categorys: Category[] = [];
- 
+  category2 =["1", "2", "3"]
   
   
 
   
 
   render() {
-    const options = [
-      'one', 'two', 'three'
-    ]
-    const defaultOption = options[0]
-
-
-    
+   console.log(this.categorys)
+   console.log(this.category2)
     return (
       <>
         <Card title="New Quiz">
@@ -44,28 +39,19 @@ class NewQuiz extends Component {
           </Row>
           <Row>
             <Column width={2}>
-              <Form.Label>Quiz quizcategory:</Form.Label>
-            </Column>
-            <Column>
-              <Form.Input
-                type="text"
-                value={this.quizCategory}
-                onChange={(event) => (this.quizCategory = event.currentTarget.value)}
-              />
-            </Column>
-          </Row>
-          <Row>
-            <Column width={2}>
               <Form.Label>Category:</Form.Label>
             </Column>
             <Column>
-            <select>{this.categorys.map(category => (<options key={category} value={category}>{category}</options>))}</select>
+            <select>{this.categorys.map(category => (<option key={category} onChange={this._onSelect} value={category} placeholder="Select an option">{"category"}</option>))}</select>
+            <select>{this.category2.map(category => (<option key={category} onChange={this._onSelect} value={category} placeholder="Select an option">{category}</option>))}</select>
             </Column>
           </Row>
         </Card>
         <Button.Success
           onClick={() => {
+            console.log(this.quizName + this.category)
             quizService
+              
               .create(this.quizName, this.category)
               .then((quizId) => history.push('/newQuiz/quizQuestions'))
               .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
@@ -78,7 +64,7 @@ class NewQuiz extends Component {
   }
   mounted() {
     quizService
-      .getAll()
+      .getAllCategorys()
       .then((categorys) => (this.categorys = categorys))
       .catch((error: Error) => Alert.danger('Error getting tasks: ' + error.message));
   }
