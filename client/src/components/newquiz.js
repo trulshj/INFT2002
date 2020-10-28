@@ -13,16 +13,13 @@ import Dropdown from 'react-dropdown'
 class NewQuiz extends Component {
   quizName = '';
   categorys: Category[] = [];
-  category2 =["1", "2", "3"]
   
-  
+ 
 
-  
 
   render() {
-   console.log(this.categorys[0])
-   console.log(this.categorys)
-   //console.log(this.category2)
+
+    console.log(this.categorys.category_name)
     return (
       <>
         <Card title="New Quiz">
@@ -43,17 +40,16 @@ class NewQuiz extends Component {
               <Form.Label>Category:</Form.Label>
             </Column>
             <Column>
-            <select>{this.categorys.map(category => (<option key={category} onChange={this._onSelect} value={category} placeholder="Select an option">{"category"}</option>))}</select>
-            <select>{this.category2.map(category => (<option key={category} onChange={this._onSelect} value={category} placeholder="Select an option">{category}</option>))}</select>
+            <select id="categoryValue">{this.categorys.map(category => (<option key={category} value={this.category} onChange={(event) => (this.category = event.currentTarget.value) + console.log("Hei")}  placeholder="Select an option">{category.category_name}</option>))}</select>
             </Column>
           </Row>
         </Card>
         <Button.Success
           onClick={() => {
-            console.log(this.quizName + this.category)
+            console.log(this.quizName)
             quizService
               
-              .create(this.quizName, this.category)
+              .create(this.quizName, this.value)
               .then((quizId) => history.push('/newQuiz/quizQuestions'))
               .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
           }}
