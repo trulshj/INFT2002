@@ -54,7 +54,7 @@ class QuizService {
           if (!results.insertId) return reject(new Error('No row inserted'));
 
           resolve(Number(results.insertId));
-        }
+        },
       );
     });
   }
@@ -82,24 +82,28 @@ class QuizService {
     return null;
   }
 
- /**
-   * Categorys.
+  /**
+   * categories.
    */
 
-    /**
+  /**
    * Get Category with given id.
    */
   getCategory(categoryName: string) {
     return new Promise<?Category>((resolve, reject) => {
-      pool.query('SELECT * FROM category WHERE category_name = ?', [categoryName], (error, results: Category[]) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT * FROM category WHERE category_name = ?',
+        [categoryName],
+        (error, results: Category[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results[0]);
+        },
+      );
     });
   }
 
-  getAllCategorys() {
+  getAllcategories() {
     return new Promise<Category[]>((resolve, reject) => {
       pool.query('SELECT * FROM category', (error, results) => {
         if (error) return reject(error);
@@ -108,7 +112,6 @@ class QuizService {
       });
     });
   }
-
 }
 
 const quizService = new QuizService();

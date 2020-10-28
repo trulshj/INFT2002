@@ -26,7 +26,6 @@ export type Category = {
   category: string,
 };
 
-
 class QuizService {
   /**
    * Get quiz with given id.
@@ -57,15 +56,15 @@ class QuizService {
   }
 
   /**
-   * Get all categorys
+   * Get all categories
    */
   getCategory(category: string) {
-    return axios.get<Category>('/categorys/' + category).then((response) => response.data);
+    return axios.get<Category>('/categories/' + category).then((response) => response.data);
   }
 
-   getAllCategorys() {
-     return axios.get<Category[]>("/categorys").then((response) => response.data)
-   }
+  getAllcategories() {
+    return axios.get<Category[]>('/categories').then((response) => response.data);
+  }
 }
 
 const quizService = new QuizService();
