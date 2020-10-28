@@ -25,7 +25,7 @@ class QuizService {
    * Get quiz with given id.
    */
   get(quizId: number) {
-    return axios.get<Quiz>('/quizzes/' + quizId).then((response) => response.data);
+    return axios.get<Quiz>('/quiz/' + quizId).then((response) => response.data);
   }
 
   /**
@@ -42,7 +42,7 @@ class QuizService {
    */
   create(quizName: string, category: string) {
     return axios
-      .post<{}, { id: number }>('/quizzes', {
+      .post<{}, { quizId: number }>('/quizzes', {
         quizName: quizName,
         category: category,
       })

@@ -20,8 +20,9 @@ class NewQuiz extends Component {
   
 
   render() {
+   console.log(this.categorys[0])
    console.log(this.categorys)
-   console.log(this.category2)
+   //console.log(this.category2)
     return (
       <>
         <Card title="New Quiz">
