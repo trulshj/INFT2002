@@ -9,10 +9,17 @@ export type Quiz = {
   quizCategory: string,
 };
 
-export type Quizquestion = {
+export type QuizQuestion = {
   quizQuestionId: number,
   quizId: number,
   question: string,
+};
+
+export type QuizQuestionOption = {
+  quizQuestionOptionId: number,
+  quizQuestionId: number,
+  questionAnswer: string,
+  isCorrect: boolean,
 };
 
 export type Category = {
