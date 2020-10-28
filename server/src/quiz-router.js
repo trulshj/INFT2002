@@ -24,8 +24,6 @@ router.get('/quizzes', (request, response) => {
       .catch((error: Error) => response.status(500).send(error));
   });
   
-  // Example request body: { title: "Ny oppgave" }
-  // Example response body: { id: 4 }
   router.post('/quizzes', (request, response) => {
     const data = request.body;
     if (
