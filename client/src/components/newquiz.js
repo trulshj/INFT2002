@@ -123,10 +123,9 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                   (this.quizquestionoption.questionAnswer1 = event.currentTarget.value)
                 }
               />
-              <Form.Checkbox
-                checked={this.quizquestionoption.isCorrect}
-                onChange={() => {}}
-              />
+            </Column>
+            <Column>
+              <Form.Checkbox checked={this.quizquestionoption.isCorrect} onChange={() => {}} />
             </Column>
           </Row>
           <Row>
@@ -141,10 +140,9 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                   (this.quizquestionoption.questionAnswer2 = event.currentTarget.value)
                 }
               />
-              <Form.Checkbox
-                checked={this.quizquestionoption.isCorrect}
-                onChange={() => {}}
-              />
+            </Column>
+            <Column>
+              <Form.Checkbox checked={this.quizquestionoption.isCorrect} onChange={() => {}} />
             </Column>
           </Row>
           <Row>
@@ -159,10 +157,9 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                   (this.quizquestionoption.questionAnswer3 = event.currentTarget.value)
                 }
               />
-              <Form.Checkbox
-                checked={this.quizquestionoption.isCorrect}
-                onChange={() => {}}
-              />
+            </Column>
+            <Column>
+              <Form.Checkbox checked={this.quizquestionoption.isCorrect} onChange={() => {}} />
             </Column>
           </Row>
         </Card>
