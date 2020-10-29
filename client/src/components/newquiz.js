@@ -26,7 +26,7 @@ export class NewQuiz extends Component {
             <Column width={2}>
               <Form.Label>Quiz Name:</Form.Label>
             </Column>
-            <Column>
+            <Column width={4}>
               <Form.Input
                 type="text"
                 value={this.quizName}
