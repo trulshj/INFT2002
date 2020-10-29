@@ -23,7 +23,7 @@ export type QuizQuestionOption = {
 };
 
 export type Category = {
-  category: string,
+  category_name: string,
 };
 
 class QuizService {
@@ -49,10 +49,13 @@ class QuizService {
   create(quizName: string, quizCategory: string) {
     return axios
       .post<{}, { quizId: number }>('/quizzes', {
-        quizName: quizName,
-        quizCategory: quizCategory,
+        quizname: quizName,
+        category: quizCategory,
       })
-      .then((response) => response.data.quizId);
+      .then((response) => {
+        console.log('her', response);
+        return response.data.quizid;
+      });
   }
 
   /**
