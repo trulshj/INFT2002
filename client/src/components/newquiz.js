@@ -92,7 +92,9 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
     questionAnswer1: '',
     questionAnswer2: '',
     questionAnswer3: '',
-    isCorrect: false,
+    isCorrect1: false,
+    isCorrect2: false,
+    isCorrect3: false,
   };
 
   render() {
@@ -115,7 +117,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={1}>
               <Form.Label>Option 1</Form.Label>
             </Column>
-            <Column width={2}>
+            <Column width={4}>
               <Form.Input
                 type="text"
                 value={this.quizquestionoption.questionAnswer}
@@ -125,14 +127,19 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
               />
             </Column>
             <Column>
-              <Form.Checkbox checked={this.quizquestionoption.isCorrect} onChange={() => {}} />
+              <Form.Checkbox
+                checked={this.quizquestionoption.isCorrect1}
+                onChange={(event) =>
+                  (this.quizquestionoption.isCorrect1 = event.currentTarget.checked)
+                }
+              />
             </Column>
           </Row>
           <Row>
             <Column width={1}>
               <Form.Label>Option 2</Form.Label>
             </Column>
-            <Column width={2}>
+            <Column width={4}>
               <Form.Input
                 type="text"
                 value={this.quizquestionoption.questionAnswer}
@@ -142,14 +149,19 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
               />
             </Column>
             <Column>
-              <Form.Checkbox checked={this.quizquestionoption.isCorrect} onChange={() => {}} />
+              <Form.Checkbox
+                checked={this.quizquestionoption.isCorrect2}
+                onChange={(event) =>
+                  (this.quizquestionoption.isCorrect2 = event.currentTarget.checked)
+                }
+              />
             </Column>
           </Row>
           <Row>
             <Column width={1}>
               <Form.Label>Option 3</Form.Label>
             </Column>
-            <Column width={2}>
+            <Column width={4}>
               <Form.Input
                 type="text"
                 value={this.quizquestionoption.questionAnswer}
@@ -159,7 +171,12 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
               />
             </Column>
             <Column>
-              <Form.Checkbox checked={this.quizquestionoption.isCorrect} onChange={() => {}} />
+              <Form.Checkbox
+                checked={this.quizquestionoption.isCorrect3}
+                onChange={(event) =>
+                  (this.quizquestionoption.isCorrect3 = event.currentTarget.checked)
+                }
+              />
             </Column>
           </Row>
         </Card>

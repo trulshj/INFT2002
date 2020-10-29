@@ -60,6 +60,26 @@ class QuizService {
   }
 
   /**
+   * Create new Question with multiple options.
+   */
+
+  //INSERT INTO quiz_question_option SET quiz_question_id=1, question_answer="Fotball", is_correct=1
+  createQuestion(quiz_question_id: number, question_answer: string, is_correct: Boolean) {
+    return new Promise<number>((resolve, reject) => {
+      pool.query(
+        'INSERT INTO quiz_question_option SET quiz_question_id=?, question_answer=?, is_correct=?',
+        [quiz_question_id, question_answer, is_correct],
+        (error, results) => {
+          if (error) return reject(error);
+          if (!results.insertId) return reject(new Error('No row inserted'));
+
+          resolve(Number(results.insertId));
+        },
+      );
+    });
+  }
+
+  /**
    * Delete quiz with given id.
    */
   delete(id: number) {
