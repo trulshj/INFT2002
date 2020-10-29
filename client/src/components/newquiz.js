@@ -10,14 +10,15 @@ import quizService, {
   type Quiz,
 } from '../quiz-service';
 import Dropdown from 'react-dropdown';
-
+import { HashRouter, Route } from 'react-router-dom';
 //Component for creating new quizzes
 export class NewQuiz extends Component {
   quizName = '';
   categories: Category[] = [];
+  category = '';
 
   render() {
-    console.log(this.categories);
+    console.log('yoyoyo', this.category);
     return (
       <>
         <Card title="New Quiz">
@@ -38,14 +39,15 @@ export class NewQuiz extends Component {
               <Form.Label>Category:</Form.Label>
             </Column>
             <Column>
-              <select id="categoryValue">
+              <select
+                id="categoryValue"
+                onChange={(event) => (this.category = event.currentTarget.value)}
+                value={this.category}
+              >
                 {this.categories.map((category) => (
                   <option
-                    key={category}
-                    value={this.category}
-                    onChange={(event) =>
-                      (this.category = event.currentTarget.value) + console.log('Hei')
-                    }
+                    key={category.category_name}
+                    value={category.category_name}
                     placeholder="Select an option"
                   >
                     {category.category_name}
@@ -57,11 +59,11 @@ export class NewQuiz extends Component {
         </Card>
         <Button.Success
           onClick={() => {
-            console.log(this.quizName);
+            console.log(this.quizName, this.category);
             quizService
 
               .create(this.quizName, this.category)
-              .then((quizId) => history.push('/newQuiz/' + quizId))
+              .then((quizId) => this.props.history.push('/newQuiz/' + quizId))
               .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
           }}
         >
@@ -73,13 +75,14 @@ export class NewQuiz extends Component {
   mounted() {
     quizService
       .getAllcategories()
-      .then((categories) => (this.categories = categories))
+      .then((categories) => {
+        this.categories = categories;
+        console.log('??????????', categories);
+        this.category = categories[0].category_name;
+      })
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
   }
 }
-
-export default NewQuiz;
-
 //Component for creating new questions for quizzes
 export class NewQuizQuestions extends Component<{ match: { params: { id: number } } }> {
   quizquestion: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
