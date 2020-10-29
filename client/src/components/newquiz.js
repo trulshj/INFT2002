@@ -176,11 +176,11 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 onChange={(event) =>
                   (this.quizquestionoption.isCorrect3 = event.currentTarget.checked)
                 }
-              />
+              /><Form.Checkbox></Form.Checkbox>
             </Column>
           </Row>
         </Card>
-        <Button.Success onClick={() => history.push('/quizzes')}>Save</Button.Success>
+        <Button.Success onClick={() => history.push('/quizzes')}>Add question</Button.Success>
       </>
     );
   }
