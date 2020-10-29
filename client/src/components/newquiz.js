@@ -89,7 +89,9 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
   quizquestionoption: QuizQuestionOption = {
     quizQuestionOptionId: 0,
     quizQuestionId: 0,
-    questionAnswer: '',
+    questionAnswer1: '',
+    questionAnswer2: '',
+    questionAnswer3: '',
     isCorrect: false,
   };
 
@@ -118,7 +120,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 type="text"
                 value={this.quizquestionoption.questionAnswer}
                 onChange={(event) =>
-                  (this.quizquestionoption.questionAnswer = event.currentTarget.checked)
+                  (this.quizquestionoption.questionAnswer1 = event.currentTarget.value)
                 }
               />
               <Form.Checkbox
@@ -136,7 +138,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 type="text"
                 value={this.quizquestionoption.questionAnswer}
                 onChange={(event) =>
-                  (this.quizquestionoption.questionAnswer = event.currentTarget.checked)
+                  (this.quizquestionoption.questionAnswer2 = event.currentTarget.value)
                 }
               />
               <Form.Checkbox
@@ -154,7 +156,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 type="text"
                 value={this.quizquestionoption.questionAnswer}
                 onChange={(event) =>
-                  (this.quizquestionoption.questionAnswer = event.currentTarget.checked)
+                  (this.quizquestionoption.questionAnswer3 = event.currentTarget.value)
                 }
               />
               <Form.Checkbox
@@ -171,5 +173,3 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
 
   mounted() {}
 }
-
-//export default NewQuizQuestions;
