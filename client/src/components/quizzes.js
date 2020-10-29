@@ -17,10 +17,11 @@ class Quizzes extends Component {
         <Card title="Quizzes">
           {this.quizzes.map((quiz) => (
             <Row key={quiz.quizId}>
-              <Column>
+              <Column width={3}>
               {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name}</NavLink>
               </Column>
-              <Column><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
+              <Column width={1}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
+              <Column ><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
             </Row>
           ))}
         </Card>
