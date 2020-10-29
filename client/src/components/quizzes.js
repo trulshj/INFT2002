@@ -38,7 +38,7 @@ class Quizzes extends Component {
   }
 }
 
-// Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
+// TO DO Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
 class QuizDetails extends Component<{ match: { params: { quiz_id: number } } }> {
   task: Task = { id: 0, quizName: '', done: false };
 
@@ -63,12 +63,12 @@ class QuizDetails extends Component<{ match: { params: { quiz_id: number } } }> 
   }
 }
 
-//Play Component
+//Play Component To DO
 class QuizPlay extends Component { }
 
 
 
-// Quiz Edit Component
+// Quiz Edit Component TO DO
 class QuizEdit extends Component { }
 
 
