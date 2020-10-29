@@ -52,7 +52,7 @@ router.get('/categories', (request, response) => {
 });
 
 router.get('/categories/:categoryName', (request, response) => {
-  const categoryName = Number(request.params.categoryName);
+  const categoryName = String(request.params.categoryName);
   quizService
     .getCategory(categoryName)
     .then((categoryName) =>

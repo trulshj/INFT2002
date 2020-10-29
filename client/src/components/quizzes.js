@@ -11,18 +11,20 @@ class Quizzes extends Component {
   quizzes: Quiz[] = [];
   
   render() {
+    console.log(this.quizzes)
     return (
       <>
         <Card title="Quizzes">
           {this.quizzes.map((quiz) => (
             <Row key={quiz.quizId}>
               <Column>
-                <NavLink to={'/quizzes/' + quiz.quizId}>{quiz.quizName + quiz.quizCategory}</NavLink>
+              {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name}</NavLink>
               </Column>
+              <Column><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
             </Row>
           ))}
         </Card>
-        <Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success>
+        
       </>
     );
   }
@@ -30,7 +32,7 @@ class Quizzes extends Component {
   mounted() {
     quizService
       .getAll()
-      .then((quizzes) => (this.quizzes = this.quizzes))
+      .then((quizzes) => (this.quizzes = quizzes))
       .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
   }
 }

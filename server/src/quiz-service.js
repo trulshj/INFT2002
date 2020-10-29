@@ -18,7 +18,7 @@ class QuizService {
    */
   get(quizId: number) {
     return new Promise<?Quiz>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz WHERE id = ?', [quizId], (error, results: Quiz[]) => {
+      pool.query('SELECT * FROM quiz WHERE quiz_id = ?', [quizId], (error, results: Quiz[]) => {
         if (error) return reject(error);
 
         resolve(results[0]);
@@ -31,7 +31,7 @@ class QuizService {
    */
   getAll() {
     return new Promise<Quiz[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz', (error, results) => {
+      pool.query('SELECT * FROM quiz ORDER BY quiz_category', (error, results) => {
         if (error) return reject(error);
 
         resolve(results);

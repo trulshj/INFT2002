@@ -17,7 +17,7 @@ export class NewQuiz extends Component {
   categories: Category[] = [];
 
   render() {
-    console.log(this.categories.category_name);
+    console.log(this.categories);
     return (
       <>
         <Card title="New Quiz">

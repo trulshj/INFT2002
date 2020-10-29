@@ -31,7 +31,7 @@ class QuizService {
    * Get quiz with given id.
    */
   get(quizId: number) {
-    return axios.get<Quiz>('/quiz/' + quizId).then((response) => response.data);
+    return axios.get<Quiz>('/quizzes/' + quizId).then((response) => response.data);
   }
 
   /**
