@@ -16,11 +16,11 @@ router.get('/quizzes', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-router.get('/quizzes/:quizid', (request, response) => {
-  const quizid = Number(request.params.quizid);
+router.get('/quizzes/:quizId', (request, response) => {
+  const quizId = Number(request.params.quizId);
   quizService
-    .get(quizid)
-    .then((quiz) => (quiz ? response.send(quiz) : response.status(404).send('quiz not found')))
+    .get(quizId)
+    .then((quiz) => (quiz ? response.send(quiz) : response.status(404).send('Quiz not found')))
     .catch((error: Error) => response.status(500).send(error));
 });
 

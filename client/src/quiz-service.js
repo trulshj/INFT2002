@@ -46,11 +46,11 @@ class QuizService {
    *
    * Resolves the newly created task id.
    */
-  create(quizName: string, category: string) {
+  create(quizName: string, quizCategory: string) {
     return axios
       .post<{}, { quizId: number }>('/quizzes', {
         quizName: quizName,
-        category: category,
+        quizCategory: quizCategory,
       })
       .then((response) => response.data.quizId);
   }

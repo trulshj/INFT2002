@@ -9,6 +9,7 @@ import Login from './components/login';
 import NewQuiz from './components/newquiz';
 import Quizzes from './components/quizzes';
 import Register from './components/register';
+import NewQuizQuestions from './components/newquiz';
 
 class Menu extends Component {
   render() {
@@ -40,6 +41,7 @@ if (root)
         <Route exact path="/newQuiz" component={NewQuiz} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/newQuiz/:id(\d+)" component={NewQuizQuestions} /> {/* id must be number */}
       </div>
     </HashRouter>,
     root,

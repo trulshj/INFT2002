@@ -2,31 +2,35 @@
 
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Alert, Row, Column, Form, Button } from '../widgets';
+import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 import quizService, { type Quiz, type Category } from '../quiz-service';
+import { createHashHistory } from 'history';
+import { NavLink } from 'react-router-dom';
 
 class Quizzes extends Component {
-  categories: Category[] = [];
+  quizzes: Quiz[] = [];
+  
   render() {
     return (
       <>
         <Card title="Quizzes">
-          {this.categories.map((category) => (
-            <Row key={category.categoryname}>
+          {this.quizzes.map((quiz) => (
+            <Row key={quiz.quizId}>
               <Column>
-                <NavLink to={'/quizzes/' + category.categoryname}>{category.categoryname}</NavLink>
+                <NavLink to={'/quizzes/' + quiz.quizId}>{quiz.quizName + quiz.quizCategory}</NavLink>
               </Column>
             </Row>
           ))}
         </Card>
+        <Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success>
       </>
     );
   }
 
   mounted() {
     quizService
-      .getAllcategories()
-      .then((categories) => (this.categories = this.categories))
+      .getAll()
+      .then((quizzes) => (this.quizzes = this.quizzes))
       .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
   }
 }

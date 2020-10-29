@@ -93,7 +93,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
   render() {
     return (
       <>
-        <Card title="Task">
+        <Card title="Create Questions">
           <Row>
             <Column width={2}>
               <Form.Label>Question:</Form.Label>
