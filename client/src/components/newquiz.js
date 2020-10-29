@@ -132,7 +132,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 onChange={(event) =>
                   (this.quizquestionoption.isCorrect1 = event.currentTarget.checked)
                 }
-              />
+              /><Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
           <Row>
@@ -154,7 +154,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 onChange={(event) =>
                   (this.quizquestionoption.isCorrect2 = event.currentTarget.checked)
                 }
-              />
+              /><Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
           <Row>
@@ -176,7 +176,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
                 onChange={(event) =>
                   (this.quizquestionoption.isCorrect3 = event.currentTarget.checked)
                 }
-              /><Form.Checkbox></Form.Checkbox>
+              /><Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
         </Card>
