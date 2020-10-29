@@ -38,4 +38,38 @@ class Quizzes extends Component {
   }
 }
 
+// Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
+class QuizDetails extends Component<{ match: { params: { quiz_id: number } } }> {
+  task: Task = { id: 0, quizName: '', done: false };
+
+  render() {
+    return (
+      <>
+        <Card title="Questions">
+          <Row>
+            <Column width={2}>Quiz Question:</Column>
+            <Column>{this.quizQuestion.question}</Column>
+          </Row>
+        </Card>
+      </>
+    );
+  }
+
+  mounted() {
+    taskService
+      .get(this.props.match.params.id)
+      .then((task) => (this.task = task))
+      .catch((error: Error) => Alert.danger('Error getting task: ' + error.message));
+  }
+}
+
+//Play Component
+class QuizPlay extends Component { }
+
+
+
+// Quiz Edit Component
+class QuizEdit extends Component { }
+
+
 export default Quizzes;
