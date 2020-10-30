@@ -7,8 +7,9 @@ import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 import Login from './components/login';
 import { NewQuiz, NewQuizQuestions } from './components/newquiz';
-import Quizzes from './components/quizzes';
+import { Quizzes , QuizDetail } from './components/quizzes';
 import Register from './components/register';
+
 
 class Menu extends Component {
   render() {
@@ -37,6 +38,7 @@ if (root)
         <Menu />
         <Route exact path="/" component={Home} />
         <Route exact path="/quizzes" component={Quizzes} />
+        <Route exact path="/quizzes/:id(\d+)" component={QuizDetail} />
         <Route exact path="/newQuiz" component={NewQuiz} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
