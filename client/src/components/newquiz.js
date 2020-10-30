@@ -18,7 +18,6 @@ export class NewQuiz extends Component {
   category = '';
 
   render() {
-    console.log('yoyoyo', this.category);
     return (
       <>
         <Card title="New Quiz">
@@ -59,7 +58,6 @@ export class NewQuiz extends Component {
         </Card>
         <Button.Success
           onClick={() => {
-            console.log(this.quizName, this.category);
             quizService
 
               .create(this.quizName, this.category)
@@ -77,7 +75,6 @@ export class NewQuiz extends Component {
       .getAllcategories()
       .then((categories) => {
         this.categories = categories;
-        console.log('??????????', categories);
         this.category = categories[0].category_name;
       })
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
@@ -85,8 +82,8 @@ export class NewQuiz extends Component {
 }
 //Component for creating new questions for quizzes
 export class NewQuizQuestions extends Component<{ match: { params: { id: number } } }> {
-  quizquestion: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
-  quizquestionoption: QuizQuestionOption = {
+  quizQuestion: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
+  quizQuestionOption: QuizQuestionOption = {
     quizQuestionOptionId: 0,
     quizQuestionId: 0,
     questionAnswer1: '',
@@ -98,6 +95,9 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
   };
 
   render() {
+    var pageURL = window.location.href;
+    var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
+    this.quizId = lastURLSegment
     return (
       <>
         <Card title="Create Questions">
@@ -108,8 +108,8 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizquestion.question}
-                onChange={(event) => (this.quizquestion.question = event.currentTarget.value)}
+                value={this.quizQuestion.question}
+                onChange={(event) => (this.quizQuestion.question = event.currentTarget.value)}
               />
             </Column>
           </Row>
@@ -120,17 +120,17 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizquestionoption.questionAnswer}
+                value={this.quizQuestionOption.questionAnswer1}
                 onChange={(event) =>
-                  (this.quizquestionoption.questionAnswer1 = event.currentTarget.value)
+                  (this.quizQuestionOption.questionAnswer1 = event.currentTarget.value)
                 }
               />
             </Column>
             <Column>
               <Form.Checkbox
-                checked={this.quizquestionoption.isCorrect1}
+                checked={this.quizQuestionOption.isCorrect1}
                 onChange={(event) =>
-                  (this.quizquestionoption.isCorrect1 = event.currentTarget.checked)
+                  (this.quizQuestionOption.isCorrect1 = event.currentTarget.checked)
                 }
               /><Form.Label>Correct answer</Form.Label>
             </Column>
@@ -142,17 +142,17 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizquestionoption.questionAnswer}
+                value={this.quizQuestionOption.questionAnswer2}
                 onChange={(event) =>
-                  (this.quizquestionoption.questionAnswer2 = event.currentTarget.value)
+                  (this.quizQuestionOption.questionAnswer2 = event.currentTarget.value)
                 }
               />
             </Column>
             <Column>
               <Form.Checkbox
-                checked={this.quizquestionoption.isCorrect2}
+                checked={this.quizQuestionOption.isCorrect2}
                 onChange={(event) =>
-                  (this.quizquestionoption.isCorrect2 = event.currentTarget.checked)
+                  (this.quizQuestionOption.isCorrect2 = event.currentTarget.checked)
                 }
               /><Form.Label>Correct answer</Form.Label>
             </Column>
@@ -164,26 +164,39 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizquestionoption.questionAnswer}
+                value={this.quizQuestionOption.questionAnswer3}
                 onChange={(event) =>
-                  (this.quizquestionoption.questionAnswer3 = event.currentTarget.value)
+                  (this.quizQuestionOption.questionAnswer3 = event.currentTarget.value)
                 }
               />
             </Column>
             <Column>
               <Form.Checkbox
-                checked={this.quizquestionoption.isCorrect3}
+                checked={this.quizQuestionOption.isCorrect3}
                 onChange={(event) =>
-                  (this.quizquestionoption.isCorrect3 = event.currentTarget.checked)
+                  (this.quizQuestionOption.isCorrect3 = event.currentTarget.checked)
                 }
               /><Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
         </Card>
-        <Button.Success onClick={() => history.push('/quizzes')}>Add question</Button.Success>
+        <Button.Success onClick={() =>{ 
+          quizService
+.createQuestion(this.quizId, this.quizQuestion.question)
+.then(console.log(this.quizId, this.quizQuestion.question))
+.then(console.log(this.quizQuestion.question, this.quizQuestionOption.questionAnswer1, this.quizQuestionOption.isCorrect1))
+.then(console.log(this.quizQuestion.question, this.quizQuestionOption.questionAnswer2, this.quizQuestionOption.isCorrect2))
+.then(console.log(this.quizQuestion.question, this.quizQuestionOption.questionAnswer3, this.quizQuestionOption.isCorrect3))
+.catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));} }>Add question</Button.Success>
       </>
     );
   }
 
   mounted() {}
 }
+
+//.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer1, this.quizquestionOption.questionAnswer1)
+//.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer2, this.quizquestionOption.questionAnswer2)
+//.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer3, this.quizquestionOption.questionAnswer3)
+//.then(alert("You added the current information:" + this.quizQuestion.question + this.quizQuestionOption.questionAnswer1 + this.quizQuestionOption.questionAnswer2 + this.quizQuestionOption.questionAnswer3))
+//.then((quizId) => this.props.history.push('/newQuiz/' + quizId))

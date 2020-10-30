@@ -68,7 +68,28 @@ class QuizService {
   getAllcategories() {
     return axios.get<Category[]>('/categories').then((response) => response.data);
   }
+
+  createQuestion(quizId: number, quizQuestion: string) {
+    return axios
+      .post<{}, { quizId: number }>('/quizzes/:quizId/:questionId', {
+        quizid: quizId,
+        question: quizQuestion,
+      })
+      .then((response) => {
+        console.log('her', response);
+        return response.data.quizid;
+      });
+  }
 }
+
+
+/**
+ * Create new Question having the given quizid
+ * 
+ * Resolves the newly created Question
+ */
+
+
 
 const quizService = new QuizService();
 export default quizService;

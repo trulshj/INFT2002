@@ -25,6 +25,7 @@ class Quizzes extends Component {
             </Row>
           ))}
         </Card>
+        <Column>Search:</Column>
         
       </>
     );
