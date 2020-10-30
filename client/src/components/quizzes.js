@@ -57,18 +57,19 @@ export class QuizDetail extends Component<{ match: { params: { id: number } } }>
   render() {
     return (
       <>
-        <Card title="Quiz Details">
-          <Row>
-            <Column width={2}>Quiz Name:</Column>
-            <Column>{"this.quiz.quiz_name"}</Column>
-          </Row>
-          <Row>
-            <Column width={2}>Category:</Column>
-            <Column>{"this.quiz.quiz_category"}</Column>
-          </Row>
+       {this.quizQuestionOptions.map((question_id) => (
+                  <Card>
+                  <Row key={quiz.quizId}>
+                  <Column width={3}>
+                  {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name}</NavLink>
+                  </Column> 
+                  </Row>
+                  </Card>
+                ))}
+        <Card title={"this.quiz.quiz_name"}>
           <Row>
             <Column width={2}>Question:</Column>
-            <Column>{"this.quiz.quiz_category"}</Column>
+            <Column>{"Quiz_question"}</Column>
           </Row>
         </Card>
       </>
@@ -77,7 +78,7 @@ export class QuizDetail extends Component<{ match: { params: { id: number } } }>
 
   mounted() {
     quizService
-      .get(this.props.match.params.id)
+      .getAllQuestions()
       .then((task) => (this.quiz = quiz))
       .catch((error: Error) => Alert.danger('Error getting task: ' + error.message));
   }
