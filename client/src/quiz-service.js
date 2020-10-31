@@ -80,14 +80,5 @@ class QuizService {
   }
 }
 
-
-/**
- * Create new Question having the given quizid
- * 
- * Resolves the newly created Question
- */
-
-
-
 const quizService = new QuizService();
 export default quizService;
