@@ -193,7 +193,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
 .then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption1.questionAnswer, this.quizQuestionOption1.isCorrect))
 .then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption2.questionAnswer, this.quizQuestionOption2.isCorrect))
 .then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption3.questionAnswer, this.quizQuestionOption3.isCorrect))
-.catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));} }>Add question</Button.Success>
+.catch((error: Error) => Alert.danger('Error creating question: ' + error.message));} }>Add question</Button.Success>
       </>
     );
   }
