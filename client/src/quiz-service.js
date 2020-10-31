@@ -69,13 +69,13 @@ class QuizService {
 
   createQuestion(quizId: number, quizQuestion: string) {
     return axios
-      .post<{}, { quizId: number, quizQuestion: string }>('/quizzes/:quizId/:quizQuestionId', {
+      .post<{}, { quizid: number, quizQuestionId: string }>('/quizzes/:quizId/:quizQuestionId', {
         quizid: quizId,
         quizQuestion: quizQuestion,
       })
       .then((response) => {
         console.log('her', response);
-        return response.data;
+        return response.data.quizid && response.data.quizQuestionId;
       });
   }
 }
