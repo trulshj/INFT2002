@@ -43,8 +43,6 @@ class QuizService {
 
   /**
    * Create new Quiz having the given quizname.
-   *
-   * Resolves the newly created task id.
    */
   create(quizName: string, quizCategory: string) {
     return axios
@@ -71,13 +69,13 @@ class QuizService {
 
   createQuestion(quizId: number, quizQuestion: string) {
     return axios
-      .post<{}, { quizId: number }>('/quizzes/:quizId/:questionId', {
+      .post<{}, { quizId: number, quizQuestion: string }>('/quizzes/:quizId/:quizQuestionId', {
         quizid: quizId,
-        question: quizQuestion,
+        quizQuestion: quizQuestion,
       })
       .then((response) => {
         console.log('her', response);
-        return response.data.quizid;
+        return response.data;
       });
   }
 }

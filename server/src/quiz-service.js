@@ -67,7 +67,7 @@ class QuizService {
     return new Promise<number>((resolve, reject) => {
       pool.query(
         'INSERT INTO quiz_question SET quiz_id=?, question=?',
-        [quizId],
+        [quizId, quizQuestion],
         (error, results) => {
           if (error) return reject(error);
           if (!results.insertId) return reject(new Error('No row inserted'));
