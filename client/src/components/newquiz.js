@@ -93,6 +93,7 @@ export class NewQuizQuestions extends Component {
     var pageURL = window.location.href;
     var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
     var quizId = lastURLSegment;
+    var quizQuestionId = 0;
 
     return (
       <>
@@ -179,7 +180,10 @@ export class NewQuizQuestions extends Component {
         <Button.Success onClick={() => {
             quizService
               .createQuestion(quizId, this.question)
-              .then((quizQuestionId) => ) //funksjon for å legge til options
+              .then((quizQuestionId) => alert(quizQuestionId))
+              //.then((quizQuestionId) => createOption(quizQuestionId, this.option1, this.isCorrect1))
+              //.then((quizQuestionId) => createOption(quizQuestionId, this.option2, this.isCorrect2))
+              //.then((quizQuestionId) => createOption(quizQuestionId, this.option3, this.isCorrect3))
               .then(
                 this.question = '',
                 this.option1 = '',

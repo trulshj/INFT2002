@@ -97,6 +97,16 @@ getAllquestions() {
         console.log(response);
         return response.data.quizquestionid;
   });
+}
+
+  createOption(quizQuestionId: number, questionAnswer: string, isCorrect: boolean) {
+    return axios
+      .post<{}, { quizQuestionOptionId: number }>('/newQuiz', {quizquestionid: quizQuestionId, questionanswer: questionAnswer, iscorrect: isCorrect })
+      .then((response) => {
+        console.log(response);
+        return response.data.quizquestionoptionid;
+  });
 }}
+
 const quizService = new QuizService();
 export default quizService;

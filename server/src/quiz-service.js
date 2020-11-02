@@ -13,9 +13,16 @@ export type Category = {
 };
 
 export type Question = {
+  quizQuestionId: number,
   quizId: number,
-  quizQuestionId: Number,
-  question: String,
+  question: string,
+};
+
+export type Option = {
+  quizQuestionOptionId: number,
+  quizQuestionId: number,
+  questionAnswer: string,
+  isCorrect: boolean,
 };
 
 class QuizService {
@@ -66,9 +73,8 @@ class QuizService {
   }
 
   /**
-   * Create new Question with multiple options.
+   * Create new Question.
    */
-  //INSERT INTO quiz_question_option SET quiz_question_id=1, question_answer="Fotball", is_correct=1
   createQuestion(quizId: number, quizQuestion: string) {
     return new Promise<number>((resolve, reject) => {
       pool.query(
@@ -85,14 +91,13 @@ class QuizService {
   }
 
   /**
-   * Create new Option to question
+   * Create new Option to question.
    */
-  //INSERT INTO quiz_question_option SET quiz_question_id=1, question_answer="Fotball", is_correct=1
-  createOption(quizQuestionId: number, questionAnswer: string, is_correct: Boolean) {
+  createOption(quizQuestionId: number, questionAnswer: string, isCorrect: boolean) {
     return new Promise<number>((resolve, reject) => {
       pool.query(
         'INSERT INTO quiz_question_option SET quiz_question_id=?, question_answer=?, is_correct=?',
-        [quizQuestionId, questionAnswer, is_correct],
+        [quizQuestionId, questionAnswer, isCorrect],
         (error, results) => {
           if (error) return reject(error);
           if (!results.insertId) return reject(new Error('No row inserted'));

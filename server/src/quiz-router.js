@@ -1,6 +1,6 @@
 // @flow
 import express from 'express';
-import quizService, { type Quiz, type Category, type Question } from './quiz-service';
+import quizService, { type Quiz, type Category, type Question, type Option } from './quiz-service';
 
 /**
  * Express router containing quiz methods.
@@ -24,6 +24,7 @@ router.get('/quizzes/:quizId', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+//New quiz
 router.post('/quizzes', (request, response) => {
   const data = request.body;
   if (
@@ -40,13 +41,22 @@ router.post('/quizzes', (request, response) => {
   else response.status(400).send('Missing quizname or category');
 });
 
+//New question
 router.post('/newQuiz', (request, response) => {
   const data = request.body;
   quizService
       .createQuestion(request.body.quizid, request.body.quizquestion)
       .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
       .catch((error: Error) => response.status(500).send(error));
-  
+});
+
+//New option
+router.post('/newQuiz', (request, response) => {
+  const data = request.body;
+  quizService
+      .createOption(request.body.quizquestionid, request.body.questionanswer, request.body.iscorrect)
+      .then((quizquestionoptionid) => response.send({ quizquestionoptionid: quizquestionoptionid }))
+      .catch((error: Error) => response.status(500).send(error));
 });
 
 /**
