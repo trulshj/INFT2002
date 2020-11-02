@@ -180,7 +180,8 @@ export class NewQuizQuestions extends Component {
         <Button.Success onClick={() => {
             quizService
               .createQuestion(quizId, this.question)
-              .then((quizQuestionId) => alert(quizQuestionId))
+              .then((quizQuestionId) => alert('quizQuestionId = ' + quizQuestionId))
+              //Noe feil med createOption funksjonen...
               //.then((quizQuestionId) => createOption(quizQuestionId, this.option1, this.isCorrect1))
               //.then((quizQuestionId) => createOption(quizQuestionId, this.option2, this.isCorrect2))
               //.then((quizQuestionId) => createOption(quizQuestionId, this.option3, this.isCorrect3))
