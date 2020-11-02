@@ -28,7 +28,7 @@ export class Quizzes extends Component {
               <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
               <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
               <Column width={0.5}><Button.Success onClick={(event) => 
-                quizService.delete(quiz.quiz_id).then(() =>  history.push('/'))
+                quizService.delete(quiz.quiz_id).then(() =>  history.push('/')).then(alert("You deleted quiz with id:" + quiz.quiz_id))
                 
               } 
             >
