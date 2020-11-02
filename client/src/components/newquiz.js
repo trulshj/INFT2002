@@ -179,6 +179,7 @@ export class NewQuizQuestions extends Component {
         <Button.Success onClick={() => {
             quizService
               .createQuestion(quizId, this.question)
+              .then((quizQuestionId) => ) //funksjon for å legge til options
               .then(
                 this.question = '',
                 this.option1 = '',
