@@ -109,7 +109,7 @@ export class Column extends Component<{ width?: number, right?: boolean, childre
           (this.props.right ? ' text-right' : '')
         }
       >
-        {this.props.children}
+        {this.props.children} 
       </div>
     );
   }

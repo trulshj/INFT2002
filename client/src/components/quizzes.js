@@ -57,7 +57,26 @@ export class QuizDetail extends Component<{ match: { params: { id: number } } }>
   render() {
     return (
       <>
-       {this.quizQuestionOptions.map((question_id) => (
+    
+        <Card title={"this.quiz.quiz_name"}>
+          <Row>
+            <Column>{"Quiz_question"}</Column>
+          </Row>
+        </Card>
+        <Card title={"this.quiz.quiz_name"}>
+          <Row>
+            <Column>{"Quiz_question"}</Column>
+          </Row>
+        </Card>
+      </>
+    );
+  }
+}
+
+
+
+/**
+ *    {this.quizQuestionOptions.map((quiz) => (
                   <Card>
                   <Row key={quiz.quizId}>
                   <Column width={3}>
@@ -66,23 +85,12 @@ export class QuizDetail extends Component<{ match: { params: { id: number } } }>
                   </Row>
                   </Card>
                 ))}
-        <Card title={"this.quiz.quiz_name"}>
-          <Row>
-            <Column width={2}>Question:</Column>
-            <Column>{"Quiz_question"}</Column>
-          </Row>
-        </Card>
-      </>
-    );
-  }
 
-  mounted() {
+
+                 mounted() {
     quizService
       .getAllQuestions()
-      .then((task) => (this.quiz = quiz))
+      .then((question) => (this.question = question))
       .catch((error: Error) => Alert.danger('Error getting task: ' + error.message));
   }
-}
-
-
-export default Quizzes;
+ */

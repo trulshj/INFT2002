@@ -26,6 +26,7 @@ export type Category = {
   category_name: string,
 };
 
+
 class QuizService {
   /**
    * Get quiz with given id.
@@ -51,7 +52,7 @@ class QuizService {
         category: quizCategory,
       })
       .then((response) => {
-        console.log('her', response);
+        console.log(response);
         return response.data.quizid;
       });
   }
@@ -67,6 +68,21 @@ class QuizService {
     return axios.get<Category[]>('/categories').then((response) => response.data);
   }
 
+
+/**
+    * Get all questions
+*/
+
+getAllquestions() {
+  return axios.get<QuizQuestion[]>('/questions').then((response) => response.data);
+}
+
+
+  /**
+   * Create new Question having the given quizid.
+   */
+
+   
   createQuestion(quizId: number, quizQuestion: string) {
     return axios
       .post<{}, { quizid: number, quizQuestionId: string }>('/quizzes/:quizId/:quizQuestionId', {
