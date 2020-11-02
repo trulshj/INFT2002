@@ -59,7 +59,6 @@ export class NewQuiz extends Component {
         <Button.Success
           onClick={() => {
             quizService
-
               .create(this.quizName, this.category)
               .then((quizId) => this.props.history.push('/newQuiz/' + quizId))
               .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
@@ -81,28 +80,19 @@ export class NewQuiz extends Component {
   }
 }
 //Component for creating new questions for quizzes
-export class NewQuizQuestions extends Component<{ match: { params: { id: number } } }> {
-  quizQuestion: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
-  quizQuestionOption1: QuizQuestionOption1 = {
-    quizQuestionOptionId: 0,
-    questionAnswer: '',
-    isCorrect: false,
-  };
-  quizQuestionOption2: QuizQuestionOption2 = {
-    quizQuestionOptionId: 0,
-    questionAnswer: '',
-    isCorrect: false,
-  };
-  quizQuestionOption3: QuizQuestionOption3 = {
-    quizQuestionOptionId: 0,
-    questionAnswer: '',
-    isCorrect: false,
-  };
+export class NewQuizQuestions extends Component {
+  question = '';
+  option1 = '';
+  isCorrect1 = false;
+  option2 = '';
+  isCorrect2 = false;
+  option3 = '';
+  isCorrect3 = false;
 
   render() {
     var pageURL = window.location.href;
     var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
-    this.quizQuestion.quizId = lastURLSegment;
+    var quizId = lastURLSegment;
 
     return (
       <>
@@ -114,8 +104,8 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizQuestion.question}
-                onChange={(event) => (this.quizQuestion.question = event.currentTarget.value)}
+                value={this.question}
+                onChange={(event) => (this.question = event.currentTarget.value)}
               />
             </Column>
           </Row>
@@ -126,17 +116,17 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizQuestionOption1.questionAnswer}
+                value={this.option1}
                 onChange={(event) =>
-                  (this.quizQuestionOption1.questionAnswer = event.currentTarget.value)
+                  (this.option1 = event.currentTarget.value)
                 }
               />
             </Column>
             <Column>
               <Form.Checkbox
-                checked={this.quizQuestionOption1.isCorrect1}
+                checked={this.isCorrect1}
                 onChange={(event) =>
-                  (this.quizQuestionOption1.isCorrect = event.currentTarget.checked)
+                  (this.isCorrect1 = event.currentTarget.checked)
                 }
               /><Form.Label>Correct answer</Form.Label>
             </Column>
@@ -148,17 +138,17 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizQuestionOption2.questionAnswer}
+                value={this.option2}
                 onChange={(event) =>
-                  (this.quizQuestionOption2.questionAnswer = event.currentTarget.value)
+                  (this.option2 = event.currentTarget.value)
                 }
               />
             </Column>
             <Column>
               <Form.Checkbox
-                checked={this.quizQuestionOption2.isCorrect}
+                checked={this.isCorrect2}
                 onChange={(event) =>
-                  (this.quizQuestionOption2.isCorrect = event.currentTarget.checked)
+                  (this.isCorrect2 = event.currentTarget.checked)
                 }
               /><Form.Label>Correct answer</Form.Label>
             </Column>
@@ -170,36 +160,38 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
             <Column width={4}>
               <Form.Input
                 type="text"
-                value={this.quizQuestionOption3.questionAnswer}
+                value={this.option3}
                 onChange={(event) =>
-                  (this.quizQuestionOption3.questionAnswer = event.currentTarget.value)
+                  (this.option3 = event.currentTarget.value)
                 }
               />
             </Column>
             <Column>
               <Form.Checkbox
-                checked={this.quizQuestionOption3.isCorrect}
+                checked={this.isCorrect3}
                 onChange={(event) =>
-                  (this.quizQuestionOption3.isCorrect = event.currentTarget.checked)
+                  (this.isCorrect3 = event.currentTarget.checked)
                 }
               /><Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
         </Card>
-        <Button.Success onClick={() =>{ 
-          quizService
-.createQuestion(this.quizQuestion.quizId, this.quizQuestion.question)
-.then(console.log(this.quizQuestion.quizId, this.quizQuestion.question))
-.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption1.questionAnswer, this.quizQuestionOption1.isCorrect))
-.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption2.questionAnswer, this.quizQuestionOption2.isCorrect))
-.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption3.questionAnswer, this.quizQuestionOption3.isCorrect))
-.then(alert("Tnx for adding the following question with the following answers: Question: " + this.quizQuestion.question + " Answer 1: " + this.quizQuestionOption1.questionAnswer + " Answer 2: " + this.quizQuestionOption2.questionAnswer + " Answer 3: " + this.quizQuestionOption3.questionAnswer))
-.catch((error: Error) => Alert.danger('Error creating question: ' + error.message));} }>Add question</Button.Success>
+        <Button.Success onClick={() => {
+            quizService
+              .createQuestion(quizId, this.question)
+              .then(
+                this.question = '',
+                this.option1 = '',
+                this.isCorrect1 = false,
+                this.option2 = '',
+                this.isCorrect2 = false,
+                this.option3 = '',
+                this.isCorrect3 = false)
+              .catch((error: Error) => Alert.danger('Error creating question: ' + error.message));
+              }}>Add question</Button.Success>
       </>
     );
   }
-
-  mounted() {}
 }
 
 //.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer1, this.quizquestionOption.questionAnswer1)
@@ -207,3 +199,15 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
 //.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer3, this.quizquestionOption.questionAnswer3)
 //.then(alert("You added the current information:" + this.quizQuestion.question + this.quizQuestionOption.questionAnswer1 + this.quizQuestionOption.questionAnswer2 + this.quizQuestionOption.questionAnswer3))
 //.then((quizId) => this.props.history.push('/newQuiz/' + quizId))
+
+
+//<Button.Success onClick={() =>{ 
+//          quizService
+//.createQuestion(this.quizQuestion.quizId, this.quizQuestion.question)
+//.then(console.log(this.quizQuestion.quizId, this.quizQuestion.question))
+//.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption1.questionAnswer, this.quizQuestionOption1.isCorrect))
+//.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption2.questionAnswer, this.quizQuestionOption2.isCorrect))
+//.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption3.questionAnswer, this.quizQuestionOption3.isCorrect))
+//.then(alert("Tnx for adding the following question with the following answers: Question: " + this.quizQuestion.question + " Answer 1: " + this.quizQuestionOption1.questionAnswer + " Answer 2: " + this.quizQuestionOption2.questionAnswer + " Answer 3: " + this.quizQuestionOption3.questionAnswer))
+//.catch((error: Error) => Alert.danger('Error creating question: ' + error.message));} }>Add question</Button.Success>
+//      </>

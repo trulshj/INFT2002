@@ -22,6 +22,7 @@ export type QuizQuestionOption = {
   isCorrect: boolean,
 };
 
+
 export type Category = {
   category_name: string,
 };
@@ -77,7 +78,6 @@ getAllquestions() {
   return axios.get<QuizQuestion[]>('/quizzes/questions').then((response) => response.data);
 }
 
-
   /**
    * Create new Question having the given quizid.
    */
@@ -85,16 +85,11 @@ getAllquestions() {
    
   createQuestion(quizId: number, quizQuestion: string) {
     return axios
-      .post<{}, { quizid: number, quizQuestionId: string }>('/quizzes/:quizId/:quizQuestionId', {
-        quizid: quizId,
-        quizQuestion: quizQuestion,
-      })
+      .post<{}, { quizQuestionId: number }>('/newQuiz', {quizid: quizId, quizquestion: quizQuestion })
       .then((response) => {
-        console.log('her', response);
-        return response.data.quizid && response.data.quizQuestionId;
-      });
-  }
-}
-
+        console.log(response);
+        return response.data.quizquestionid;
+  });
+}}
 const quizService = new QuizService();
 export default quizService;
