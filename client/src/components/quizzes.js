@@ -7,6 +7,8 @@ import quizService, { type Quiz, type Category } from '../quiz-service';
 import { createHashHistory } from 'history';
 import { NavLink } from 'react-router-dom';
 
+
+//To do: implementere søkefunksjon. 
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
   
@@ -15,17 +17,21 @@ export class Quizzes extends Component {
     return (
       <>
         <Card title="Quizzes">
+        <Column>Search:</Column>
           {this.quizzes.map((quiz) => (
+            <Card>
             <Row key={quiz.quizId}>
-              <Column width={3}>
+              <Column width={10}>
               {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name}</NavLink>
               </Column>
-              <Column width={1}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
-              <Column ><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
+              <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
+              <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
+              <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Delete</Button.Success></Column>
             </Row>
+            </Card>
           ))}
         </Card>
-        <Column>Search:</Column>
+        
         
       </>
     );
