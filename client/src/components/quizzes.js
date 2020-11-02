@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 import quizService, { type Quiz, type Category } from '../quiz-service';
-import { createHashHistory } from 'history';
+import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
 
 
@@ -27,7 +27,7 @@ export class Quizzes extends Component {
               <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
               <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
               <Column width={0.5}><Button.Success onClick={(event) => 
-                quizService.delete(quiz.quiz_id).then(() => history.push('/quizzes'))
+                quizService.delete(quiz.quiz_id).then(() =>  this.props.history.push('/quizzes'))
                 
               } 
             >
