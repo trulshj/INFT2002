@@ -193,6 +193,7 @@ export class NewQuizQuestions extends Component<{ match: { params: { id: number 
 .then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption1.questionAnswer, this.quizQuestionOption1.isCorrect))
 .then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption2.questionAnswer, this.quizQuestionOption2.isCorrect))
 .then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption3.questionAnswer, this.quizQuestionOption3.isCorrect))
+.then(alert("Tnx for adding the following question with the following answers: Question: " + this.quizQuestion.question + " Answer 1: " + this.quizQuestionOption1.questionAnswer + " Answer 2: " + this.quizQuestionOption2.questionAnswer + " Answer 3: " + this.quizQuestionOption3.questionAnswer))
 .catch((error: Error) => Alert.danger('Error creating question: ' + error.message));} }>Add question</Button.Success>
       </>
     );
