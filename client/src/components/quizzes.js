@@ -75,7 +75,7 @@ export class QuizDetail extends Component<{ match: { params: { id: number } } }>
 
 
 
-/**
+/** Ikke fungerende: Slags consept til QuizDetails
  *    {this.quizQuestionOptions.map((quiz) => (
                   <Card>
                   <Row key={quiz.quizId}>
