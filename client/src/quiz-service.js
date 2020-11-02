@@ -74,7 +74,7 @@ class QuizService {
 */
 
 getAllquestions() {
-  return axios.get<QuizQuestion[]>('/questions').then((response) => response.data);
+  return axios.get<QuizQuestion[]>('/quizzes/questions').then((response) => response.data);
 }
 
 

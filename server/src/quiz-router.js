@@ -60,3 +60,17 @@ router.get('/categories/:categoryName', (request, response) => {
     )
     .catch((error: Error) => response.status(500).send(error));
 });
+
+
+/**
+ * Express questions router
+ */
+
+router.get('/quizzes/questions', (request, response) => {
+  quizService
+    .getAllquestions()
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+

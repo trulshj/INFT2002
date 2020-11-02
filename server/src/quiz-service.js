@@ -12,6 +12,12 @@ export type Category = {
   categoryName: string,
 };
 
+export type Question = {
+  quizId: number,
+  quizQuestionId: Number,
+  question: String,
+};
+
 class QuizService {
   /**
    * Get Quiz with given id.
@@ -139,6 +145,22 @@ class QuizService {
       });
     });
   }
+
+
+  /**
+   * Get all Questions
+   */
+
+  getAllquestions() {
+    return new Promise<Question[]>((resolve, reject) => {
+      pool.query('SELECT * FROM quiz_question', (error, results) => {
+        if (error) return reject(error);
+
+        resolve(results);
+      });
+    });
+  }
+
 }
 
 const quizService = new QuizService();
