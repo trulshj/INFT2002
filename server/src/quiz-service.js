@@ -106,8 +106,15 @@ class QuizService {
   /**
    * Delete quiz with given id.
    */
-  delete(id: number) {
-    return null;
+  delete(quizId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query('DELETE FROM quiz WHERE quiz_id = ?', [quizId], (error, results) => {
+        if (error) return reject(error);
+        if (!results.affectedRows) reject(new Error('No row deleted'));
+
+        resolve();
+      });
+    });
   }
 
   /**

@@ -26,7 +26,12 @@ export class Quizzes extends Component {
               </Column>
               <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
               <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
-              <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Delete</Button.Success></Column>
+              <Column width={0.5}><Button.Success onClick={(event) => 
+                quizService.delete(quiz.quiz_id).then(() => history.push('/quizzes'))
+                
+              } 
+            >
+              Delete</Button.Success></Column>
             </Row>
             </Card>
           ))}

@@ -56,6 +56,13 @@ class QuizService {
         return response.data.quizid;
       });
   }
+/**
+ * 
+ * Delete Quiz
+ */
+  delete(quizId: number) {
+    return axios.delete<Quiz>('/quizzes/' + quizId).then((response) => response.data);
+  }
 
   /**
    * Get all categories
