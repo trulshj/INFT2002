@@ -82,4 +82,11 @@ router.get('/quizzes/questions', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+router.delete('/quizzes/:id', (request, response) => {
+  quizService
+    .delete(Number(request.params.id))
+    .then((result) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
 
