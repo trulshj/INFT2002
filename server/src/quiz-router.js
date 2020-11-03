@@ -15,12 +15,20 @@ const router: express$Router<> = express.Router();
 
 export default router;
 
+/**
+ * Get all quizzes
+ */
+
 router.get('/quizzes', (request, response) => {
   quizService
     .getAll()
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
 });
+
+/**
+ * Get quiz with id:
+ */
 
 router.get('/quizzes/:quizId', (request, response) => {
   const quizId = Number(request.params.quizId);
@@ -106,6 +114,10 @@ router.get('/quizzes/questions', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+
+/**
+ * Router for deleting quiz with given id.
+ */
 router.delete('/quizzes/:id', (request, response) => {
   quizService
     .delete(Number(request.params.id))
@@ -113,9 +125,3 @@ router.delete('/quizzes/:id', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-router.get('/alldetails', (request, response) => {
-  quizService
-    .getAllDetails()
-    .then((rows) => response.send(rows))
-    .catch((error: Error) => response.status(500).send(error));
-});

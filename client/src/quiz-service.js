@@ -93,12 +93,17 @@ class QuizService {
    * Create new Question having the given quizid.
    */
 
-  createQuestion(quizId: number, quizQuestion: string) {
+  createQuestion(quizId: number, quizQuestion: string, option1: string, isCorrect1: boolean, option2: string, isCorrect2: boolean, option3: string, isCorrect3: boolean) {
     return axios
       .post<{}, { quizQuestionId: number }>('/newQuiz', {
         quizid: quizId,
         quizquestion: quizQuestion,
-        option1,
+        option1: option1,
+        iscorrect1: isCorrect1,
+        option2: option2,
+        iscorrect2: isCorrect2,
+        option3: option3,
+        iscorrect3: isCorrect3,
       })
       .then((response) => {
         console.log(response);

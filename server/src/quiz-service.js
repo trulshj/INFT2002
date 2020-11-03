@@ -8,16 +8,6 @@ export type Quiz = {
   quizCategory: string,
 };
 
-export type QuestionAndOption = {
-  quizQuestionId: number,
-  quizId: number,
-  question: string,
-  quizQuestionOptionId: number,
-  questionAnswer: string,
-  quizQuestionIdCopy: number,
-  isCorrect: boolean,
-};
-
 export type Category = {
   categoryName: string,
 };
@@ -85,57 +75,59 @@ class QuizService {
   /**
    * Create new Question.
    */
+
   createQuestion(
     quizId: number,
     quizQuestion: string,
-    answer1: string,
+    option1: string,
     iscorrect1: boolean,
-    answer2: string,
+    option2: string,
     iscorrect2: boolean,
-    answer3: string,
+    option3: string,
     iscorrect3: boolean,
-  ){
+  ) {
     return new Promise<number>((resolve, reject) => {
       pool.query(
         'INSERT INTO quiz_question SET quiz_id=?, question=?',
         [quizId, quizQuestion],
         (error, results) => {
-          if (error) return reject(error);
-          if (!results.insertId) return reject(new Error('No row inserted'));
-
-          resolve(Number(results.insertId));
-        }
-      )
-      pool.query(
-          'INSERT INTO quiz_question_option (question_id, question_answer, is_correct) values (?, ?, ?)',
-          [results.insertId, answer1, iscorrect1],
-          (error, results) => {
-             if (error) return reject(error);
-             if (!results.insertId) return reject(new Error('No row inserted'));
-
-              resolve(Number(results.insertId));
+          pool.query(
+            'INSERT INTO quiz_question_option (quiz_question_id, question_answer, is_correct) values (?, ?, ?)',
+            [results.insertId, option1, iscorrect1],
+            (error, results) => {
+              if (error) return reject(error);
+              console.log(error)
             },
           );
-        });
-      }
+          
+          pool.query(
+            'INSERT INTO quiz_question_option (quiz_question_id, question_answer, is_correct) values (?, ?, ?)',
+            [results.insertId, option2, iscorrect2],
+            (error, results) => {
+              if (error) return reject(error);
+              console.log(error)
+            },
+          );
 
-  /**
-   * Create new Option to question.
-   */
-  createOption(quizQuestionId: number, questionAnswer: string, isCorrect: boolean) {
-    return new Promise<number>((resolve, reject) => {
-      pool.query(
-        'INSERT INTO quiz_question_option SET quiz_question_id=?, question_answer=?, is_correct=?',
-        [quizQuestionId, questionAnswer, isCorrect],
-        (error, results) => {
+          pool.query(
+            'INSERT INTO quiz_question_option (quiz_question_id, question_answer, is_correct) values (?, ?, ?)',
+            [results.insertId, option3, iscorrect3],
+            (error, results) => {
+              if (error) return reject(error);
+              console.log(error)
+    
+            },
+          );
+
           if (error) return reject(error);
-          if (!results.insertId) return reject(new Error('No row inserted'));
+          console.log(error)
 
-          resolve(Number(results.insertId));
+          resolve();
         },
       );
     });
   }
+
 
   /**
    * Delete quiz with given id.
@@ -154,7 +146,7 @@ class QuizService {
   /**
    * Update given quiz.
    *
-   * Pass a quiz object, will update the row with the specified id with the new object
+   * NB Not yet inplemented!
    */
   update(quiz: Quiz) {
     return null;
@@ -188,7 +180,7 @@ class QuizService {
   }
 
   /**
-   * Get all Questions
+   * Get all Questions || Brukes ikke
    */
 
   getAllquestions() {
@@ -198,24 +190,6 @@ class QuizService {
 
         resolve(results);
       });
-    });
-  }
-
-  /**
-   * Get Quiz, Questions and options
-   */
-
-  getAllDetails() {
-    return new Promise<QuestionAndOption[]>((resolve, reject) => {
-      pool.query(
-        'SELECT * FROM quiz_question JOIN quiz_question_option ON quiz_question.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ?',
-        [quizId],
-        (error, results: QuestionAndOption[]) => {
-          if (error) return reject(error);
-
-          resolve(results[0]);
-        },
-      );
     });
   }
 }

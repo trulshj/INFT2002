@@ -118,18 +118,15 @@ export class NewQuizQuestions extends Component {
               <Form.Input
                 type="text"
                 value={this.option1}
-                onChange={(event) =>
-                  (this.option1 = event.currentTarget.value)
-                }
+                onChange={(event) => (this.option1 = event.currentTarget.value)}
               />
             </Column>
             <Column>
               <Form.Checkbox
                 checked={this.isCorrect1}
-                onChange={(event) =>
-                  (this.isCorrect1 = event.currentTarget.checked)
-                }
-              /><Form.Label>Correct answer</Form.Label>
+                onChange={(event) => (this.isCorrect1 = event.currentTarget.checked)}
+              />
+              <Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
           <Row>
@@ -140,18 +137,15 @@ export class NewQuizQuestions extends Component {
               <Form.Input
                 type="text"
                 value={this.option2}
-                onChange={(event) =>
-                  (this.option2 = event.currentTarget.value)
-                }
+                onChange={(event) => (this.option2 = event.currentTarget.value)}
               />
             </Column>
             <Column>
               <Form.Checkbox
                 checked={this.isCorrect2}
-                onChange={(event) =>
-                  (this.isCorrect2 = event.currentTarget.checked)
-                }
-              /><Form.Label>Correct answer</Form.Label>
+                onChange={(event) => (this.isCorrect2 = event.currentTarget.checked)}
+              />
+              <Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
           <Row>
@@ -162,39 +156,37 @@ export class NewQuizQuestions extends Component {
               <Form.Input
                 type="text"
                 value={this.option3}
-                onChange={(event) =>
-                  (this.option3 = event.currentTarget.value)
-                }
+                onChange={(event) => (this.option3 = event.currentTarget.value)}
               />
             </Column>
             <Column>
               <Form.Checkbox
                 checked={this.isCorrect3}
-                onChange={(event) =>
-                  (this.isCorrect3 = event.currentTarget.checked)
-                }
-              /><Form.Label>Correct answer</Form.Label>
+                onChange={(event) => (this.isCorrect3 = event.currentTarget.checked)}
+              />
+              <Form.Label>Correct answer</Form.Label>
             </Column>
           </Row>
         </Card>
-        <Button.Success onClick={() => {
+        <Button.Success
+          onClick={() => {
             quizService
-              .createQuestion(quizId, this.question, this.option1, this.isCorrect1,  this.option2, this.isCorrect2 , this.option3, this.isCorrect3 )
+              .createQuestion(
+                quizId,
+                this.question,
+                this.option1,
+                this.isCorrect1,
+                this.option2,
+                this.isCorrect2,
+                this.option3,
+                this.isCorrect3,
+              ).then(alert("Tnx for creating Question. Go ahead and add more!"))
               .catch((error: Error) => Alert.danger('Error creating question: ' + error.message));
-              }}>Add question</Button.Success>
+          }}
+        >
+          Add question
+        </Button.Success>
       </>
     );
   }
 }
-
-
-//<Button.Success onClick={() =>{ 
-//          quizService
-//.createQuestion(this.quizQuestion.quizId, this.quizQuestion.question)
-//.then(console.log(this.quizQuestion.quizId, this.quizQuestion.question))
-//.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption1.questionAnswer, this.quizQuestionOption1.isCorrect))
-//.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption2.questionAnswer, this.quizQuestionOption2.isCorrect))
-//.then(console.log(this.quizQuestion.quizQuestionId, this.quizQuestionOption3.questionAnswer, this.quizQuestionOption3.isCorrect))
-//.then(alert("Tnx for adding the following question with the following answers: Question: " + this.quizQuestion.question + " Answer 1: " + this.quizQuestionOption1.questionAnswer + " Answer 2: " + this.quizQuestionOption2.questionAnswer + " Answer 3: " + this.quizQuestionOption3.questionAnswer))
-//.catch((error: Error) => Alert.danger('Error creating question: ' + error.message));} }>Add question</Button.Success>
-//      </>
