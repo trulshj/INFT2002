@@ -23,7 +23,7 @@ export class Quizzes extends Component {
             <Card>
             <Row key={quiz.quizId}>
               <Column width={10}>
-              {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name}</NavLink>
+              {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name + " - Se fasit"}</NavLink>
               </Column>
               <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/play')}>Start Quiz</Button.Success></Column>
               <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/edit')}>Edit</Button.Success></Column>
