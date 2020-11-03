@@ -1,6 +1,5 @@
 // @flow
 
-import { QuizDetail } from '../../client/src/components/quizzes';
 import pool from './mysql-pool';
 
 export type Quiz = {
@@ -8,17 +7,6 @@ export type Quiz = {
   quizName: string,
   quizCategory: string,
 };
-
-export type QuestionAndOption = {
-  quizQuestionId: number,
-  quizId: number,
-  question: string,
-  quizQuestionOptionId: number,
-  questionAnswer: string,
-  quizQuestionIdCopy: Number,
-  isCorrect: boolean,
-};
-
 
 export type Category = {
   categoryName: string,
@@ -185,22 +173,7 @@ class QuizService {
     });
   }
 
-  /**
-   * Get Quiz, Questions and options
-   */
-
-  getAllDetails() {
-    return new Promise<QuestionAndOption[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question JOIN quiz_question_option ON quiz_question.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ?', [quizId], (error, results: QuestionAndOption[]) => {
-        if (error) return reject(error);
-
-        resolve(results[0]);
-      });
-    });
-  }
-
 }
-
 
 const quizService = new QuizService();
 export default quizService;
