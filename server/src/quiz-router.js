@@ -1,6 +1,12 @@
 // @flow
 import express from 'express';
-import quizService, { type Quiz, type Category, type Question, type Option } from './quiz-service';
+import quizService, {
+  type Quiz,
+  type Category,
+  type Question,
+  type Option,
+  type QuestionAndOption,
+} from './quiz-service';
 
 /**
  * Express router containing quiz methods.
@@ -45,18 +51,27 @@ router.post('/quizzes', (request, response) => {
 router.post('/newQuiz', (request, response) => {
   const data = request.body;
   quizService
-      .createQuestion(request.body.quizid, request.body.quizquestion)
-      .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
-      .catch((error: Error) => response.status(500).send(error));
+    .createQuestion(
+      request.body.quizid,
+      request.body.quizquestion,
+      request.body.option1,
+      request.body.iscorrect1,
+      request.body.option2,
+      request.body.iscorrect2,
+      request.body.option3,
+      request.body.iscorrect3,
+    )
+    .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
+    .catch((error: Error) => response.status(500).send(error));
 });
 
 //New option
 router.post('/newQuiz', (request, response) => {
   const data = request.body;
   quizService
-      .createOption(request.body.quizquestionid, request.body.questionanswer, request.body.iscorrect)
-      .then((quizquestionoptionid) => response.send({ quizquestionoptionid: quizquestionoptionid }))
-      .catch((error: Error) => response.status(500).send(error));
+    .createOption(request.body.quizquestionid, request.body.questionanswer, request.body.iscorrect)
+    .then((quizquestionoptionid) => response.send({ quizquestionoptionid: quizquestionoptionid }))
+    .catch((error: Error) => response.status(500).send(error));
 });
 
 /**
@@ -80,7 +95,6 @@ router.get('/categories/:categoryName', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-
 /**
  * Express questions router
  */
@@ -99,4 +113,9 @@ router.delete('/quizzes/:id', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-
+router.get('/alldetails', (request, response) => {
+  quizService
+    .getAllDetails()
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+});

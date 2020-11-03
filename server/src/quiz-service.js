@@ -1,6 +1,5 @@
 // @flow
 
-import { QuizDetail } from '../../client/src/components/quizzes';
 import pool from './mysql-pool';
 
 export type Quiz = {
@@ -15,10 +14,9 @@ export type QuestionAndOption = {
   question: string,
   quizQuestionOptionId: number,
   questionAnswer: string,
-  quizQuestionIdCopy: Number,
+  quizQuestionIdCopy: number,
   isCorrect: boolean,
 };
-
 
 export type Category = {
   categoryName: string,
@@ -87,7 +85,16 @@ class QuizService {
   /**
    * Create new Question.
    */
-  createQuestion(quizId: number, quizQuestion: string) {
+  createQuestion(
+    quizId: number,
+    quizQuestion: string,
+    answer1: string,
+    iscorrect1: boolean,
+    answer2: string,
+    iscorrect2: boolean,
+    answer3: string,
+    iscorrect3: boolean,
+  ){
     return new Promise<number>((resolve, reject) => {
       pool.query(
         'INSERT INTO quiz_question SET quiz_id=?, question=?',
@@ -97,10 +104,20 @@ class QuizService {
           if (!results.insertId) return reject(new Error('No row inserted'));
 
           resolve(Number(results.insertId));
-        },
-      );
-    });
-  }
+        }
+      )
+      pool.query(
+          'INSERT INTO quiz_question_option (question_id, question_answer, is_correct) values (?, ?, ?)',
+          [results.insertId, answer1, iscorrect1],
+          (error, results) => {
+             if (error) return reject(error);
+             if (!results.insertId) return reject(new Error('No row inserted'));
+
+              resolve(Number(results.insertId));
+            },
+          );
+        });
+      }
 
   /**
    * Create new Option to question.
@@ -170,7 +187,6 @@ class QuizService {
     });
   }
 
-
   /**
    * Get all Questions
    */
@@ -191,16 +207,18 @@ class QuizService {
 
   getAllDetails() {
     return new Promise<QuestionAndOption[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question JOIN quiz_question_option ON quiz_question.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ?', [quizId], (error, results: QuestionAndOption[]) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT * FROM quiz_question JOIN quiz_question_option ON quiz_question.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ?',
+        [quizId],
+        (error, results: QuestionAndOption[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results[0]);
+        },
+      );
     });
   }
-
 }
-
 
 const quizService = new QuizService();
 export default quizService;

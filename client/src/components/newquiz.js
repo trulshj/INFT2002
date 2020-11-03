@@ -179,32 +179,13 @@ export class NewQuizQuestions extends Component {
         </Card>
         <Button.Success onClick={() => {
             quizService
-              .createQuestion(quizId, this.question)
-              .then((quizQuestionId) => alert('quizQuestionId = ' + quizQuestionId))
-              //Noe feil med createOption funksjonen...
-              //.then((quizQuestionId) => createOption(quizQuestionId, this.option1, this.isCorrect1))
-              //.then((quizQuestionId) => createOption(quizQuestionId, this.option2, this.isCorrect2))
-              //.then((quizQuestionId) => createOption(quizQuestionId, this.option3, this.isCorrect3))
-              .then(
-                this.question = '',
-                this.option1 = '',
-                this.isCorrect1 = false,
-                this.option2 = '',
-                this.isCorrect2 = false,
-                this.option3 = '',
-                this.isCorrect3 = false)
+              .createQuestion(quizId, this.question, this.option1, this.isCorrect1,  this.option2, this.isCorrect2 , this.option3, this.isCorrect3 )
               .catch((error: Error) => Alert.danger('Error creating question: ' + error.message));
               }}>Add question</Button.Success>
       </>
     );
   }
 }
-
-//.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer1, this.quizquestionOption.questionAnswer1)
-//.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer2, this.quizquestionOption.questionAnswer2)
-//.createOption(this.quizQuestion.question, this.quizQuestionOption.questionAnswer3, this.quizquestionOption.questionAnswer3)
-//.then(alert("You added the current information:" + this.quizQuestion.question + this.quizQuestionOption.questionAnswer1 + this.quizQuestionOption.questionAnswer2 + this.quizQuestionOption.questionAnswer3))
-//.then((quizId) => this.props.history.push('/newQuiz/' + quizId))
 
 
 //<Button.Success onClick={() =>{ 

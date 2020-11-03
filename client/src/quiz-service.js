@@ -22,11 +22,9 @@ export type QuizQuestionOption = {
   isCorrect: boolean,
 };
 
-
 export type Category = {
   category_name: string,
 };
-
 
 class QuizService {
   /**
@@ -57,10 +55,10 @@ class QuizService {
         return response.data.quizid;
       });
   }
-/**
- * 
- * Delete Quiz
- */
+  /**
+   *
+   * Delete Quiz
+   */
   delete(quizId: number) {
     return axios.delete<Quiz>('/quizzes/' + quizId).then((response) => response.data);
   }
@@ -76,37 +74,75 @@ class QuizService {
     return axios.get<Category[]>('/categories').then((response) => response.data);
   }
 
+  /**
+   * Get all details
+   */
+  getAllDetails() {
+    return axios.get<QuestionAndOption[]>('/alldetails').then((response) => response.data);
+  }
 
-/**
-    * Get all questions
-*/
+  /**
+   * Get all questions
+   */
 
-getAllquestions() {
-  return axios.get<QuizQuestion[]>('/quizzes/questions').then((response) => response.data);
-}
+  getAllquestions() {
+    return axios.get<QuizQuestion[]>('/quizzes/questions').then((response) => response.data);
+  }
 
   /**
    * Create new Question having the given quizid.
    */
 
-   
   createQuestion(quizId: number, quizQuestion: string) {
     return axios
-      .post<{}, { quizQuestionId: number }>('/newQuiz', {quizid: quizId, quizquestion: quizQuestion })
+      .post<{}, { quizQuestionId: number }>('/newQuiz', {
+        quizid: quizId,
+        quizquestion: quizQuestion,
+        option1,
+      })
       .then((response) => {
         console.log(response);
         return response.data.quizquestionid;
-  });
-}
+      });
+  }
 
-  createOption(quizQuestionId: number, questionAnswer: string, isCorrect: boolean) {
+  /**
+   * 
+   *request.body.quizid,
+      request.body.quizquestion,
+      request.body.option1,
+      request.body.answer1,
+      request.body.option2,
+      request.body.answer2,
+      request.body.option3,
+      request.body.answer3,
+   */
+
+  createOption(
+    quizQuestionId: number,
+    questionAnswer1: string,
+    isCorrect1: boolean,
+    questionAnswer2: string,
+    isCorrect2: boolean,
+    questionAnswer3: string,
+    isCorrect3: boolean,
+  ) {
     return axios
-      .post<{}, { quizQuestionOptionId: number }>('/newQuiz', {quizquestionid: quizQuestionId, questionanswer: questionAnswer, iscorrect: isCorrect })
+      .post<{}, { quizQuestionOptionId: number }>('/newQuiz', {
+        quizquestionid: quizQuestionId,
+        questionanswer1: questionAnswer1,
+        iscorrect1: isCorrect1,
+        questionanswer2: questionAnswer1,
+        iscorrect2: isCorrect1,
+        questionanswer3: questionAnswer1,
+        iscorrect3: isCorrect1,
+      })
       .then((response) => {
         console.log(response);
         return response.data.quizquestionoptionid;
-  });
-}}
+      });
+  }
+}
 
 const quizService = new QuizService();
 export default quizService;

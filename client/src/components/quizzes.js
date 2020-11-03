@@ -65,6 +65,7 @@ class QuizEdit extends Component { }
 // TO DO Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
 export class QuizDetail extends Component<{ match: { params: { id: number } } }> {
 
+  details: QuestionAndOption[] = [];
 
   render() {
     return (
@@ -83,7 +84,18 @@ export class QuizDetail extends Component<{ match: { params: { id: number } } }>
       </>
     );
   }
+
+  mounted() {
+    quizService
+      .getAllDetails()
+      .then((details) => (this.details = details))
+      .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
+  }
 }
+
+
+  
+ 
 
 
 
