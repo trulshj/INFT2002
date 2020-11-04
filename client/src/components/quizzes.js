@@ -68,7 +68,7 @@ TODO:
   - Delete question part
 - Move delete quiz to quizDetails
  */
-class QuizEdit extends Component<{ match: { params: { quiz_id: number } } }> {
+export class QuizEdit extends Component<{ match: { params: { quiz_id: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
   questions: QuizQuestion[] = [];
 
