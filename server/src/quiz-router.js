@@ -114,7 +114,8 @@ router.get('/quizzes/questions', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
-router.get('quizzes/:quizId/questions', (request, response) => {
+router.get('/quizzes/:quizId/questions', (request, response) => {
+  const quizId = Number(request.params.quizId);
   quizService
     .getAllQuestionsInQuiz(quizId)
     .then((rows) => response.send(rows))

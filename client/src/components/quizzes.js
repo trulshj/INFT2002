@@ -105,23 +105,23 @@ export class QuizEdit extends Component<{ match: { params: { quiz_id: number } }
 /* TO DO Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
 Work in progress
 TODO:
-- Fix problem with quizId being undefined
+- Fix problem with questions not geing found (error 404)
 - Edit question part / question details part
   - Delete question part
  */
-export class QuizDetail extends Component<{ match: { params: { quiz_id: number } } }> {
+export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
   questions: QuizQuestion[] = [];
   
   render() {
     return (
       <>
-        <Card title='{this.quiz.quiz_name}'>
+        <Card title={this.quiz.quiz_name}>
         {this.questions.map((question) => (
           <Card>
             <Row key={question.questionId}>
               <Column width={10}>
-                <NavLink to={'/quizzes/' + quiz.quiz_id + '/' + question.question_id}>{question.question}</NavLink>
+                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.question_id}>{question.question}</NavLink>
               </Column>
             </Row>
           </Card>
@@ -133,11 +133,11 @@ export class QuizDetail extends Component<{ match: { params: { quiz_id: number }
 
   mounted() {
     quizService
-      .get(this.props.match.params.quiz_id)
+      .get(this.props.match.params.quizId)
       .then((quiz) => (this.quiz = quiz))
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
     quizService
-      .getAllQuestionsInQuiz(this.props.match.params.quiz_id)
+      .getAllQuestionsInQuiz(this.props.match.params.quizId)
       .then((quizQuestions) => (this.questions = quizQuestions))
       .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
   }
