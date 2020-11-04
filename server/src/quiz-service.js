@@ -192,6 +192,19 @@ class QuizService {
       });
     });
   }
+
+  /**
+   * Get all questions that belong to quiz with given quizId
+   */
+  getAllQuestionsInQuiz(quizId: number) {
+    return new Promise<?Question[]>((resolve, reject) => {
+      pool.query('SELECT * FROM quiz_question WHERE quiz_id = ?', [quizId], (error, results: Question[]) => {
+        if (error) return reject(error);
+
+        resolve(results);
+      })
+    })
+  }
 }
 
 const quizService = new QuizService();

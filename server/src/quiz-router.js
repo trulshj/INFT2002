@@ -114,6 +114,12 @@ router.get('/quizzes/questions', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+router.get('quizzes/:quizId/questions', (request, response) => {
+  quizService
+    .getAllQuestionsInQuiz(quizId)
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+})
 
 /**
  * Router for deleting quiz with given id.

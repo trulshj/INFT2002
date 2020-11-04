@@ -9,7 +9,7 @@ import quizService, {
   type QuizQuestion,
   type Quiz,
 } from '../quiz-service';
-import Dropdown from 'react-dropdown';
+// import Dropdown from 'react-dropdown'; // Fjernet for å få det til å fungere, sett den tilbake om dere må
 import { HashRouter, Route } from 'react-router-dom';
 //Component for creating new quizzes
 export class NewQuiz extends Component {

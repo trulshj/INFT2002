@@ -90,6 +90,13 @@ class QuizService {
   }
 
   /**
+   * Get all questions that belong to quiz with given quizId
+   */
+  getAllQuestionsInQuiz(quizId: number) {
+    return axios.get<QuizQuestion[]>('/quizzes/' + quizId + '/questions').then((response) => response.data);
+  }
+
+  /**
    * Create new Question having the given quizid.
    */
 
