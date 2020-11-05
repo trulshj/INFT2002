@@ -97,6 +97,27 @@ class QuizService {
   }
 
   /**
+   * Get spesific question
+   */
+  getQuestion(questionId: number) {
+    return axios.get<QuizQuestion>('quizzes/questions/' + questionId).then((response) => response.data)
+  }
+
+  /**
+   * Get question options for spesific question
+   */
+  getQuestionOption(quizQuestionId: number) {
+    return axios.get<QuizQuestionOption[]>('/quizzes/questions/' + quizQuestionId + '/options').then((response) => response.data)
+  }
+
+  /**
+   * Get correct question option for spesific question 
+   */
+  getQuestionOptionCorrect(quizQuestionId: number) {
+    return axios.get<QuizQuestionOption[]>('/quizzes/questions/' + quizQuestionId + '/correct').then((response) => response.data)
+  }
+
+  /**
    * Create new Question having the given quizid.
    */
 
