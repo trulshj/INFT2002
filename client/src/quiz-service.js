@@ -1,6 +1,5 @@
 // @flow
 import axios from 'axios';
-
 axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
 export type Quiz = {
@@ -35,14 +34,14 @@ class QuizService {
   }
 
   /**
-   * Get all Quizzes.
+   * Get all quizzes.
    */
   getAll() {
     return axios.get<Quiz[]>('/quizzes').then((response) => response.data);
   }
 
   /**
-   * Create new Quiz having the given quizname.
+   * Create new quiz having the given quizname.
    */
   create(quizName: string, quizCategory: string) {
     return axios
@@ -55,21 +54,24 @@ class QuizService {
         return response.data.quizid;
       });
   }
+
   /**
-   *
-   * Delete Quiz
+   * Delete quiz
    */
   delete(quizId: number) {
     return axios.delete<Quiz>('/quizzes/' + quizId).then((response) => response.data);
   }
 
   /**
-   * Get all categories
+   * Get category having a given name
    */
   getCategory(category: string) {
     return axios.get<Category>('/categories/' + category).then((response) => response.data);
   }
 
+    /**
+   * Get all categories
+   */
   getAllcategories() {
     return axios.get<Category[]>('/categories').then((response) => response.data);
   }
@@ -118,9 +120,8 @@ class QuizService {
   }
 
   /**
-   * Create new Question having the given quizid.
+   * Create new question having the given quizid
    */
-
   createQuestion(quizId: number, quizQuestion: string, option1: string, isCorrect1: boolean, option2: string, isCorrect2: boolean, option3: string, isCorrect3: boolean) {
     return axios
       .post<{}, { quizQuestionId: number }>('/newQuiz', {
@@ -140,17 +141,8 @@ class QuizService {
   }
 
   /**
-   * 
-   *request.body.quizid,
-      request.body.quizquestion,
-      request.body.option1,
-      request.body.answer1,
-      request.body.option2,
-      request.body.answer2,
-      request.body.option3,
-      request.body.answer3,
+   * Create new option to quizquestion having the given quizquestionid
    */
-
   createOption(
     quizQuestionId: number,
     questionAnswer1: string,

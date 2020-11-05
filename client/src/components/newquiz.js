@@ -3,14 +3,9 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button } from '../widgets';
-import quizService, {
-  type Category,
-  type QuizQuestionOption,
-  type QuizQuestion,
-  type Quiz,
-} from '../quiz-service';
-// import Dropdown from 'react-dropdown'; // Fjernet for å få det til å fungere, sett den tilbake om dere må
+import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz} from '../quiz-service';
 import { HashRouter, Route } from 'react-router-dom';
+
 //Component for creating new quizzes
 export class NewQuiz extends Component {
   quizName = '';
@@ -79,7 +74,8 @@ export class NewQuiz extends Component {
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
   }
 }
-//Component for creating new questions for quizzes
+
+//Component for creating new questions with options for quizzes
 export class NewQuizQuestions extends Component {
   question = '';
   option1 = '';
