@@ -182,6 +182,13 @@ export class NewQuizQuestions extends Component {
                 this.isCorrect3,
               ).then(alert("Tnx for creating Question. Go ahead and add more!"))
               .catch((error: Error) => Alert.danger('Error creating question: ' + error.message));
+                this.question = '',
+                this.option1 = '',
+                this.isCorrect1 = false,
+                this.option2 = '',
+                this.isCorrect2 = false,
+                this.option3 = '',
+                this.isCorrect3 = false;
           }}
         >
           Add question
