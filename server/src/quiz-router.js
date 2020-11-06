@@ -122,6 +122,14 @@ router.get('/quizzes/:quizId/questions', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+router.get('/quizzes/questions/:quizQuestionId', (request, response) => {
+  const quizQuestionId = Number(request.params.quizQuestionId);
+  quizService
+    .getQuestion(quizQuestionId)
+    .then((Question) => response.send(Question))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
 router.get('/quizzes/questions/:quizQuestionId/options', (request, response) => {
   const quizQuestionId = Number(request.params.quizQuestionId);
   quizService
@@ -148,19 +156,3 @@ router.delete('/quizzes/:quizId', (request, response) => {
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });
-<<<<<<< HEAD
-
-/**
- * Get question info
- */
-
-router.get('/quizzes/:quizId/:questionId', (request, response) => {
-  const quizId = Number(request.params.quizId);
-  const questionId = Number(request.params.questionId);
-  quizService
-    .getQuestion(quizId, questionId)
-    .then((rows) => response.send(rows))
-    .catch((error: Error) => response.status(500).send(error));
-});
-=======
-

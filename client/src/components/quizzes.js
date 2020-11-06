@@ -3,27 +3,17 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
-import quizService, {
-  type Quiz,
-  type Category,
-  type QuizQuestion,
-  type Question,
-  type QuestionDetails,
-} from '../quiz-service';
+import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
-<<<<<<< HEAD
-//To do: implementere søkefunksjon.
-=======
 /**
  * Component for viewing all quizzes
  * TODO:
  *  - Search function (minimum category)
  */
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
 
@@ -51,17 +41,9 @@ export class Quizzes extends Component {
                   </Button.Success>
                 </Column>
                 <Column width={0.5}>
-<<<<<<< HEAD
-                  <Button.Success
-                    onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}
-                  >
-                    Edit
-                  </Button.Success>
-=======
                   <Button.Light onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>
                     Edit
                   </Button.Light>
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
                 </Column>
               </Row>
             </Card>
@@ -79,90 +61,15 @@ export class Quizzes extends Component {
   }
 }
 
-<<<<<<< HEAD
-//Play Component To DO
-class QuizPlay extends Component {}
-
-/**
- * Work in progress
-TODO:
-- Edit question part / question details part
-  - Delete question part
-- Fix delete quiz (internal server error 500)
- - Copy changes from quizdetails once quizdetails is done.
- */
-export class QuizEdit extends Component<{ match: { params: { quiz_id: number } } }> {
-  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
-  questions: QuizQuestion[] = [];
-
-  render() {
-    return (
-      <>
-        <Card title={this.quiz.quiz_name}>
-          {this.questions.map((question) => (
-            <Card>
-              <Row key={question.questionId}>
-                <Column width={10}>
-                  <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.question_id}>
-                    {question.question}
-                  </NavLink>
-                </Column>
-              </Row>
-            </Card>
-          ))}
-          <Column width={0.5}>
-            <Button.Danger
-              onClick={(event) =>
-                quizService
-                  .delete(this.quiz.quiz_id)
-                  .then(() => history.push('/quizzes'))
-                  .catch((error: Error) => Alert.danger('Error deleting task: ' + error.message))
-              }
-            >
-              Delete quiz
-            </Button.Danger>
-          </Column>
-        </Card>
-      </>
-    );
-  }
-
-  mounted() {
-    quizService
-      .get(this.props.match.params.quizId)
-      .then((quiz) => (this.quiz = quiz))
-      .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
-    quizService
-      .getAllQuestionsInQuiz(this.props.match.params.quizId)
-      .then((quizQuestions) => (this.questions = quizQuestions))
-      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
-  }
-}
-/* TO DO Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
-Work in progress
-TODO:
-- Make it look better
-=======
 /**
  * Component for getting details of a spesific quiz
  * TODO:
  *  - Make it look better
  *    - Example: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
  */
-/**
- * {this.questionsDetails.map((questionDetails) => (
-                 <Column>{questionDetail.is_correct}</Column>
-                ))}
- */
-
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
   questions: QuizQuestion[] = [];
-<<<<<<< HEAD
-  questionsDetails: Question[] = [];
-=======
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
 
   render() {
     return (
@@ -170,11 +77,7 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
         <Card title={this.quiz.quiz_name}>
           {this.questions.map((question) => (
             <Card>
-<<<<<<< HEAD
-              <Row key={question.questionId}>
-=======
               <Row key={question.quizQuestionId}>
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
                 <Column width={10}>
                   <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>
                     {question.question}
@@ -194,16 +97,12 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
       .then((quiz) => (this.quiz = quiz))
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
     quizService
-      .getQuestion(this.props.match.params.quizId, this.props.match.params.questionId)
-      .then((questionsDetails) => (this.questionsDetails = questionsDetails))
-      .catch((error: Error) =>
-        Alert.danger('Error getting questions and options: ' + error.message),
-      );
+      .getAllQuestionsInQuiz(this.props.match.params.quizId)
+      .then((quizQuestions) => (this.questions = quizQuestions))
+      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
   }
 }
 
-<<<<<<< HEAD
-=======
 /**
  * Component for editing quiz
  * TODO:
@@ -213,40 +112,9 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
  */
 export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {}
 
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
 /**
  * Component for getting details of questions
  * TODO:
-<<<<<<< HEAD
- *  - this.props.match.params.quizQuestionId is undefined.
- *  - Edit quiz question part
- *  - Delete quiz question part
- */
-export class QuestionDetail extends Component<{
-  match: { params: { questionId: number, quizId: number } },
-}> {
-  questionsDetails: QuestionDetails = {
-    options: [],
-    question: '',
-    questionId: this.props.match.params.questionId,
-    quizId: this.props.match.params.quizId,
-  };
-
-  render() {
-    console.log('denne', this.questionsDetails);
-
-    return (
-      <>
-        <Card title="Fasit"></Card>
-        {this.questionsDetails.options.map((option) => (
-          <Card key={option.optionId}>
-            <Row>
-              <Column width={10}>{option.questionOption}</Column>
-              <Column width={10}>{option.isCorrect && 'correct'}</Column>
-            </Row>
-          </Card>
-        ))}
-=======
  *  - Multiple correct answers or no?.
  */
 export class QuestionDetail extends Component<{ match: { params: { quizQuestionId: number } } }> {
@@ -276,22 +144,12 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
             ))}
           </Card>
         </Card>
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
       </>
     );
   }
 
   mounted() {
-    console.log('Heeeeer', this.props);
-
     quizService
-<<<<<<< HEAD
-      .getQuestion(this.props.match.params.quizId, this.props.match.params.questionId)
-      .then((questionsDetails) => (this.questionsDetails = questionsDetails))
-      .catch((error: Error) => Alert.danger('Error getting question: ' + error.message));
-  }
-}
-=======
       .getQuestion(this.props.match.params.quizQuestionId)
       .then((question) => (this.question = question))
       .catch((error: Error) => Alert.danger('Error getting question: ' + error.message));
@@ -323,4 +181,3 @@ export class QuestionEdit extends Component {}
  *  - Everything
  */
 export class QuizPlay extends Component {}
->>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
