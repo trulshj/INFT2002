@@ -25,6 +25,17 @@ export type Category = {
   category_name: string,
 };
 
+export type QuestionDetails = {
+  quizId: number,
+  questionId: number,
+  question: string,
+  options: {
+    optionId: number,
+    questionOption: string,
+    isCorrect: number,
+  }[],
+};
+
 class QuizService {
   /**
    * Get quiz with given id.
@@ -69,7 +80,7 @@ class QuizService {
     return axios.get<Category>('/categories/' + category).then((response) => response.data);
   }
 
-    /**
+  /**
    * Get all categories
    */
   getAllcategories() {
@@ -95,34 +106,67 @@ class QuizService {
    * Get all questions that belong to quiz with given quizId
    */
   getAllQuestionsInQuiz(quizId: number) {
-    return axios.get<QuizQuestion[]>('/quizzes/' + quizId + '/questions').then((response) => response.data);
+    return axios
+      .get<QuizQuestion[]>('/quizzes/' + quizId + '/questions')
+      .then((response) => response.data);
   }
 
   /**
    * Get spesific question
    */
-  getQuestion(questionId: number) {
-    return axios.get<QuizQuestion>('quizzes/questions/' + questionId).then((response) => response.data)
+  async getQuestion(quizId: number, questionId: number) {
+    const result = await axios
+      .get<QuizQuestion>(`quizzes/${quizId}/${questionId}`)
+      .then((response) => response.data);
+
+    console.log(result);
+
+    return result.reduce<QuestionDetails>(
+      (prev, current) => {
+        prev.options.push({
+          isCorrect: current.isCorrect,
+          optionId: current.quizQuestionOptionId,
+          questionOption: current.questionOption,
+        });
+        prev.quizQuestionId = prev.quizQuestionId;
+        prev.question = current.question;
+        return prev;
+      },
+      { quizId, options: [] },
+    );
   }
 
   /**
    * Get question options for spesific question
    */
   getQuestionOption(quizQuestionId: number) {
-    return axios.get<QuizQuestionOption[]>('/quizzes/questions/' + quizQuestionId + '/options').then((response) => response.data)
+    return axios
+      .get<QuizQuestionOption[]>('/quizzes/questions/' + quizQuestionId + '/options')
+      .then((response) => response.data);
   }
 
   /**
-   * Get correct question option for spesific question 
+   * Get correct question option for spesific question
    */
   getQuestionOptionCorrect(quizQuestionId: number) {
-    return axios.get<QuizQuestionOption[]>('/quizzes/questions/' + quizQuestionId + '/correct').then((response) => response.data)
+    return axios
+      .get<QuizQuestionOption[]>('/quizzes/questions/' + quizQuestionId + '/correct')
+      .then((response) => response.data);
   }
 
   /**
    * Create new question having the given quizid
    */
-  createQuestion(quizId: number, quizQuestion: string, option1: string, isCorrect1: boolean, option2: string, isCorrect2: boolean, option3: string, isCorrect3: boolean) {
+  createQuestion(
+    quizId: number,
+    quizQuestion: string,
+    option1: string,
+    isCorrect1: boolean,
+    option2: string,
+    isCorrect2: boolean,
+    option3: string,
+    isCorrect3: boolean,
+  ) {
     return axios
       .post<{}, { quizQuestionId: number }>('/newQuiz', {
         quizid: quizId,

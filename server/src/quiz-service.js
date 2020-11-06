@@ -13,15 +13,24 @@ export type Category = {
 };
 
 export type Question = {
-  quizQuestionId: number,
   quizId: number,
   question: string,
+  question_option: string,
+  is_correct: boolean,
 };
 
 export type Option = {
   quizQuestionOptionId: number,
   quizQuestionId: number,
   questionAnswer: string,
+  isCorrect: boolean,
+};
+
+type QuestionDetail = {
+  quizQuestionId: number,
+  quizQuestionOptionId: number,
+  question: string,
+  questionOption: string,
   isCorrect: boolean,
 };
 
@@ -96,16 +105,16 @@ class QuizService {
             [results.insertId, option1, iscorrect1],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error)
+              console.log(error);
             },
           );
-          
+
           pool.query(
             'INSERT INTO quiz_question_option (quiz_question_id, question_answer, is_correct) values (?, ?, ?)',
             [results.insertId, option2, iscorrect2],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error)
+              console.log(error);
             },
           );
 
@@ -114,20 +123,18 @@ class QuizService {
             [results.insertId, option3, iscorrect3],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error)
-    
+              console.log(error);
             },
           );
 
           if (error) return reject(error);
-          console.log(error)
+          console.log(error);
 
           resolve();
         },
       );
     });
   }
-
 
   /**
    * Delete quiz with given id.
@@ -197,51 +204,67 @@ class QuizService {
    * Get all questions that belong to quiz with given quizId
    */
   getAllQuestionsInQuiz(quizId: number) {
-    return new Promise<?Question[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question WHERE quiz_id = ?', [quizId], (error, results: Question[]) => {
-        if (error) return reject(error);
+    return new Promise<?(Question[])>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz_question WHERE quiz_id = ?',
+        [quizId],
+        (error, results: Question[]) => {
+          if (error) return reject(error);
 
-        resolve(results);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 
   /**
    * Get spesific question
    */
-  getQuestion(quizQuestionId: number) {
+  getQuestion(quizId: number, questionId: number) {
     return new Promise<?Question>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question WHERE quiz_question_id = ?', [quizQuestionId], (error, results: Question[]) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT qq.quiz_question_id as quizQuestionId, quiz_question_option_id as quizQuestionOptionId, is_correct as isCorrect, question, question_answer as questionOption FROM quiz_question qq JOIN quiz_question_option ON qq.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ? AND qq.quiz_question_id = ?',
+        [quizId, questionId],
+        (error, results: QuestionDetail[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results);
+        },
+      );
     });
-  }
+  } //SELECT qq.quiz_question_id, quiz_question_option_id, is_correct, question, question_answer FROM quiz_question qq JOIN quiz_question_option ON qq.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ?
 
   /**
    * Get options for spesific question
    */
   getQuestionOption(quizQuestionId: number) {
-    return new Promise<?Option[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question_option WHERE quiz_question_id = ?', [quizQuestionId], (error, results: Option[]) => {
-        if (error) return reject(error);
+    return new Promise<?(Option[])>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz_question_option WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results: Option[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results[0]);
+        },
+      );
     });
   }
 
-  /** 
+  /**
    * Get correct option for spesific question
    */
   getQuestionOptionCorrect(quizQuestionId: number) {
-    return new Promise<?Option[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question_option WHERE quiz_question_id = ? AND is_correct = true', [quizQuestionId], (error, results: Option[]) => {
-        if (error) return reject(error);
+    return new Promise<?(Option[])>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz_question_option WHERE quiz_question_id = ? AND is_correct = true',
+        [quizQuestionId],
+        (error, results: Option[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results[0]);
+        },
+      );
     });
   }
 }
