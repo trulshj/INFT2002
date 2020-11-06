@@ -120,14 +120,39 @@ router.get('/quizzes/:quizId/questions', (request, response) => {
     .getAllQuestionsInQuiz(quizId)
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
+});
+
+router.get('/quizzes/questions/:quizQuestionId', (request, response) => {
+  const quizQuestionId = Number(request.params.quizQuestionId);
+  quizService
+    .getQuestion(quizQuestionId)
+    .then((Question) => response.send(Question))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+router.get('/quizzes/questions/:quizQuestionId/options', (request, response) => {
+  const quizQuestionId = Number(request.params.quizQuestionId);
+  quizService
+    .getQuestionOption(quizQuestionId)
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+})
+
+router.get('/quizzes/questions/:quizQuestionId/correct', (request, response) => {
+  const quizQuestionId = Number(request.params.quizQuestionId);
+  quizService
+    .getQuestionOptionCorrect(quizQuestionId)
+    .then((Option) => response.send(Option))
+    .catch((error: Error) => response.status(500).send(error));
 })
 
 /**
  * Router for deleting quiz with given id.
  */
-router.delete('/quizzes/:id', (request, response) => {
+router.delete('/quizzes/:quizId', (request, response) => {
+  const quizId = Number(request.params.quizId)
   quizService
-    .delete(Number(request.params.id))
+    .delete(quizId)
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });

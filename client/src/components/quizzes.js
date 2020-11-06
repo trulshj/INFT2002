@@ -18,27 +18,19 @@ export class Quizzes extends Component {
     return (
       <>
         <Card title="Quizzes">
-        <Column>Search:</Column>
+          <Column>Search:</Column>
           {this.quizzes.map((quiz) => (
             <Card>
-            <Row key={quiz.quizId}>
-              <Column width={10}>
-              {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name + " - Se fasit"}</NavLink>
-              </Column>
-              <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}>Start Quiz</Button.Success></Column>
-              <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>Edit</Button.Success></Column>
-              <Column width={0.5}><Button.Success onClick={(event) => 
-                quizService.delete(quiz.quiz_id).then(() =>  history.push('/')).then(alert("You deleted quiz with id:" + quiz.quiz_id))
-                
-              } 
-            >
-              Delete</Button.Success></Column>
-            </Row>
+              <Row key={quiz.quizId}>
+                <Column width={10}>
+                  {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name + " - Se fasit"}</NavLink>
+                </Column>
+                <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}>Start Quiz</Button.Success></Column>
+                <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>Edit</Button.Success></Column>
+              </Row>
             </Card>
           ))}
         </Card>
-        
-        
       </>
     );
   }
@@ -60,32 +52,36 @@ class QuizPlay extends Component { }
 
 
 /**
- * TBH Kan QuizEdit heller være / være en del av quizDetails
  * Work in progress
 TODO:
-- Fix problem with quizId being undefined
 - Edit question part / question details part
   - Delete question part
-- Move delete quiz to quizDetails
+- Fix delete quiz (internal server error 500)
+ - Copy changes from quizdetails once quizdetails is done.
  */
 export class QuizEdit extends Component<{ match: { params: { quiz_id: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
   questions: QuizQuestion[] = [];
-
+  
   render() {
     return (
       <>
-        <Card title='{this.quiz.quiz_name}'>
+        <Card title={this.quiz.quiz_name}>
         {this.questions.map((question) => (
           <Card>
             <Row key={question.questionId}>
               <Column width={10}>
-                <NavLink to={'/quizzes/' + quiz.quiz_id + '/' + question.question_id}>{question.question}</NavLink>
+                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.question_id}>{question.question}</NavLink>
               </Column>
-              <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/' + question.question_id + '/edit')}>Edit question</Button.Success></Column>
             </Row>
           </Card>
         ))}
+          <Column width={0.5}><Button.Danger onClick={(event) => 
+            quizService
+              .delete(this.quiz.quiz_id)
+              .then(() =>  history.push('/quizzes'))
+              .catch((error: Error) => Alert.danger('Error deleting task: ' + error.message))
+          }>Delete quiz</Button.Danger></Column>
         </Card>
       </>
     );
@@ -93,11 +89,11 @@ export class QuizEdit extends Component<{ match: { params: { quiz_id: number } }
 
   mounted() {
     quizService
-      .get(this.props.match.params.quiz_id)
+      .get(this.props.match.params.quizId)
       .then((quiz) => (this.quiz = quiz))
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
     quizService
-      .getAllQuestionsInQuiz(this.props.match.params.quiz_id)
+      .getAllQuestionsInQuiz(this.props.match.params.quizId)
       .then((quizQuestions) => (this.questions = quizQuestions))
       .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
   }
@@ -105,9 +101,7 @@ export class QuizEdit extends Component<{ match: { params: { quiz_id: number } }
 /* TO DO Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
 Work in progress
 TODO:
-- Fix problem with questions not geing found (error 404)
-- Edit question part / question details part
-  - Delete question part
+- Make it look better
  */
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
@@ -121,7 +115,7 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
           <Card>
             <Row key={question.questionId}>
               <Column width={10}>
-                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.question_id}>{question.question}</NavLink>
+                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>{question.question}</NavLink>
               </Column>
             </Row>
           </Card>
@@ -143,22 +137,52 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
   }
 }
 
-/** Ikke fungerende: Slags consept til QuizDetails
- *    {this.quizQuestionOptions.map((quiz) => (
-                  <Card>
-                  <Row key={quiz.quizId}>
-                  <Column width={3}>
-                  {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name}</NavLink>
-                  </Column> 
-                  </Row>
-                  </Card>
-                ))}
 
-
-                 mounted() {
-    quizService
-      .getAllQuestions()
-      .then((question) => (this.question = question))
-      .catch((error: Error) => Alert.danger('Error getting task: ' + error.message));
-  }
+/**
+ * TODO:
+ *  - this.props.match.params.quizQuestionId is undefined.
+ *  - Edit quiz question part
+ *  - Delete quiz question part 
  */
+export class QuestionDetail extends Component<{ match: { params: { quizQuestionId: number } } }> {
+  question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: ''};
+  questionOption: QuizQuestionOption[] = [];
+  questionOptionCorrect: QuizQuestionOption = { quizQuestionOptionId: 0, quizQuestionId: 0, questionAnswer: '', isCorrect: true};
+
+  render() {
+    return (
+      <>
+        <Card title={this.question.question}>
+        {this.questionOption.map((questionAnswer) => (
+          <Card>
+            <Row key={questionOption.quizQuestionOptionId}>
+              <Column width={10}>
+                {this.questionOption.questionAnswer}
+              </Column>
+            </Row>
+          </Card>
+        ))}
+        <Card title='Correct Answer'>
+          {this.questionOptionCorrect.questionAnswer}
+        </Card>
+        </Card>
+      </>
+    );
+  }
+
+  mounted() {
+    quizService
+      .getQuestion(this.props.match.params.quizQuestionId)
+      .then((question) => this.question = question)
+      .catch((error: Error) => Alert.danger('Error getting question: ' + error.message));
+    quizService
+      .getQuestionOption(this.props.match.params.quizQuestionId)
+      .then((questionOption) => (this.questionOption = questionOption))
+      .catch((error: Error) => Alert.danger('Error getting question options: ' + error.message));
+    quizService
+      .getQuestionOptionCorrect(this.props.match.params.quizQuestionId)
+      .then((questionOptionCorrect) => (this.questionOptionCorrect = questionOptionCorrect))
+      .catch((error: Error) => Alert.danger('Error getting correct question option: ' + error.message));
+  }
+
+}

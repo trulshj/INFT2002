@@ -202,8 +202,47 @@ class QuizService {
         if (error) return reject(error);
 
         resolve(results);
-      })
-    })
+      });
+    });
+  }
+
+  /**
+   * Get spesific question
+   */
+  getQuestion(quizQuestionId: number) {
+    return new Promise<?Question>((resolve, reject) => {
+      pool.query('SELECT * FROM quiz_question WHERE quiz_question_id = ?', [quizQuestionId], (error, results: Question[]) => {
+        if (error) return reject(error);
+
+        resolve(results[0]);
+      });
+    });
+  }
+
+  /**
+   * Get options for spesific question
+   */
+  getQuestionOption(quizQuestionId: number) {
+    return new Promise<?Option[]>((resolve, reject) => {
+      pool.query('SELECT * FROM quiz_question_option WHERE quiz_question_id = ?', [quizQuestionId], (error, results: Option[]) => {
+        if (error) return reject(error);
+
+        resolve(results[0]);
+      });
+    });
+  }
+
+  /** 
+   * Get correct option for spesific question
+   */
+  getQuestionOptionCorrect(quizQuestionId: number) {
+    return new Promise<?Option[]>((resolve, reject) => {
+      pool.query('SELECT * FROM quiz_question_option WHERE quiz_question_id = ? AND is_correct = true', [quizQuestionId], (error, results: Option[]) => {
+        if (error) return reject(error);
+
+        resolve(results[0]);
+      });
+    });
   }
 }
 
