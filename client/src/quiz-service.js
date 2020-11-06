@@ -69,8 +69,8 @@ class QuizService {
   /**
    * Delete quiz
    */
-  delete(quizId: number) {
-    return axios.delete<Quiz>('/quizzes/' + quizId).then((response) => response.data);
+  deleteQuiz(quizId: number) {
+    return axios.delete<void>('/quizzes/' + quizId).then((response) => response.data);
   }
 
   /**
@@ -194,6 +194,15 @@ class QuizService {
         console.log(response);
         return response.data.quizquestionoptionid;
       });
+  }
+
+  /**
+   * Delete question with given question id
+   */
+  deleteQuestion(quizQuestionId: number) {
+    return axios
+      .delete<void>('/quizzes/question/' + quizQuestionId)
+      .then((response) => response.data);
   }
 }
 

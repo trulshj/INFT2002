@@ -152,7 +152,17 @@ router.get('/quizzes/questions/:quizQuestionId/correct', (request, response) => 
 router.delete('/quizzes/:quizId', (request, response) => {
   const quizId = Number(request.params.quizId);
   quizService
-    .delete(quizId)
+    .deleteQuiz(quizId)
+    .then((result) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+/**
+ * Router for deleting question with given question Id
+ */
+router.delete('/quizzes/question/:quizQuestionId', (request, response) => {
+  const quizQuestionId = Number(request.params.quizId);
+  quizService
+    .deleteQuiz(quizQuestionId)
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });

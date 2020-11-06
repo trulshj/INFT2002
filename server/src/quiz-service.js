@@ -130,7 +130,7 @@ class QuizService {
   /**
    * Delete quiz with given id.
    */
-  delete(quizId: number) {
+  deleteQuiz(quizId: number) {
     return new Promise<void>((resolve, reject) => {
       pool.query('DELETE FROM quiz WHERE quiz_id = ?', [quizId], (error, results) => {
         if (error) return reject(error);
@@ -254,6 +254,24 @@ class QuizService {
           if (error) return reject(error);
 
           resolve(results);
+        },
+      );
+    });
+  }
+
+  /**
+   * Delete question with given question id
+   */
+  deleteQuestion(quizQuestionId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'DELETE FROM quiz_question WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
+          if (!results.affectedRows) reject(new Error('No row deleted'));
+
+          resolve();
         },
       );
     });
