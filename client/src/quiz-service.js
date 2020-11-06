@@ -114,26 +114,10 @@ class QuizService {
   /**
    * Get spesific question
    */
-  async getQuestion(quizId: number, questionId: number) {
-    const result = await axios
-      .get<QuizQuestion>(`quizzes/${quizId}/${questionId}`)
+  getQuestion(quizQuestionId: number) {
+    return axios
+      .get<QuizQuestion>('quizzes/questions/' + quizQuestionId)
       .then((response) => response.data);
-
-    console.log(result);
-
-    return result.reduce<QuestionDetails>(
-      (prev, current) => {
-        prev.options.push({
-          isCorrect: current.isCorrect,
-          optionId: current.quizQuestionOptionId,
-          questionOption: current.questionOption,
-        });
-        prev.quizQuestionId = prev.quizQuestionId;
-        prev.question = current.question;
-        return prev;
-      },
-      { quizId, options: [] },
-    );
   }
 
   /**
