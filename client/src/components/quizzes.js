@@ -15,7 +15,15 @@ import { NavLink } from 'react-router-dom';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
+<<<<<<< HEAD
 //To do: implementere søkefunksjon.
+=======
+/**
+ * Component for viewing all quizzes
+ * TODO:
+ *  - Search function (minimum category)
+ */
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
 
@@ -43,11 +51,17 @@ export class Quizzes extends Component {
                   </Button.Success>
                 </Column>
                 <Column width={0.5}>
+<<<<<<< HEAD
                   <Button.Success
                     onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}
                   >
                     Edit
                   </Button.Success>
+=======
+                  <Button.Light onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>
+                    Edit
+                  </Button.Light>
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
                 </Column>
               </Row>
             </Card>
@@ -65,6 +79,7 @@ export class Quizzes extends Component {
   }
 }
 
+<<<<<<< HEAD
 //Play Component To DO
 class QuizPlay extends Component {}
 
@@ -127,6 +142,13 @@ export class QuizEdit extends Component<{ match: { params: { quiz_id: number } }
 Work in progress
 TODO:
 - Make it look better
+=======
+/**
+ * Component for getting details of a spesific quiz
+ * TODO:
+ *  - Make it look better
+ *    - Example: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
  */
 /**
  * {this.questionsDetails.map((questionDetails) => (
@@ -137,7 +159,10 @@ TODO:
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
   questions: QuizQuestion[] = [];
+<<<<<<< HEAD
   questionsDetails: Question[] = [];
+=======
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
 
   render() {
     return (
@@ -145,7 +170,11 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
         <Card title={this.quiz.quiz_name}>
           {this.questions.map((question) => (
             <Card>
+<<<<<<< HEAD
               <Row key={question.questionId}>
+=======
+              <Row key={question.quizQuestionId}>
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
                 <Column width={10}>
                   <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>
                     {question.question}
@@ -173,8 +202,22 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
   }
 }
 
+<<<<<<< HEAD
+=======
 /**
+ * Component for editing quiz
  * TODO:
+ *  - Copy QuizDetails once done
+ *  - Delete quiz not working
+ *  - Add question
+ */
+export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {}
+
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
+/**
+ * Component for getting details of questions
+ * TODO:
+<<<<<<< HEAD
  *  - this.props.match.params.quizQuestionId is undefined.
  *  - Edit quiz question part
  *  - Delete quiz question part
@@ -203,6 +246,37 @@ export class QuestionDetail extends Component<{
             </Row>
           </Card>
         ))}
+=======
+ *  - Multiple correct answers or no?.
+ */
+export class QuestionDetail extends Component<{ match: { params: { quizQuestionId: number } } }> {
+  question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
+  questionOption: QuizQuestionOption[] = [];
+  questionOptionCorrect: QuizQuestionOption[] = [];
+
+  render() {
+    console.log(this.questionOption);
+    return (
+      <>
+        <Card title={this.question.question}>
+          {this.questionOption.map((option) => (
+            <Card>
+              <Row key={option.quizQuestionOptionId}>
+                <Column width={10}>{option.question_answer}</Column>
+              </Row>
+            </Card>
+          ))}
+          <Card title="Correct Answer(s)">
+            {this.questionOptionCorrect.map((option) => (
+              <Card>
+                <Row key={option.quizQuestionOptionId}>
+                  <Column width={10}>{option.question_answer}</Column>
+                </Row>
+              </Card>
+            ))}
+          </Card>
+        </Card>
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
       </>
     );
   }
@@ -211,8 +285,42 @@ export class QuestionDetail extends Component<{
     console.log('Heeeeer', this.props);
 
     quizService
+<<<<<<< HEAD
       .getQuestion(this.props.match.params.quizId, this.props.match.params.questionId)
       .then((questionsDetails) => (this.questionsDetails = questionsDetails))
       .catch((error: Error) => Alert.danger('Error getting question: ' + error.message));
   }
 }
+=======
+      .getQuestion(this.props.match.params.quizQuestionId)
+      .then((question) => (this.question = question))
+      .catch((error: Error) => Alert.danger('Error getting question: ' + error.message));
+    quizService
+      .getQuestionOption(this.props.match.params.quizQuestionId)
+      .then((questionOption) => (this.questionOption = questionOption))
+      .catch((error: Error) => Alert.danger('Error getting question options: ' + error.message));
+    quizService
+      .getQuestionOptionCorrect(this.props.match.params.quizQuestionId)
+      .then((questionOptionCorrect) => (this.questionOptionCorrect = questionOptionCorrect))
+      .catch((error: Error) =>
+        Alert.danger('Error getting correct question option: ' + error.message),
+      );
+  }
+}
+
+/**
+ * Component for editing questions
+ * TODO:
+ *  - Copy QuestionDetails once done
+ *  - Delete question
+ *  - Edit question options
+ *  */
+export class QuestionEdit extends Component {}
+
+/**
+ * Component for playing quizzes
+ * TODO:
+ *  - Everything
+ */
+export class QuizPlay extends Component {}
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5

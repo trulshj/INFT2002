@@ -134,7 +134,7 @@ router.get('/quizzes/questions/:quizQuestionId/correct', (request, response) => 
   const quizQuestionId = Number(request.params.quizQuestionId);
   quizService
     .getQuestionOptionCorrect(quizQuestionId)
-    .then((Option) => response.send(Option))
+    .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
 });
 
@@ -148,6 +148,7 @@ router.delete('/quizzes/:quizId', (request, response) => {
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });
+<<<<<<< HEAD
 
 /**
  * Get question info
@@ -161,3 +162,5 @@ router.get('/quizzes/:quizId/:questionId', (request, response) => {
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
 });
+=======
+

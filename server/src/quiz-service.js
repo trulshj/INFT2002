@@ -223,12 +223,21 @@ class QuizService {
   getQuestion(quizId: number, questionId: number) {
     return new Promise<?Question>((resolve, reject) => {
       pool.query(
+<<<<<<< HEAD
         'SELECT qq.quiz_question_id as quizQuestionId, quiz_question_option_id as quizQuestionOptionId, is_correct as isCorrect, question, question_answer as questionOption FROM quiz_question qq JOIN quiz_question_option ON qq.quiz_question_id = quiz_question_option.quiz_question_id WHERE quiz_id = ? AND qq.quiz_question_id = ?',
         [quizId, questionId],
         (error, results: QuestionDetail[]) => {
           if (error) return reject(error);
 
           resolve(results);
+=======
+        'SELECT * FROM quiz_question WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results: Question[]) => {
+          if (error) return reject(error);
+
+          resolve(results[0]);
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
         },
       );
     });
@@ -242,10 +251,17 @@ class QuizService {
       pool.query(
         'SELECT * FROM quiz_question_option WHERE quiz_question_id = ?',
         [quizQuestionId],
+<<<<<<< HEAD
         (error, results: Option[]) => {
           if (error) return reject(error);
 
           resolve(results[0]);
+=======
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve(results);
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
         },
       );
     });
@@ -259,10 +275,17 @@ class QuizService {
       pool.query(
         'SELECT * FROM quiz_question_option WHERE quiz_question_id = ? AND is_correct = true',
         [quizQuestionId],
+<<<<<<< HEAD
         (error, results: Option[]) => {
           if (error) return reject(error);
 
           resolve(results[0]);
+=======
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve(results);
+>>>>>>> a377c75580d46357c7f800ac2213b1f8a02f96b5
         },
       );
     });
