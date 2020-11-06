@@ -96,16 +96,16 @@ class QuizService {
             [results.insertId, option1, iscorrect1],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error)
+              console.log(error);
             },
           );
-          
+
           pool.query(
             'INSERT INTO quiz_question_option (quiz_question_id, question_answer, is_correct) values (?, ?, ?)',
             [results.insertId, option2, iscorrect2],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error)
+              console.log(error);
             },
           );
 
@@ -114,20 +114,18 @@ class QuizService {
             [results.insertId, option3, iscorrect3],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error)
-    
+              console.log(error);
             },
           );
 
           if (error) return reject(error);
-          console.log(error)
+          console.log(error);
 
           resolve();
         },
       );
     });
   }
-
 
   /**
    * Delete quiz with given id.
@@ -197,12 +195,16 @@ class QuizService {
    * Get all questions that belong to quiz with given quizId
    */
   getAllQuestionsInQuiz(quizId: number) {
-    return new Promise<?Question[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question WHERE quiz_id = ?', [quizId], (error, results: Question[]) => {
-        if (error) return reject(error);
+    return new Promise<?(Question[])>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz_question WHERE quiz_id = ?',
+        [quizId],
+        (error, results: Question[]) => {
+          if (error) return reject(error);
 
-        resolve(results);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 
@@ -211,11 +213,15 @@ class QuizService {
    */
   getQuestion(quizQuestionId: number) {
     return new Promise<?Question>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question WHERE quiz_question_id = ?', [quizQuestionId], (error, results: Question[]) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT * FROM quiz_question WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results: Question[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results[0]);
+        },
+      );
     });
   }
 
@@ -223,25 +229,33 @@ class QuizService {
    * Get options for spesific question
    */
   getQuestionOption(quizQuestionId: number) {
-    return new Promise<?Option[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question_option WHERE quiz_question_id = ?', [quizQuestionId], (error, results: Option[]) => {
-        if (error) return reject(error);
+    return new Promise<?(Option[])>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz_question_option WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 
-  /** 
+  /**
    * Get correct option for spesific question
    */
   getQuestionOptionCorrect(quizQuestionId: number) {
-    return new Promise<?Option[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz_question_option WHERE quiz_question_id = ? AND is_correct = true', [quizQuestionId], (error, results: Option[]) => {
-        if (error) return reject(error);
+    return new Promise<?(Option[])>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz_question_option WHERE quiz_question_id = ? AND is_correct = true',
+        [quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 }

@@ -136,24 +136,23 @@ router.get('/quizzes/questions/:quizQuestionId/options', (request, response) => 
     .getQuestionOption(quizQuestionId)
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
-})
+});
 
 router.get('/quizzes/questions/:quizQuestionId/correct', (request, response) => {
   const quizQuestionId = Number(request.params.quizQuestionId);
   quizService
     .getQuestionOptionCorrect(quizQuestionId)
-    .then((Option) => response.send(Option))
+    .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
-})
+});
 
 /**
  * Router for deleting quiz with given id.
  */
 router.delete('/quizzes/:quizId', (request, response) => {
-  const quizId = Number(request.params.quizId)
+  const quizId = Number(request.params.quizId);
   quizService
     .delete(quizId)
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });
-

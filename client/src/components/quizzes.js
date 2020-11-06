@@ -13,12 +13,12 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
  * Component for viewing all quizzes
  * TODO:
  *  - Search function (minimum category)
- */ 
+ */
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
-  
+
   render() {
-    console.log(this.quizzes)
+    console.log(this.quizzes);
     return (
       <>
         <Card title="Quizzes">
@@ -27,10 +27,24 @@ export class Quizzes extends Component {
             <Card>
               <Row key={quiz.quizId}>
                 <Column width={10}>
-                  {quiz.quiz_category}{" - "}<NavLink to={'/quizzes/' + quiz.quiz_id}>{quiz.quiz_name + " - Se fasit"}</NavLink>
+                  {quiz.quiz_category}
+                  {' - '}
+                  <NavLink to={'/quizzes/' + quiz.quiz_id}>
+                    {quiz.quiz_name + ' - Se fasit'}
+                  </NavLink>
                 </Column>
-                <Column width={1.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}>Start Quiz</Button.Success></Column>
-                <Column width={0.5}><Button.Success onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>Edit</Button.Success></Column>
+                <Column width={1.5}>
+                  <Button.Success
+                    onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
+                  >
+                    Start Quiz
+                  </Button.Success>
+                </Column>
+                <Column width={0.5}>
+                  <Button.Light onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>
+                    Edit
+                  </Button.Light>
+                </Column>
               </Row>
             </Card>
           ))}
@@ -47,29 +61,31 @@ export class Quizzes extends Component {
   }
 }
 
-/** 
+/**
  * Component for getting details of a spesific quiz
  * TODO:
  *  - Make it look better
  *    - Example: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
- */ 
+ */
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
-  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
+  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
   questions: QuizQuestion[] = [];
-  
+
   render() {
     return (
       <>
         <Card title={this.quiz.quiz_name}>
-        {this.questions.map((question) => (
-          <Card>
-            <Row key={question.questionId}>
-              <Column width={10}>
-                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>{question.question}</NavLink>
-              </Column>
-            </Row>
-          </Card>
-        ))}
+          {this.questions.map((question) => (
+            <Card>
+              <Row key={question.quizQuestionId}>
+                <Column width={10}>
+                  <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>
+                    {question.question}
+                  </NavLink>
+                </Column>
+              </Row>
+            </Card>
+          ))}
         </Card>
       </>
     );
@@ -94,72 +110,39 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
  *  - Delete quiz not working
  *  - Add question
  */
-export class QuizEdit extends Component<{ match: { params: { quiz_id: number } } }> {
-  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
-  questions: QuizQuestion[] = [];
-  
-  render() {
-    return (
-      <>
-        <Card title={this.quiz.quiz_name}>
-        {this.questions.map((question) => (
-          <Card>
-            <Row key={question.questionId}>
-              <Column width={10}>
-                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.question_id}>{question.question}</NavLink>
-              </Column>
-            </Row>
-          </Card>
-        ))}
-          <Column width={0.5}><Button.Danger onClick={(event) => 
-            quizService
-              .delete(this.quiz.quiz_id)
-              .then(() =>  history.push('/quizzes'))
-              .catch((error: Error) => Alert.danger('Error deleting task: ' + error.message))
-          }>Delete quiz</Button.Danger></Column>
-        </Card>
-      </>
-    );
-  }
-
-  mounted() {
-    quizService
-      .get(this.props.match.params.quizId)
-      .then((quiz) => (this.quiz = quiz))
-      .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
-    quizService
-      .getAllQuestionsInQuiz(this.props.match.params.quizId)
-      .then((quizQuestions) => (this.questions = quizQuestions))
-      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
-  }
-}
+export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {}
 
 /**
  * Component for getting details of questions
  * TODO:
- *  - this.props.match.params.quizQuestionId is undefined. 
+ *  - Multiple correct answers or no?.
  */
 export class QuestionDetail extends Component<{ match: { params: { quizQuestionId: number } } }> {
-  question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: ''};
+  question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
   questionOption: QuizQuestionOption[] = [];
-  questionOptionCorrect: QuizQuestionOption = { quizQuestionOptionId: 0, quizQuestionId: 0, questionAnswer: '', isCorrect: true};
+  questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
+    console.log(this.questionOption);
     return (
       <>
         <Card title={this.question.question}>
-        {this.questionOption.map((questionAnswer) => (
-          <Card>
-            <Row key={questionOption.quizQuestionOptionId}>
-              <Column width={10}>
-                {this.questionOption.questionAnswer}
-              </Column>
-            </Row>
+          {this.questionOption.map((option) => (
+            <Card>
+              <Row key={option.quizQuestionOptionId}>
+                <Column width={10}>{option.question_answer}</Column>
+              </Row>
+            </Card>
+          ))}
+          <Card title="Correct Answer(s)">
+            {this.questionOptionCorrect.map((option) => (
+              <Card>
+                <Row key={option.quizQuestionOptionId}>
+                  <Column width={10}>{option.question_answer}</Column>
+                </Row>
+              </Card>
+            ))}
           </Card>
-        ))}
-        <Card title='Correct Answer'>
-          {this.questionOptionCorrect.questionAnswer}
-        </Card>
         </Card>
       </>
     );
@@ -168,7 +151,7 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
   mounted() {
     quizService
       .getQuestion(this.props.match.params.quizQuestionId)
-      .then((question) => this.question = question)
+      .then((question) => (this.question = question))
       .catch((error: Error) => Alert.danger('Error getting question: ' + error.message));
     quizService
       .getQuestionOption(this.props.match.params.quizQuestionId)
@@ -177,24 +160,24 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
     quizService
       .getQuestionOptionCorrect(this.props.match.params.quizQuestionId)
       .then((questionOptionCorrect) => (this.questionOptionCorrect = questionOptionCorrect))
-      .catch((error: Error) => Alert.danger('Error getting correct question option: ' + error.message));
+      .catch((error: Error) =>
+        Alert.danger('Error getting correct question option: ' + error.message),
+      );
   }
-
 }
 
 /**
  * Component for editing questions
- * TODO: 
+ * TODO:
  *  - Copy QuestionDetails once done
  *  - Delete question
  *  - Edit question options
  *  */
-class QuestionEdit extends Component { }
-
+export class QuestionEdit extends Component {}
 
 /**
  * Component for playing quizzes
  * TODO:
  *  - Everything
  */
-class QuizPlay extends Component { }
+export class QuizPlay extends Component {}
