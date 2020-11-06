@@ -9,7 +9,11 @@ import { NavLink } from 'react-router-dom';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
-//To do: implementere søkefunksjon. 
+/**
+ * Component for viewing all quizzes
+ * TODO:
+ *  - Search function (minimum category)
+ */ 
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
   
@@ -43,21 +47,52 @@ export class Quizzes extends Component {
   }
 }
 
+/** 
+ * Component for getting details of a spesific quiz
+ * TODO:
+ *  - Make it look better
+ *    - Example: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
+ */ 
+export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
+  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
+  questions: QuizQuestion[] = [];
+  
+  render() {
+    return (
+      <>
+        <Card title={this.quiz.quiz_name}>
+        {this.questions.map((question) => (
+          <Card>
+            <Row key={question.questionId}>
+              <Column width={10}>
+                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>{question.question}</NavLink>
+              </Column>
+            </Row>
+          </Card>
+        ))}
+        </Card>
+      </>
+    );
+  }
 
-
-
-//Play Component To DO
-class QuizPlay extends Component { }
-
-
+  mounted() {
+    quizService
+      .get(this.props.match.params.quizId)
+      .then((quiz) => (this.quiz = quiz))
+      .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
+    quizService
+      .getAllQuestionsInQuiz(this.props.match.params.quizId)
+      .then((quizQuestions) => (this.questions = quizQuestions))
+      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
+  }
+}
 
 /**
- * Work in progress
-TODO:
-- Edit question part / question details part
-  - Delete question part
-- Fix delete quiz (internal server error 500)
- - Copy changes from quizdetails once quizdetails is done.
+ * Component for editing quiz
+ * TODO:
+ *  - Copy QuizDetails once done
+ *  - Delete quiz not working
+ *  - Add question
  */
 export class QuizEdit extends Component<{ match: { params: { quiz_id: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
@@ -98,51 +133,11 @@ export class QuizEdit extends Component<{ match: { params: { quiz_id: number } }
       .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
   }
 }
-/* TO DO Se eksempel på hvordan Componenten kan se ut her: https://create.kahoot.it/details/happy-halloween-with-mickey-and-friends/7a42a869-b4dc-4954-ae7f-1cc88d8fff25
-Work in progress
-TODO:
-- Make it look better
- */
-export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
-  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: ''};
-  questions: QuizQuestion[] = [];
-  
-  render() {
-    return (
-      <>
-        <Card title={this.quiz.quiz_name}>
-        {this.questions.map((question) => (
-          <Card>
-            <Row key={question.questionId}>
-              <Column width={10}>
-                <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>{question.question}</NavLink>
-              </Column>
-            </Row>
-          </Card>
-        ))}
-        </Card>
-      </>
-    );
-  }
-
-  mounted() {
-    quizService
-      .get(this.props.match.params.quizId)
-      .then((quiz) => (this.quiz = quiz))
-      .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
-    quizService
-      .getAllQuestionsInQuiz(this.props.match.params.quizId)
-      .then((quizQuestions) => (this.questions = quizQuestions))
-      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
-  }
-}
-
 
 /**
+ * Component for getting details of questions
  * TODO:
- *  - this.props.match.params.quizQuestionId is undefined.
- *  - Edit quiz question part
- *  - Delete quiz question part 
+ *  - this.props.match.params.quizQuestionId is undefined. 
  */
 export class QuestionDetail extends Component<{ match: { params: { quizQuestionId: number } } }> {
   question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: ''};
@@ -186,3 +181,20 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
   }
 
 }
+
+/**
+ * Component for editing questions
+ * TODO: 
+ *  - Copy QuestionDetails once done
+ *  - Delete question
+ *  - Edit question options
+ *  */
+class QuestionEdit extends Component { }
+
+
+/**
+ * Component for playing quizzes
+ * TODO:
+ *  - Everything
+ */
+class QuizPlay extends Component { }
