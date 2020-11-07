@@ -14,8 +14,6 @@ import {
   QuestionDetail,
   QuestionEdit,
   QuizAddQuestion,
-  QuizzesWithCategory,
-  QuizzesSearch,
 } from './components/quizzes';
 import Register from './components/register';
 
@@ -46,8 +44,6 @@ if (root)
         <Menu />
         <Route exact path="/" component={Home} />
         <Route exact path="/quizzes" component={Quizzes} />
-        <Route exact path="/quizzes/:category" component={QuizzesWithCategory} />
-        <Route exact path="/quizzes/search/:search" component={QuizzesSearch} />
         <Route exact path="/quizzes/:quizId(\d+)" component={QuizDetail} />
         <Route exact path="/quizzes/:quizId(\d+)/edit" component={QuizEdit} />
         <Route exact path="/quizzes/:quizId(\d+)/edit/addQuestion" component={QuizAddQuestion} />
