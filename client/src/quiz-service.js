@@ -55,7 +55,7 @@ class QuizService {
    * Get quizzes with given category
    */
   getQuizzesWithCategory(category: string) {
-    return axios.get<Quiz[]>('/quizzes/' + category).then((response) => response.data);
+    return axios.get<Quiz[]>('/quizzes/category/' + category).then((response) => response.data);
   }
 
   /**

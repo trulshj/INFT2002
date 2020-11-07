@@ -12,8 +12,6 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 /**
  * Component for viewing all quizzes
  * TODO:
- *  - Search function (minimum category)
- *    - Find a way to not need to load a new site every time you search
  */
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
@@ -26,31 +24,33 @@ export class Quizzes extends Component {
       <>
         <Card title="Quizzes">
           <Card>
-            <Column width={2}>Search:</Column>
-            <Column width={4}>
-              <Form.Input
-                type="text"
-                value={this.search}
-                onChange={(event) => (this.search = event.currentTarget.value)}
-              />
-            </Column>
-            <Column width={2}>
-              <Button.Success
-                onClick={() =>
-                  quizService
-                    .getQuizzesSearch(this.search)
-                    .then((quizzes) => (this.quizzes = quizzes))
-                    .catch((error: Error) =>
-                      Alert.danger('Error getting quizzes: ' + error.message),
-                    )
-                }
-              >
-                Search
-              </Button.Success>
-            </Column>
             <Row>
-              <Column width={2}>Search by category: </Column>
-              <Column width={4}>
+              <Column width={1}>Search for name:</Column>
+              <Column width={2}>
+                <Form.Input
+                  type="text"
+                  value={this.search}
+                  onChange={(event) => (this.search = event.currentTarget.value)}
+                />
+              </Column>
+              <Column width={2}>
+                <Button.Success
+                  onClick={() =>
+                    quizService
+                      .getQuizzesSearch(this.search)
+                      .then((quizzes) => (this.quizzes = quizzes))
+                      .catch((error: Error) =>
+                        Alert.danger('Error getting quizzes: ' + error.message),
+                      )
+                  }
+                >
+                  Search
+                </Button.Success>
+              </Column>
+            </Row>
+            <Row>
+              <Column width={1}>Search by category: </Column>
+              <Column width={2}>
                 <Form.Select
                   id="categoryValue"
                   onChange={(event) => (this.category = event.currentTarget.value)}
@@ -80,6 +80,22 @@ export class Quizzes extends Component {
                 >
                   Search
                 </Button.Success>
+              </Column>
+            </Row>
+            <Row>
+              <Column>
+                <Button.Light
+                  onClick={() =>
+                    quizService
+                      .getAll()
+                      .then((quizzes) => (this.quizzes = quizzes))
+                      .catch((error: Error) =>
+                        Alert.danger('Error getting quizzes: ' + error.message),
+                      )
+                  }
+                >
+                  Clear search
+                </Button.Light>
               </Column>
             </Row>
           </Card>
@@ -141,6 +157,7 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
   questions: QuizQuestion[] = [];
 
   render() {
+    console.log(this.quiz);
     return (
       <>
         <Card title={this.quiz.quiz_name}>
@@ -243,7 +260,7 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
   questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
-    console.log(this.questionOption);
+    console.log(this.question);
     return (
       <>
         <Card title={this.question.question}>

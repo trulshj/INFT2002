@@ -1,11 +1,6 @@
 // @flow
 import express from 'express';
-import quizService, {
-  type Quiz,
-  type Category,
-  type Question,
-  type Option
-} from './quiz-service';
+import quizService, { type Quiz, type Category, type Question, type Option } from './quiz-service';
 
 /**
  * Express router containing quiz methods.
@@ -28,7 +23,7 @@ router.get('/quizzes', (request, response) => {
 /**
  * Get quizzes with given category:
  */
-router.get('/quizzes/:category', (request, response) => {
+router.get('/quizzes/category/:category', (request, response) => {
   const category = String(request.params.category);
   quizService
     .getQuizzesWithCategory(category)
@@ -90,19 +85,19 @@ router.post('/newQuiz', (request, response) => {
     typeof data.option3 == 'string' &&
     data.option3.length != 0
   )
-  quizService
-    .createQuestion(
-      request.body.quizid,
-      request.body.quizquestion,
-      request.body.option1,
-      request.body.iscorrect1,
-      request.body.option2,
-      request.body.iscorrect2,
-      request.body.option3,
-      request.body.iscorrect3,
-    )
-    .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
-    .catch((error: Error) => response.status(500).send(error));
+    quizService
+      .createQuestion(
+        request.body.quizid,
+        request.body.quizquestion,
+        request.body.option1,
+        request.body.iscorrect1,
+        request.body.option2,
+        request.body.iscorrect2,
+        request.body.option3,
+        request.body.iscorrect3,
+      )
+      .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
+      .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing question or options');
 });
 
