@@ -53,6 +53,40 @@ class QuizService {
   }
 
   /**
+   * Get quizzes with given category
+   */
+  getQuizzesWithCategory(category: string) {
+    return new Promise<Quiz[]>((resolve, reject) => {
+      pool.query(
+        'SELECT * FROM quiz WHERE quiz_category = ?',
+        [category],
+        (error, results: Quiz[]) => {
+          if (error) return reject(error);
+
+          resolve(results);
+        },
+      );
+    });
+  }
+
+  /**
+   * Get quizzes with search
+   */
+  getQuizzesSearch(search: string) {
+    return new Promise<Quiz[]>((resolve, reject) => {
+      pool.query(
+        "SELECT * FROM quiz WHERE quiz_name LIKE '%' ? '%'",
+        [search],
+        (error, results: Quiz[]) => {
+          if (error) return reject(error);
+
+          resolve(results);
+        },
+      );
+    });
+  }
+
+  /**
    * Create new Quiz having the given title.
    *
    * Resolves the newly created quiz id.

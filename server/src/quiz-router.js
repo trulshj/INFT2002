@@ -27,6 +27,28 @@ router.get('/quizzes', (request, response) => {
 });
 
 /**
+ * Get quizzes with given category:
+ */
+router.get('/quizzes/:category', (request, response) => {
+  const category = String(request.params.category);
+  quizService
+    .getQuizzesWithCategory(category)
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+/**
+ * Get quizzes with search
+ */
+router.get('/quizzes/search/:search', (request, response) => {
+  const search = String(request.params.search);
+  quizService
+    .getQuizzesSearch(search)
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+/**
  * Get quiz with id:
  */
 

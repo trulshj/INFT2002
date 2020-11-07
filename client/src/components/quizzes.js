@@ -13,16 +13,58 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
  * Component for viewing all quizzes
  * TODO:
  *  - Search function (minimum category)
+ *    - Find a way to not need to load a new site every time you search
  */
 export class Quizzes extends Component {
   quizzes: Quiz[] = [];
+  search = '';
+  category = '';
+  categories: Category[] = [];
 
   render() {
-    console.log(this.quizzes);
     return (
       <>
         <Card title="Quizzes">
-          <Column>Search:</Column>
+          <Card>
+            <Column width={2}>Search:</Column>
+            <Column width={4}>
+              <Form.Input
+                type="text"
+                value={this.search}
+                onChange={(event) => (this.search = event.currentTarget.value)}
+              />
+            </Column>
+            <Column width={2}>
+              <Button.Success onClick={() => history.push('/quizzes/search/' + this.search)}>
+                Search
+              </Button.Success>
+            </Column>
+            <Row>
+              <Column width={2}>Search by category: </Column>
+              <Column width={4}>
+                <select
+                  id="categoryValue"
+                  onChange={(event) => (this.category = event.currentTarget.value)}
+                  value={this.category}
+                >
+                  {this.categories.map((category) => (
+                    <option
+                      key={category.category_name}
+                      value={category.category_name}
+                      placeholder="Select an option"
+                    >
+                      {category.category_name}
+                    </option>
+                  ))}
+                </select>{' '}
+              </Column>
+              <Column width={2}>
+                <Button.Success onClick={() => history.push('/quizzes/' + this.category)}>
+                  Search
+                </Button.Success>
+              </Column>
+            </Row>
+          </Card>
           {this.quizzes.map((quiz) => (
             <Card>
               <Row key={quiz.quizId}>
@@ -58,6 +100,214 @@ export class Quizzes extends Component {
       .getAll()
       .then((quizzes) => (this.quizzes = quizzes))
       .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
+    quizService
+      .getAllcategories()
+      .then((categories) => {
+        this.categories = categories;
+        this.category = categories[0].category_name;
+      })
+      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
+  }
+}
+
+/**
+ * Component for getting quizzes with given category
+ * TODO:
+ *  - Make it so the category in <select> do not change back to history but rather stays as the category searched
+ */
+export class QuizzesWithCategory extends Component<{ match: { params: { category: string } } }> {
+  quizzes: Quiz[] = [];
+  search = '';
+  category = this.props.match.params.category;
+  categories: Category[] = [];
+
+  render() {
+    console.log(this.category);
+    return (
+      <>
+        <Card title="Quizzes">
+          <Card>
+            <Column width={2}>Search:</Column>
+            <Column width={4}>
+              <Form.Input
+                type="text"
+                value={this.search}
+                onChange={(event) => (this.search = event.currentTarget.value)}
+              />
+            </Column>
+            <Column width={2}>
+              <Button.Success onClick={() => history.push('/quizzes/search/' + this.search)}>
+                Search
+              </Button.Success>
+            </Column>
+            <Row>
+              <Column width={2}>Search by category: </Column>
+              <Column width={4}>
+                <select
+                  id="categoryValue"
+                  onChange={(event) => (this.category = event.currentTarget.value)}
+                  value={this.category}
+                >
+                  {this.categories.map((category) => (
+                    <option
+                      key={category.category_name}
+                      value={category.category_name}
+                      placeholder="Select an option"
+                    >
+                      {category.category_name}
+                    </option>
+                  ))}
+                </select>{' '}
+              </Column>
+              <Column width={2}>
+                <Button.Success onClick={() => history.push('/quizzes/' + this.category)}>
+                  Search
+                </Button.Success>
+              </Column>
+            </Row>
+          </Card>
+          {this.quizzes.map((quiz) => (
+            <Card>
+              <Row key={quiz.quizId}>
+                <Column width={10}>
+                  {quiz.quiz_category}
+                  {' - '}
+                  <NavLink to={'/quizzes/' + quiz.quiz_id}>
+                    {quiz.quiz_name + ' - Se fasit'}
+                  </NavLink>
+                </Column>
+                <Column width={1.5}>
+                  <Button.Success
+                    onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
+                  >
+                    Start Quiz
+                  </Button.Success>
+                </Column>
+                <Column width={0.5}>
+                  <Button.Light onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>
+                    Edit
+                  </Button.Light>
+                </Column>
+              </Row>
+            </Card>
+          ))}
+        </Card>
+      </>
+    );
+  }
+
+  mounted() {
+    quizService
+      .getQuizzesWithCategory(this.props.match.params.category)
+      .then((quizzes) => (this.quizzes = quizzes))
+      .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
+    quizService
+      .getAllcategories()
+      .then((categories) => {
+        this.categories = categories;
+        this.category = categories[0].category_name;
+      })
+      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
+  }
+}
+
+/**
+ * Quizzes with name like what is searched
+ * TODO:
+ */
+export class QuizzesSearch extends Component<{ match: { params: { search: string } } }> {
+  quizzes: Quiz[] = [];
+  search = '';
+  category = '';
+  categories: Category[] = [];
+
+  render() {
+    console.log(this.search);
+    return (
+      <>
+        <Card title="Quizzes">
+          <Card>
+            <Column width={2}>Search:</Column>
+            <Column width={4}>
+              <Form.Input
+                type="text"
+                value={this.search}
+                onChange={(event) => (this.search = event.currentTarget.value)}
+              />
+            </Column>
+            <Column width={2}>
+              <Button.Success onClick={() => history.push('/quizzes/search/' + this.search)}>
+                Search
+              </Button.Success>
+            </Column>
+            <Row>
+              <Column width={2}>Search by category: </Column>
+              <Column width={4}>
+                <select
+                  id="categoryValue"
+                  onChange={(event) => (this.category = event.currentTarget.value)}
+                  value={this.category}
+                >
+                  {this.categories.map((category) => (
+                    <option
+                      key={category.category_name}
+                      value={category.category_name}
+                      placeholder="Select an option"
+                    >
+                      {category.category_name}
+                    </option>
+                  ))}
+                </select>{' '}
+              </Column>
+              <Column width={2}>
+                <Button.Success onClick={() => history.push('/quizzes/' + this.category)}>
+                  Search
+                </Button.Success>
+              </Column>
+            </Row>
+          </Card>
+          {this.quizzes.map((quiz) => (
+            <Card>
+              <Row key={quiz.quizId}>
+                <Column width={10}>
+                  {quiz.quiz_category}
+                  {' - '}
+                  <NavLink to={'/quizzes/' + quiz.quiz_id}>
+                    {quiz.quiz_name + ' - Se fasit'}
+                  </NavLink>
+                </Column>
+                <Column width={1.5}>
+                  <Button.Success
+                    onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
+                  >
+                    Start Quiz
+                  </Button.Success>
+                </Column>
+                <Column width={0.5}>
+                  <Button.Light onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>
+                    Edit
+                  </Button.Light>
+                </Column>
+              </Row>
+            </Card>
+          ))}
+        </Card>
+      </>
+    );
+  }
+
+  mounted() {
+    quizService
+      .getQuizzesSearch(this.props.match.params.search)
+      .then((quizzes) => (this.quizzes = quizzes))
+      .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
+    quizService
+      .getAllcategories()
+      .then((categories) => {
+        this.categories = categories;
+        this.category = categories[0].category_name;
+      })
+      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
   }
 }
 
@@ -109,7 +359,6 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
  * Component for editing quiz
  * TODO:
  *  - Delete quiz not working (Internal server error)
- *  - Add question
  */
 export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
@@ -290,7 +539,6 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
 /**
  * Component for adding new questions to existing quizzes
  * TODO:
- * - Everything
  */
 export class QuizAddQuestion extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: 'test', quizCategory: '' };

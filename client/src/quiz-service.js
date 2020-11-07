@@ -52,6 +52,20 @@ class QuizService {
   }
 
   /**
+   * Get quizzes with given category
+   */
+  getQuizzesWithCategory(category: string) {
+    return axios.get<Quiz[]>('/quizzes/' + category).then((response) => response.data);
+  }
+
+  /**
+   * Getting quizzes with search
+   */
+  getQuizzesSearch(search: string) {
+    return axios.get<Quiz[]>('quizzes/search/' + search).then((response) => response.data);
+  }
+
+  /**
    * Create new quiz having the given quizname.
    */
   create(quizName: string, quizCategory: string) {
