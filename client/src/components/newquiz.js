@@ -22,6 +22,7 @@ export class NewQuiz extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
+              id="quizName"
                 type="text"
                 value={this.quizName}
                 onChange={(event) => (this.quizName = event.currentTarget.value)}
@@ -32,22 +33,22 @@ export class NewQuiz extends Component {
             <Column width={2}>
               <Form.Label>Category:</Form.Label>
             </Column>
-            <Column>
-              <select
-                id="categoryValue"
-                onChange={(event) => (this.category = event.currentTarget.value)}
-                value={this.category}
+            <Column width={4}>
+            <Form.Select
+              id="categoryValue"
+              onChange={(event) => (this.category = event.currentTarget.value)}
+              value={this.category}
               >
-                {this.categories.map((category) => (
-                  <option
-                    key={category.category_name}
-                    value={category.category_name}
-                    placeholder="Select an option"
-                  >
-                    {category.category_name}
-                  </option>
-                ))}
-              </select>
+              {this.categories.map((category) => (
+              <option
+              key={category.category_name}
+              value={category.category_name}
+              placeholder="Select an option"
+              >
+              {category.category_name}
+              </option>
+              ))}
+            </Form.Select>
             </Column>
           </Row>
         </Card>
@@ -100,6 +101,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
+                id = "question_id"
                 type="text"
                 value={this.question}
                 onChange={(event) => (this.question = event.currentTarget.value)}
@@ -112,6 +114,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
+                id = "option1"
                 type="text"
                 value={this.option1}
                 onChange={(event) => (this.option1 = event.currentTarget.value)}
@@ -131,6 +134,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
+              id = "option2"
                 type="text"
                 value={this.option2}
                 onChange={(event) => (this.option2 = event.currentTarget.value)}
@@ -150,6 +154,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
+              id = "option3"
                 type="text"
                 value={this.option3}
                 onChange={(event) => (this.option3 = event.currentTarget.value)}

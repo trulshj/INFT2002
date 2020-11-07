@@ -233,6 +233,7 @@ class FormLabel extends Component<{ children?: React.Node }> {
  * Renders a form input using Bootstrap styles.
  */
 class FormInput extends Component<{
+  id: String,
   type: string,
   value: React.Node,
   onChange: (SyntheticEvent<HTMLInputElement>) => mixed,
@@ -240,11 +241,12 @@ class FormInput extends Component<{
   render() {
     // ...rest will contain extra passed attributes such as disabled, required, width, height, pattern
     // For further information, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-    const { type, value, onChange, ...rest } = this.props;
+    const { id, type, value, onChange, ...rest } = this.props;
     return (
       <input
         {...rest}
         className="form-control"
+        id={this.props.id}
         type={this.props.type}
         value={this.props.value}
         onChange={this.props.onChange}

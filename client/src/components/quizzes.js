@@ -42,21 +42,21 @@ export class Quizzes extends Component {
             <Row>
               <Column width={2}>Search by category: </Column>
               <Column width={4}>
-                <select
-                  id="categoryValue"
-                  onChange={(event) => (this.category = event.currentTarget.value)}
-                  value={this.category}
-                >
-                  {this.categories.map((category) => (
-                    <option
-                      key={category.category_name}
-                      value={category.category_name}
-                      placeholder="Select an option"
-                    >
-                      {category.category_name}
-                    </option>
-                  ))}
-                </select>{' '}
+              <Form.Select
+              id="categoryValue"
+              onChange={(event) => (this.category = event.currentTarget.value)}
+              value={this.category}
+              >
+              {this.categories.map((category) => (
+              <option
+              key={category.category_name}
+              value={category.category_name}
+              placeholder="Select an option"
+              >
+              {category.category_name}
+              </option>
+              ))}
+            </Form.Select>
               </Column>
               <Column width={2}>
                 <Button.Success onClick={() => history.push('/quizzes/' + this.category)}>
@@ -143,21 +143,21 @@ export class QuizzesWithCategory extends Component<{ match: { params: { category
             <Row>
               <Column width={2}>Search by category: </Column>
               <Column width={4}>
-                <select
-                  id="categoryValue"
-                  onChange={(event) => (this.category = event.currentTarget.value)}
-                  value={this.category}
-                >
-                  {this.categories.map((category) => (
-                    <option
-                      key={category.category_name}
-                      value={category.category_name}
-                      placeholder="Select an option"
-                    >
-                      {category.category_name}
-                    </option>
-                  ))}
-                </select>{' '}
+              <Form.Select
+              id="categoryValue"
+              onChange={(event) => (this.category = event.currentTarget.value)}
+              value={this.category}
+              >
+              {this.categories.map((category) => (
+              <option
+              key={category.category_name}
+              value={category.category_name}
+              placeholder="Select an option"
+              >
+              {category.category_name}
+              </option>
+              ))}
+            </Form.Select>
               </Column>
               <Column width={2}>
                 <Button.Success onClick={() => history.push('/quizzes/' + this.category)}>
