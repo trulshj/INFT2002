@@ -79,6 +79,17 @@ router.post('/quizzes', (request, response) => {
 //New question
 router.post('/newQuiz', (request, response) => {
   const data = request.body;
+  if (
+    data &&
+    typeof data.quizquestion == 'string' &&
+    data.quizquestion.length != 0 &&
+    typeof data.option1 == 'string' &&
+    data.option1.length != 0 &&
+    typeof data.option2 == 'string' &&
+    data.option2.length != 0 &&
+    typeof data.option3 == 'string' &&
+    data.option3.length != 0
+  )
   quizService
     .createQuestion(
       request.body.quizid,
@@ -92,6 +103,7 @@ router.post('/newQuiz', (request, response) => {
     )
     .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
     .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing question or options');
 });
 
 //New option
