@@ -52,9 +52,9 @@ describe('Create new quiz (POST)', () => {
       });
   });
 
-  test('Create new quiz (404 Bad Request)', (done) => {
+  test('Create new quiz (400 Bad Request)', (done) => {
     axios
-      .post<{}, number>('/tasks', { quizname: '', category: '' })
+      .post<{}, number>('/quizzes', { quizname: '', category: '' })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
         expect(error.message).toEqual('Request failed with status code 400');
