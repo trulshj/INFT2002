@@ -181,7 +181,7 @@ export class NewQuizQuestions extends Component {
                 this.isCorrect2,
                 this.option3,
                 this.isCorrect3,
-              ).then(alert("Tnx for creating Question. " + this.question + ". Go ahead and add more!"))
+              ).then(alert("Thanks for creating the following question: " + this.question + ". Go ahead and add more!"))
               .then(this.question = '',
               this.option1 = '',
               this.isCorrect1 = false,
