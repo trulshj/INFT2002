@@ -20,13 +20,12 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-  pool.query('TRUNCATE TABLE quiz, ', (error) => {
+  pool.query('TRUNCATE TABLE quiz', (error) => {
     if (error) return done.fail(error);
 
     quizService
       .create(testQuiz[0].quizName, testQuiz[0].quizCategory)
       .then(() => quizService.create(testQuiz[1].quizName, testQuiz[1].quizCategory)) // Create testQuiz[1] after testQuiz[0] has been created
-      .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory)) // Create testQuiz[2] after testQuiz[1] has been created
       .then(() => done());
   });
 });
@@ -42,7 +41,7 @@ afterAll((done) => {
 describe('Create new quiz (POST)', () => {
   test('Create new quiz (200 OK)', (done) => {
     axios
-      .post<{}, number>('/tasks', {
+      .post<{}, number>('/quizzes', {
         quizname: 'Fotballag',
         category: 'Kultur'
       })
