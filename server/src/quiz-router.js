@@ -4,8 +4,7 @@ import quizService, {
   type Quiz,
   type Category,
   type Question,
-  type Option,
-  type QuestionAndOption,
+  type Option
 } from './quiz-service';
 
 /**

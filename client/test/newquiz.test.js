@@ -4,7 +4,7 @@ import * as React from 'react';
 import { NewQuiz, NewQuizQuestions } from '../src/components/newquiz';
 import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz} from '../src/quiz-service';
 import { shallow } from 'enzyme';
-import { Card, Alert, Row, Column, Form, Button } from '../src/widgets';
+import { Card, Alert, Row, Column, Form, Button, FormSelect } from '../src/widgets';
 import { HashRouter, Route } from 'react-router-dom';
 
 jest.mock('../src/quiz-service', () => {
@@ -49,11 +49,13 @@ describe('Newquiz tests', () => {
         const wrapper = shallow(<NewQuiz />);
     
         wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'test' } });
-    
+        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Geografi' } });
+
         // Wait for events to complete
         setTimeout(() => {
           // $FlowExpectedError
           expect(wrapper.containsMatchingElement(<Form.Input value="test" />));
+          expect(wrapper.containsMatchingElement(<Form.Select value="Geografi" />));
           done();
         });
       });
@@ -66,10 +68,10 @@ describe('Newquiz tests', () => {
         // $FlowExpectedError
         expect(wrapper.containsMatchingElement(<Form.Input value="Dyr i skogen" />)).toEqual(true);
 
-        wrapper.find('select').simulate('change', { currentTarget: { value: 'Geografi' } });
+        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Geografi' } });
         // $FlowExpectedError
-        expect(wrapper.containsMatchingElement(<select value="Geografi" />)).toEqual(true);
-    
+        expect(wrapper.containsMatchingElement(<Form.Select value="Geografi" />)).toEqual(true);
+
         wrapper.find(Button.Success).simulate('click');
         // Wait for events to complete
         setTimeout(() => {
@@ -77,4 +79,19 @@ describe('Newquiz tests', () => {
           done();
         });
       });
+      });
+
+describe('NewQuizQuestions tests', () => {
+  test('NewQuizQuestions draws correctly', (done) => {
+    const wrapper = shallow(<NewQuizQuestions />);
+    
+    wrapper.find({ id: 'question_id'}).simulate('change', { currentTarget: { value: 'test' } });
+    
+        // Wait for events to complete
+        setTimeout(() => {
+          // $FlowExpectedError
+          expect(wrapper.containsMatchingElement(<Form.Input value="test" />));
+          done();
+    });
+  })
 })
