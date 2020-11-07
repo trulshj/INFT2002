@@ -3,10 +3,10 @@
 const crypto = require('crypto');
 
 // Returns salt of given length
-function makeSalt(length: number) {
+function makeSalt(length: ?number) {
   if (length == null) {
     length = 12;
-  } else if (typeof length !== 'number') {
+  } else if (typeof length !== 'number' || length % 1 != 0) {
     throw new Error('Length must be an integer');
   }
   return crypto.randomBytes(Math.ceil(length)).toString('hex').slice(0, length);
@@ -35,4 +35,9 @@ function hashPassword(password: string, salt: string) {
   return hasher(password, salt);
 }
 
-export default { makeSalt, hashPassword };
+const funcs = {
+  hashPassword,
+  makeSalt,
+};
+
+export default funcs;
