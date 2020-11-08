@@ -4,7 +4,7 @@ import * as React from 'react';
 import { NewQuiz, NewQuizQuestions } from '../src/components/newquiz';
 import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz} from '../src/quiz-service';
 import { shallow } from 'enzyme';
-import { Card, Alert, Row, Column, Form, Button, FormSelect } from '../src/widgets';
+import { Card, Alert, Row, Column, Form, Button } from '../src/widgets';
 import { HashRouter, Route } from 'react-router-dom';
 
 jest.mock('../src/quiz-service', () => {
