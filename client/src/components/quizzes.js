@@ -204,7 +204,6 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
  * TODO:
  *  - Expand delete quiz so that you don't need to manually delete all questions before deleting quiz
  *    - Or add infotext telling you that you need to delete all questions before deleting quiz (bad solution)
- * - Add update quiz name function
  */
 export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
@@ -327,7 +326,6 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
 /**
  * Component for getting details of questions
  * TODO:
- *  - Look better
  */
 export class QuestionDetail extends Component<{ match: { params: { quizQuestionId: number } } }> {
   question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
@@ -381,7 +379,6 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
 /**
  * Component for editing questions
  * TODO:
- *  - Edit question options (and name?)
  *  */
 export class QuestionEdit extends Component<{ match: { params: { quizQuestionId: number } } }> {
   question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
