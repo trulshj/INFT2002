@@ -202,8 +202,6 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
 /**
  * Component for editing quiz
  * TODO:
- *  - Expand delete quiz so that you don't need to manually delete all questions before deleting quiz
- *    - Or add infotext telling you that you need to delete all questions before deleting quiz (bad solution)
  */
 export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
@@ -275,28 +273,24 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
             Save changes
           </Button.Light>
           <Button.Danger
-            onClick={() =>
+            onClick={() => {
+              this.questions.map((question) =>
+                quizService
+                  .deleteOption(question.quiz_question_id)
+                  .catch((error: Error) =>
+                    Alert.danger('Error deleting options for questions for quiz'),
+                  ),
+              );
               quizService
-                .deleteOption()
-                .then(() =>
-                  quizService
-                    .deleteQuizQuestions(this.quiz.quiz_id)
-                    .then(() =>
-                      quizService
-                        .deleteQuiz(this.quiz.quiz_id)
-                        .then(() => history.push('/quizzes'))
-                        .catch((error: Error) =>
-                          Alert.danger('Error deleting quiz: ' + error.message),
-                        ),
-                    )
-                    .catch((error: Error) =>
-                      Alert.danger('Error deleting questions for quiz: ' + error.message),
-                    ),
-                )
+                .deleteQuizQuestions(this.quiz.quiz_id)
                 .catch((error: Error) =>
-                  Alert.danger('Error deleting options for questions for quiz'),
-                )
-            }
+                  Alert.danger('Error deleting questions for quiz: ' + error.message),
+                );
+              quizService
+                .deleteQuiz(this.quiz.quiz_id)
+                .then(() => history.push('/quizzes'))
+                .catch((error: Error) => Alert.danger('Error deleting quiz: ' + error.message));
+            }}
           >
             Delete quiz
           </Button.Danger>
