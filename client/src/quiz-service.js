@@ -25,6 +25,10 @@ export type Category = {
   category_name: string,
 };
 
+export type Rating = {
+  avrage_rating: number
+}
+
 export type QuestionDetails = {
   quizId: number,
   questionId: number,
@@ -56,6 +60,13 @@ class QuizService {
    */
   getQuizzesWithCategory(category: string) {
     return axios.get<Quiz[]>('/quizzes/category/' + category).then((response) => response.data);
+  }
+
+   /**
+   * Get rating with give quiz_id
+   */
+  getRating(quizId: number, avrage_rating: number) {
+    return axios.get<Rating[]>('/quizzes/' + quizId).then((response) => response.data);
   }
 
   /**

@@ -20,8 +20,10 @@ export class Quizzes extends Component {
   search = '';
   category = '';
   categories: Category[] = [];
+  ratings: Rating[] = [];
 
   render() {
+    console.log(this.ratings)
     return (
       <>
         <Card title="Quizzes">
@@ -144,6 +146,10 @@ export class Quizzes extends Component {
         this.category = categories[0].category_name;
       })
       .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
+      quizService
+      .getRating()
+      .then((ratings) => (this.ratings = ratings))
+      .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
   }
 }
 

@@ -35,9 +35,10 @@ router.get('/quizzes/category/:category', (request, response) => {
  * Get rating to quiz
  */
 
-router.get('/quizzes/rating', (request, response) => {
+router.get('/quizzes/:quizId', (request, response) => {
+  const quizId = Number(request.params.quizId);
   quizService
-    .getRating()
+    .getRating(quizId)
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
 });
