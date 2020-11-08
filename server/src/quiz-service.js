@@ -25,6 +25,10 @@ export type Option = {
   isCorrect: boolean,
 };
 
+export type Rating = {
+  avrage_rating: number
+}
+
 class QuizService {
   /**
    * Get Quiz with given id.
@@ -160,6 +164,21 @@ class QuizService {
       );
     });
   }
+
+  /**
+   * Get avrage rating with given quizId
+   */
+
+  getRating(quizId: number) {
+    return new Promise<?Rating>((resolve, reject) => {
+      pool.query('SELECT AVG(rating) AS avrage_rating FROM `rating` WHERE quiz_id = ?', [quizId], (error, results) => {
+        if (error) return reject(error);
+
+        resolve();
+      });
+    });
+  }
+ 
 
   /**
    * Delete quiz with given quizId.

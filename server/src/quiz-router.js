@@ -1,6 +1,6 @@
 // @flow
 import express from 'express';
-import quizService, { type Quiz, type Category, type Question, type Option } from './quiz-service';
+import quizService, { type Quiz, type Category, type Question, type Option, type Rating } from './quiz-service';
 
 /**
  * Express router containing quiz methods.
@@ -27,6 +27,17 @@ router.get('/quizzes/category/:category', (request, response) => {
   const category = String(request.params.category);
   quizService
     .getQuizzesWithCategory(category)
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+/**
+ * Get rating to quiz
+ */
+
+router.get('/quizzes/rating', (request, response) => {
+  quizService
+    .getRating()
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
 });
