@@ -215,3 +215,26 @@ router.delete('/quizzes/question/:quizQuestionId/options', (request, response) =
     .then((results) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });
+
+/**
+ * Router for updating quiz
+ */
+router.put('/quizzes', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.quiz_id == 'number' &&
+    typeof data.quiz_name == 'string' &&
+    data.quiz_name.length != 0 &&
+    typeof data.quiz_category == 'string'
+  )
+    quizService
+      .updateQuiz({
+        quizId: data.quiz_id,
+        quizName: data.quiz_name,
+        quizCategory: data.quiz_category,
+      })
+      .then(() => response.send())
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing quiz properties');
+});

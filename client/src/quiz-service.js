@@ -96,6 +96,14 @@ class QuizService {
       .delete<void>('/quizzes/' + quizId + '/questions')
       .then((response) => response.data);
   }
+
+  /**
+   * Update quiz
+   */
+  updateQuiz(quiz: Quiz) {
+    return axios.put<Quiz, void>('/quizzes', quiz).then((response) => response.data);
+  }
+
   /**
    * Get category having a given name
    */

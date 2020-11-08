@@ -192,16 +192,49 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
 /**
  * Component for editing quiz
  * TODO:
- *  - Delete quiz not working (Internal server error)
+ *  - Expand delete quiz so that you don't need to manually delete all questions before deleting quiz
+ *    - Or add infotext telling you that you need to delete all questions before deleting quiz (bad solution)
+ * - Add update quiz name function
  */
 export class QuizEdit extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
   questions: QuizQuestion[] = [];
+  categories: Category[] = [];
 
   render() {
+    console.log(this.quiz);
     return (
       <>
-        <Card title={this.quiz.quiz_name}>
+        <Card>
+          <Card>
+            <Row>
+              <Column width={1}>Edit Quiz title:</Column>
+              <Column width={4}>
+                <Form.Input
+                  type="text"
+                  value={this.quiz.quiz_name}
+                  onChange={(event) => (this.quiz.quiz_name = event.currentTarget.value)}
+                />
+              </Column>
+              <Column>
+                <Form.Select
+                  id="categoryValue"
+                  onChange={(event) => (this.quiz.quiz_category = event.currentTarget.value)}
+                  value={this.quiz.quiz_category}
+                >
+                  {this.categories.map((category) => (
+                    <option
+                      key={category.category_name}
+                      value={category.category_name}
+                      placeholder="Select an option"
+                    >
+                      {category.category_name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Column>
+            </Row>
+          </Card>
           {this.questions.map((question) => (
             <Card>
               <Row key={question.quizQuestionId}>
@@ -222,12 +255,38 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
           >
             Add question
           </Button.Success>
+          <Button.Light
+            onClick={() =>
+              quizService
+                .updateQuiz(this.quiz)
+                .then(() => history.push('/quizzes'))
+                .catch((error: Error) => Alert.danger('Error updating quiz: ' + error.message))
+            }
+          >
+            Save changes
+          </Button.Light>
           <Button.Danger
             onClick={() =>
               quizService
-                .deleteQuiz(this.quiz.quiz_id)
-                .then(() => history.push('/quizzes'))
-                .catch((error: Error) => Alert.danger('Error deleting quiz: ' + error.message))
+                .deleteOption()
+                .then(() =>
+                  quizService
+                    .deleteQuizQuestions(this.quiz.quiz_id)
+                    .then(() =>
+                      quizService
+                        .deleteQuiz(this.quiz.quiz_id)
+                        .then(() => history.push('/quizzes'))
+                        .catch((error: Error) =>
+                          Alert.danger('Error deleting quiz: ' + error.message),
+                        ),
+                    )
+                    .catch((error: Error) =>
+                      Alert.danger('Error deleting questions for quiz: ' + error.message),
+                    ),
+                )
+                .catch((error: Error) =>
+                  Alert.danger('Error deleting options for questions for quiz'),
+                )
             }
           >
             Delete quiz
@@ -246,6 +305,12 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
       .getAllQuestionsInQuiz(this.props.match.params.quizId)
       .then((quizQuestions) => (this.questions = quizQuestions))
       .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
+    quizService
+      .getAllcategories()
+      .then((categories) => {
+        this.categories = categories;
+      })
+      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
   }
 }
 
@@ -306,7 +371,6 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
 /**
  * Component for editing questions
  * TODO:
- *  - Delete question (Internal server error)
  *  - Edit question options (and name?)
  *  */
 export class QuestionEdit extends Component<{ match: { params: { quizQuestionId: number } } }> {
@@ -350,7 +414,7 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
                     ),
                 )
                 .catch((error: Error) =>
-                  Alert.danger('Error deleting optnios for question: ' + error.message),
+                  Alert.danger('Error deleting options for question: ' + error.message),
                 )
             }
           >

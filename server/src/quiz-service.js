@@ -189,11 +189,19 @@ class QuizService {
 
   /**
    * Update given quiz.
-   *
-   * NB Not yet inplemented!
    */
-  update(quiz: Quiz) {
-    return null;
+  updateQuiz(quiz: Quiz) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'UPDATE quiz SET quiz_name = ?, quiz_category = ? WHERE quiz_id = ?',
+        [quiz.quizName, quiz.quizCategory, quiz.quizId],
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve();
+        },
+      );
+    });
   }
 
   /**
