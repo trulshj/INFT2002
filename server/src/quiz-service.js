@@ -26,8 +26,8 @@ export type Option = {
 };
 
 export type Rating = {
-  avrage_rating: number
-}
+  avrage_rating: number,
+};
 
 class QuizService {
   /**
@@ -171,14 +171,17 @@ class QuizService {
 
   getRating(quizId: number) {
     return new Promise<?Rating>((resolve, reject) => {
-      pool.query('SELECT AVG(rating) AS avrage_rating FROM `rating` WHERE quiz_id = ?', [quizId], (error, results) => {
-        if (error) return reject(error + "Cannot get quiz_id");
+      pool.query(
+        'SELECT AVG(rating) AS avrage_rating FROM `rating` WHERE quiz_id = ?',
+        [quizId],
+        (error, results) => {
+          if (error) return reject(error + 'Cannot get quiz_id');
 
-        resolve();
-      });
+          resolve();
+        },
+      );
     });
   }
- 
 
   /**
    * Delete quiz with given quizId.
@@ -358,6 +361,34 @@ class QuizService {
         (error, results) => {
           if (error) return reject(error);
           if (!results.affectedRows) reject(new Error('No row deleted'));
+
+          resolve();
+        },
+      );
+    });
+  }
+
+  updateQuestion(question: Question) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'UPDATE quiz_question SET question = ? WHERE quiz_question_id = ?',
+        [question.question, question.quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve();
+        },
+      );
+    });
+  }
+
+  updateOption(option: Option) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'UPDATE quiz_question_option SET question_answer = ?, is_correct = ? WHERE quiz_question_option_id = ?',
+        [option.questionAnswer, option.isCorrect, option.quizQuestionOptionId],
+        (error, results) => {
+          if (error) return reject(error);
 
           resolve();
         },

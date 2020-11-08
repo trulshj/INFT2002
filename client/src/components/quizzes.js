@@ -10,7 +10,6 @@ import { StarRating } from '../rating';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
-
 /**
  * Component for viewing all quizzes
  * TODO:
@@ -23,7 +22,7 @@ export class Quizzes extends Component {
   ratings: Rating[] = [];
 
   render() {
-    console.log(this.ratings)
+    console.log(this.ratings);
     return (
       <>
         <Card title="Quizzes">
@@ -113,7 +112,9 @@ export class Quizzes extends Component {
                     {quiz.quiz_name + ' - Se fasit'}
                   </NavLink>
                 </Column>
-                <Column width={6}><StarRating /></Column>
+                <Column width={6}>
+                  <StarRating />
+                </Column>
                 <Column width={1.5}>
                   <Button.Success
                     onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
@@ -146,10 +147,10 @@ export class Quizzes extends Component {
         this.category = categories[0].category_name;
       })
       .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
-      quizService
+    quizService
       .getRating()
       .then((ratings) => (this.ratings = ratings))
-      .catch((error: Error) => Alert.danger('Error getting quizzes: ' + error.message));
+      .catch((error: Error) => Alert.danger('Error getting ratings: ' + error.message));
   }
 }
 
@@ -385,31 +386,69 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
 export class QuestionEdit extends Component<{ match: { params: { quizQuestionId: number } } }> {
   question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
   questionOption: QuizQuestionOption[] = [];
-  questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
+    console.log(this.question);
     console.log(this.questionOption);
     return (
       <>
-        <Card title={this.question.question}>
+        <Card>
+          <Card>
+            <Row>
+              <Column width={1}>Edit Question title:</Column>
+              <Column width={4}>
+                <Form.Input
+                  type="text"
+                  value={this.question.question}
+                  onChange={(event) => (this.question.question = event.currentTarget.value)}
+                />
+              </Column>
+            </Row>
+          </Card>
           {this.questionOption.map((option) => (
             <Card>
               <Row key={option.quizQuestionOptionId}>
-                <Column width={10}>{option.question_answer}</Column>
+                <Column width={4}>
+                  <Form.Input
+                    type="text"
+                    value={option.question_answer}
+                    onChange={(event) => (option.question_answer = event.currentTarget.value)}
+                  />
+                </Column>
+                <Column>
+                  <Form.Checkbox
+                    checked={option.is_correct}
+                    onChange={(event) => (option.is_correct = event.currentTarget.checked)}
+                  />{' '}
+                  <Form.Label>Correct answer</Form.Label>
+                </Column>
+                <Column>
+                  <Button.Success
+                    onClick={() =>
+                      quizService
+                        .updateOption(option)
+                        .then(() => console.log(option))
+                        .catch((error: Error) => Alert.danger('Error editing option: ' + error))
+                    }
+                  >
+                    Save
+                  </Button.Success>
+                </Column>
               </Row>
             </Card>
           ))}
-          <Card title="Correct Answer(s)">
-            {this.questionOptionCorrect.map((option) => (
-              <Card>
-                <Row key={option.quizQuestionOptionId}>
-                  <Column width={10}>{option.question_answer}</Column>
-                </Row>
-              </Card>
-            ))}
-          </Card>
         </Card>
         <Card>
+          <Button.Light
+            onClick={() =>
+              quizService
+                .updateQuestion(this.question)
+                .then(() => history.push('/quizzes/' + this.question.quiz_id + '/edit'))
+                .catch((error: Error) => Alert.danger('Error updating question: ' + error.message))
+            }
+          >
+            Save changes
+          </Button.Light>
           <Button.Danger
             onClick={() =>
               quizService

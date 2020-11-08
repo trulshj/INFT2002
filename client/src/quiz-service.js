@@ -26,8 +26,8 @@ export type Category = {
 };
 
 export type Rating = {
-  avrage_rating: number
-}
+  avrage_rating: number,
+};
 
 export type QuestionDetails = {
   quizId: number,
@@ -62,11 +62,11 @@ class QuizService {
     return axios.get<Quiz[]>('/quizzes/category/' + category).then((response) => response.data);
   }
 
-   /**
+  /**
    * Get rating with give quiz_id
    */
   getRating(quizId: number, avrage_rating: number) {
-    return axios.get<Rating[]>('/quizzes/' + quizId).then((response) => response.data);
+    return axios.get<Rating[]>('/quizzes/' + quizId + '/rating').then((response) => response.data);
   }
 
   /**
@@ -253,6 +253,18 @@ class QuizService {
   deleteOption(quizQuestionId: number) {
     return axios
       .delete<void>('/quizzes/question/' + quizQuestionId + '/options')
+      .then((response) => response.data);
+  }
+
+  updateQuestion(question: QuizQuestion) {
+    return axios
+      .put<QuizQuestion, void>('/quizzes/questions', question)
+      .then((response) => response.data);
+  }
+
+  updateOption(option: QuizQuestionOption) {
+    return axios
+      .put<QuizQuestionOption, void>('/quizzes/questions/options', option)
       .then((response) => response.data);
   }
 }

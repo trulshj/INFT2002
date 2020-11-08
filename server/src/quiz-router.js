@@ -1,6 +1,12 @@
 // @flow
 import express from 'express';
-import quizService, { type Quiz, type Category, type Question, type Option, type Rating } from './quiz-service';
+import quizService, {
+  type Quiz,
+  type Category,
+  type Question,
+  type Option,
+  type Rating,
+} from './quiz-service';
 
 /**
  * Express router containing quiz methods.
@@ -35,7 +41,7 @@ router.get('/quizzes/category/:category', (request, response) => {
  * Get rating to quiz
  */
 
-router.get('/quizzes/:quizId', (request, response) => {
+router.get('/quizzes/:quizId/rating', (request, response) => {
   const quizId = Number(request.params.quizId);
   quizService
     .getRating(quizId)
@@ -245,6 +251,48 @@ router.put('/quizzes', (request, response) => {
         quizId: data.quiz_id,
         quizName: data.quiz_name,
         quizCategory: data.quiz_category,
+      })
+      .then(() => response.send())
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing quiz properties');
+});
+
+router.put('/quizzes/questions', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.quiz_question_id == 'number' &&
+    typeof data.quiz_id == 'number' &&
+    typeof data.question == 'string' &&
+    data.question != 0
+  )
+    quizService
+      .updateQuestion({
+        quizQuestionId: data.quiz_question_id,
+        quizId: data.quiz_id,
+        question: data.question,
+      })
+      .then(() => response.send())
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing quiz properties');
+});
+
+router.put('/quizzes/questions/options', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.quiz_question_option_id == 'number' &&
+    typeof data.quiz_question_id == 'number' &&
+    typeof data.question_answer == 'string' &&
+    data.quiz_answer != 0 &&
+    typeof data.is_correct == 'boolean'
+  )
+    quizService
+      .updateOption({
+        quizQuestionOptionId: data.quiz_question_option_id,
+        quizQuestionId: data.quiz_question_id,
+        questionAnswer: data.question_answer,
+        isCorrect: data.is_correct,
       })
       .then(() => response.send())
       .catch((error: Error) => response.status(500).send(error));
