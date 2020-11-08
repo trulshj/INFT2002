@@ -172,7 +172,7 @@ class QuizService {
   getRating(quizId: number) {
     return new Promise<?Rating>((resolve, reject) => {
       pool.query('SELECT AVG(rating) AS avrage_rating FROM `rating` WHERE quiz_id = ?', [quizId], (error, results) => {
-        if (error) return reject(error);
+        if (error) return reject(error + "Cannot get quiz_id");
 
         resolve();
       });
