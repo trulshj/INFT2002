@@ -6,8 +6,10 @@ import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
+import { StarRating } from '../rating';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
+
 
 /**
  * Component for viewing all quizzes
@@ -102,13 +104,14 @@ export class Quizzes extends Component {
           {this.quizzes.map((quiz) => (
             <Card>
               <Row key={quiz.quizId}>
-                <Column width={10}>
+                <Column width={4}>
                   {quiz.quiz_category}
                   {' - '}
                   <NavLink to={'/quizzes/' + quiz.quiz_id}>
                     {quiz.quiz_name + ' - Se fasit'}
                   </NavLink>
                 </Column>
+                <Column width={6}><StarRating /></Column>
                 <Column width={1.5}>
                   <Button.Success
                     onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}

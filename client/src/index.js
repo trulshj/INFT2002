@@ -17,6 +17,7 @@ import {
 } from './components/quizzes';
 import Register from './components/register';
 
+
 class Menu extends Component {
   render() {
     return (
