@@ -88,6 +88,15 @@ class QuizService {
   }
 
   /**
+   * Delete quiz questions
+   * Needed for delete quiz and can't be the same as deleteQuestion as deleteQuestion uses quizQuestionId not quizId
+   */
+  deleteQuizQuestions(quizId: number) {
+    return axios
+      .delete<void>('/quizzes/' + quizId + '/questions')
+      .then((response) => response.data);
+  }
+  /**
    * Get category having a given name
    */
   getCategory(category: string) {
@@ -216,6 +225,15 @@ class QuizService {
   deleteQuestion(quizQuestionId: number) {
     return axios
       .delete<void>('/quizzes/question/' + quizQuestionId)
+      .then((response) => response.data);
+  }
+
+  /**
+   * Delete options with given question id
+   */
+  deleteOption(quizQuestionId: number) {
+    return axios
+      .delete<void>('/quizzes/question/' + quizQuestionId + '/options')
       .then((response) => response.data);
   }
 }

@@ -340,9 +340,18 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
           <Button.Danger
             onClick={() =>
               quizService
-                .deleteQuestion(this.question.quiz_question_id)
-                .then(() => history.push('/quizzes/' + this.question.quiz_id))
-                .catch((error: Error) => Alert.danger('Error deleting question: ' + error.message))
+                .deleteOption(this.question.quiz_question_id)
+                .then(() =>
+                  quizService
+                    .deleteQuestion(this.question.quiz_question_id)
+                    .then(() => history.push('/quizzes/' + this.question.quiz_id + '/edit'))
+                    .catch((error: Error) =>
+                      Alert.danger('Error deleting question: ' + error.message),
+                    ),
+                )
+                .catch((error: Error) =>
+                  Alert.danger('Error deleting optnios for question: ' + error.message),
+                )
             }
           >
             Delete question

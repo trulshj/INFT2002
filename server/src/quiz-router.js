@@ -184,13 +184,34 @@ router.delete('/quizzes/:quizId', (request, response) => {
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });
+
+/**
+ * Router for deleting questions with given quiz Id
+ */
+
+router.delete('/quizzes/:quizId/questions', (request, response) => {
+  const quizId = Number(request.params.quizId);
+  quizService
+    .deleteQuizQuestions(quizId)
+    .then((results) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
 /**
  * Router for deleting question with given question Id
  */
 router.delete('/quizzes/question/:quizQuestionId', (request, response) => {
-  const quizQuestionId = Number(request.params.quizId);
+  const quizQuestionId = Number(request.params.quizQuestionId);
   quizService
-    .deleteQuiz(quizQuestionId)
-    .then((result) => response.send())
+    .deleteQuestion(quizQuestionId)
+    .then((results) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+router.delete('/quizzes/question/:quizQuestionId/options', (request, response) => {
+  const quizQuestionId = Number(request.params.quizQuestionId);
+  quizService
+    .deleteOption(quizQuestionId)
+    .then((results) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });

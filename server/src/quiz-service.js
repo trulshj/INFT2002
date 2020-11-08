@@ -162,7 +162,7 @@ class QuizService {
   }
 
   /**
-   * Delete quiz with given id.
+   * Delete quiz with given quizId.
    */
   deleteQuiz(quizId: number) {
     return new Promise<void>((resolve, reject) => {
@@ -171,6 +171,18 @@ class QuizService {
         if (!results.affectedRows) reject(new Error('No row deleted'));
 
         resolve();
+      });
+    });
+  }
+
+  /**
+   * Delete quiz questions with given quizId
+   */
+  deleteQuizQuestions(quizId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query('DELETE FROM quiz_question WHERE quiz_id = ?', [quizId], (error, results) => {
+        if (error) return reject(error);
+        if (!results.affectedRows) reject(new Error('No row deleted'));
       });
     });
   }
@@ -300,6 +312,21 @@ class QuizService {
     return new Promise<void>((resolve, reject) => {
       pool.query(
         'DELETE FROM quiz_question WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
+          if (!results.affectedRows) reject(new Error('No row deleted'));
+
+          resolve();
+        },
+      );
+    });
+  }
+
+  deleteOption(quizQuestionId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'DELETE FROM quiz_question_option WHERE quiz_question_id = ?',
         [quizQuestionId],
         (error, results) => {
           if (error) return reject(error);
