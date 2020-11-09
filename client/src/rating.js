@@ -15,7 +15,10 @@ export class StarRating extends Component {
             count={5}
             onChange={ratingChanged}
             size={24}
+            isHalf={true}
+            value={3.5}
             activeColor="#ffd700"
+            edit={false}
           />)
     }
   
