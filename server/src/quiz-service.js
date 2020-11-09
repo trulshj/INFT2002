@@ -184,6 +184,26 @@ class QuizService {
   }
 
   /**
+   * Post rating with given quizId
+   */
+
+  createRating(avrage_rating: number, quizId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'INSERT INTO rating SET (rating=?, quiz_id) values (?, ?)',
+        [avrage_rating, quizId],
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve();
+        },
+      );
+    });
+  }
+
+
+
+  /**
    * Delete quiz with given quizId.
    */
   deleteQuiz(quizId: number) {

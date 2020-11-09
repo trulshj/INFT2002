@@ -49,6 +49,26 @@ router.get('/quizzes/:quizId/rating', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+//New rating
+router.post('/quizzes/:quizId/rating', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.avrage_rating == 'number' &&
+    data.avrage_rating.length != 0 &&
+    typeof data.quizId == 'number' &&
+    data.quizId.length != 0
+  )
+    quizService
+      .createRating(request.body.avrage_rating, request.body.rating)
+      .then((avrage_rating) => response.send({ avrage_rating: avrage_rating }))
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing rating or quizId');
+});
+
+
+
+
 /**
  * Get quizzes with search
  */

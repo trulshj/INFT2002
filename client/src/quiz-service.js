@@ -210,6 +210,23 @@ class QuizService {
       });
   }
 
+
+   /**
+   * Create new rating having the given quizid
+   */
+  createRating(
+    avrage_rating: number,
+    quizId: number,
+  ) {
+    return axios
+      .post<{}, { avrage_rating: number }>('/quizzes/' + quizQuestionId + "/" + avrage_rating)
+      .then((response) => {
+        console.log(response);
+        return response.data.quizquestionid;
+      });
+  }
+
+
   /**
    * Create new option to quizquestion having the given quizquestionid
    */
