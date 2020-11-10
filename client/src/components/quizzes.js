@@ -2,11 +2,10 @@
 
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
+import { Card, Alert, Row, Column, Form, Button, NavBar, StarRating } from '../widgets';
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
-import { StarRating } from '../rating';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
