@@ -9,7 +9,7 @@ import Quizzes from '../src/components/quizzes';
 import {
   QuizDetail, QuestionDetail,
 } from '../src/components/quizdetail';
-import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz, type QuestionDetails } from '../src/quiz-service';
+import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz, type QuestionDetails, type getAllQuestionsInQuiz } from '../src/quiz-service';
 import { shallow } from 'enzyme';
 import { Card, Alert, Row, Column, Form, Button } from '../src/widgets';
 import { NavLink, HashRouter, Route } from 'react-router-dom';
@@ -47,6 +47,10 @@ jest.mock('../src/quiz-service', () => {
         getQuizzesSearch(search: string) {
           return Promise.resolve();
         }
+
+        getAllQuestionsInQuiz(quizId: number) {
+          return Promise.resolve();
+        }
     }
     return new QuizService();
 });
@@ -57,16 +61,15 @@ describe('Quizzes tests', () => {
   
       // Wait for events to complete
       setTimeout(() => {
-        expect(
-          wrapper.containsAllMatchingElements([
-            <NavLink to="/quizzes/1">Land i Europa - Se fasit</NavLink>,
-            <NavLink to="/quizzes/2">Tradisjoner i Norge - Se fasit</NavLink>
-          ])
-        ).toEqual(true);
-        done();
-      });
-    });
-  });
+        expect(wrapper.containsMatchingElement([
+        <NavLink to="/quizzes/1">Land i Europa - Se fasit</NavLink>,
+        <NavLink to="/quizzes/2">Tradisjoner i Norge - Se fasit</NavLink>])
+        .toEqual(true)
+        .done()
+        )}
+      )}
+    )}
+  );
 
   describe('QuizDetail tests', () => {
   test('QuizDetail draws correctly with MatchingElement', (done) => {

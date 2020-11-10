@@ -181,9 +181,7 @@ describe('NavLink widget tests', () => {
     test('Column widget draws correctly with right property set', () => {
       const wrapper = shallow(<Column right>Text</Column>);
   
-      expect(wrapper.containsMatchingElement(<div className="col text-right">Text</div>)).toEqual(
-        true
-      );
+      expect(wrapper.containsMatchingElement(<div className="col text-right">Text</div>)).toEqual(true);
     });
   });
   

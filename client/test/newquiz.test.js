@@ -51,14 +51,14 @@ describe('Newquiz tests', () => {
     test('NewQuiz draws correctly', (done) => {
         const wrapper = shallow(<NewQuiz />);
     
-        wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'test' } });
-        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Verden' } });
+        wrapper.find({ id: 'quizName'}).simulate('change', { currentTarget: { value: 'test' } })
+        wrapper.find({ id: 'categoryValue'}).simulate('change', { currentTarget: { value: 'Verden' } })
 
         // Wait for events to complete
         setTimeout(() => {
           // $FlowExpectedError
-          expect(wrapper.containsMatchingElement(<Form.Input value="test" />));
-          expect(wrapper.containsMatchingElement(<Form.Select value="Verden" />));
+          expect(wrapper.containsMatchingElement(<Form.Input value="test" />)).toEqual(true);
+          expect(wrapper.containsMatchingElement("Verden")).toEqual(true);
           done();
         });
       });
@@ -88,20 +88,15 @@ describe('NewQuizQuestions tests', () => {
   test('NewQuizQuestions draws correctly', (done) => {
     const wrapper = shallow(<NewQuizQuestions />);
     
-    wrapper.find({ id: 'question_id'}).simulate('change', { currentTarget: { value: 'test' } });
+    wrapper.find({ id: 'question_id'}).simulate('change', { currentTarget: { value: 'test' } })
+    wrapper.find({ id: 'isCorrect1'}).simulate('change', { currentTarget: { checked: 'true' }})
     
-        // Wait for events to complete
-        setTimeout(() => {
-          // $FlowExpectedError
-          expect(wrapper.containsMatchingElement(<Form.Input value="test" />));
-          done();
-    });
-
-    wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'test' } });
-    // $FlowExpectedError
-    expect(wrapper.containsMatchingElement(<Form.Input value="test" />)).toEqual(true);
-
-    wrapper.find(Form.Checkbox).simulate('change', { currentTarget: { checked: 'false' } });
-    expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(false);
+    // Wait for events to complete
+    setTimeout(() => {
+      // $FlowExpectedError
+      expect(wrapper.containsMatchingElement(<Form.Input value="test" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(true);
+      done();
+     });
   })
-})
+});
