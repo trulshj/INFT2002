@@ -9,12 +9,15 @@ import Login from './components/login';
 import { NewQuiz, NewQuizQuestions } from './components/newquiz';
 import {
   Quizzes,
-  QuizDetail,
-  QuizEdit,
-  QuestionDetail,
-  QuestionEdit,
-  QuizAddQuestion,
 } from './components/quizzes';
+import {
+  QuizEdit, QuestionEdit, QuizAddQuestion,
+} from './components/quizedit';
+
+import {
+  QuizDetail, QuestionDetail,
+} from './components/quizdetail';
+
 import Register from './components/register';
 
 
