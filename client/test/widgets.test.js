@@ -312,5 +312,18 @@ describe('NavLink widget tests', () => {
       wrapper.find(Button.Danger).simulate('click');
       expect(buttonClicked).toEqual(true);
     });
+
+  //Test for StarRating
+
+    describe('Rating widget test', () => {
+        test('Rating widget draws correctly', () => {
+          // $FlowExpectedError
+          const wrapper = shallow(<StarRating>{console.log()}</StarRating>);
+      
+          expect(
+            wrapper.containsMatchingElement(
+            )
+          ).toEqual(true);
+        });
   });
-  
+});
