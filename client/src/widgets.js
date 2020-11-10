@@ -30,7 +30,6 @@ export class StarRating extends Component {
 
 }
 
-
 /**
  * Renders alert messages using Bootstrap classes.
  */
