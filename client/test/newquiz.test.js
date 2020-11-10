@@ -11,20 +11,23 @@ jest.mock('../src/quiz-service', () => {
     class QuizService {
         getAllcategories() {
             return Promise.resolve([
-                {category_name: 'Geografi'},
+                {category_name: 'Verden'},
                 {category_name: 'Kultur'},
             ]);
         }
 
         getAll() {
             return Promise.resolve([
-                {quizId: 1, quizName: 'Land i Europa', quizCategory: 'Geografi' },
+                {quizId: 1, quizName: 'Land i Europa', quizCategory: 'Verden' },
                 {quizId: 2, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' },
             ]);
         }
     
         create(quizName: string, quizCategory: string) {
-            return Promise.resolve(3);
+            return Promise.resolve(3);        
+        }
+        createQuestion(quizId: number, question: string, option1: string, isCorrect1: boolean, option2: string, isCorrect2: boolean, option3: string, isCorrect3: boolean){
+          return Promise.resolve({quizId: 1, question: "Hva heter hovedstaden i Norge?", option1: "Oslo", isCorrect1: true, option2: "Sverige", isCorrect2: false, option3: "Moskva", isCorrect3: false})
         }
     }
     return new QuizService();
@@ -38,7 +41,7 @@ describe('Newquiz tests', () => {
       setTimeout(() => {
         expect(
           wrapper.containsAllMatchingElements([
-            <option value="Geografi" placeholder="Select an option">Geografi</option>
+            <option value="Verden" placeholder="Select an option">Verden</option>
           ])
         ).toEqual(true);
         done();
@@ -49,13 +52,13 @@ describe('Newquiz tests', () => {
         const wrapper = shallow(<NewQuiz />);
     
         wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'test' } });
-        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Geografi' } });
+        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Verden' } });
 
         // Wait for events to complete
         setTimeout(() => {
           // $FlowExpectedError
           expect(wrapper.containsMatchingElement(<Form.Input value="test" />));
-          expect(wrapper.containsMatchingElement(<Form.Select value="Geografi" />));
+          expect(wrapper.containsMatchingElement(<Form.Select value="Verden" />));
           done();
         });
       });
@@ -64,18 +67,18 @@ describe('Newquiz tests', () => {
     test('NewQuiz correctly sets location on create', (done) => {
         const wrapper = shallow(<NewQuiz />);
     
-        wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Dyr i skogen' } });
+        wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Land i Europa' } });
         // $FlowExpectedError
-        expect(wrapper.containsMatchingElement(<Form.Input value="Dyr i skogen" />)).toEqual(true);
+        expect(wrapper.containsMatchingElement(<Form.Input value="Land i Europa" />)).toEqual(true);
 
-        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Geografi' } });
+        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Verden' } });
         // $FlowExpectedError
-        expect(wrapper.containsMatchingElement(<Form.Select value="Geografi" />)).toEqual(true);
+        expect(wrapper.containsMatchingElement(<Form.Select value="Verden" />)).toEqual(true);
 
         wrapper.find(Button.Success).simulate('click');
         // Wait for events to complete
         setTimeout(() => {
-          expect(location.hash).toEqual('#/newQuiz/3');
+          expect(location.hash).toEqual('#/newQuiz/1');
           done();
         });
       });
@@ -93,5 +96,12 @@ describe('NewQuizQuestions tests', () => {
           expect(wrapper.containsMatchingElement(<Form.Input value="test" />));
           done();
     });
+
+    wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'test' } });
+    // $FlowExpectedError
+    expect(wrapper.containsMatchingElement(<Form.Input value="test" />)).toEqual(true);
+
+    wrapper.find(Form.Checkbox).simulate('change', { currentTarget: { checked: 'false' } });
+    expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(false);
   })
 })

@@ -1,7 +1,14 @@
 // @flow
 
 import * as React from 'react';
-import { Quizzes, QuizDetail, QuizEdit, QuestionDetail, QuestionEdit, QuizAddQuestion, QuizPlay } from '../src/components/quizzes';
+import {
+  QuizEdit, QuestionEdit, QuizAddQuestion,
+} from '../src/components/quizedit';
+import Quizzes from '../src/components/quizzes';
+
+import {
+  QuizDetail, QuestionDetail,
+} from '../src/components/quizdetail';
 import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz, type QuestionDetails } from '../src/quiz-service';
 import { shallow } from 'enzyme';
 import { Card, Alert, Row, Column, Form, Button } from '../src/widgets';
