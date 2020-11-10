@@ -111,7 +111,7 @@ export class Quizzes extends Component {
                   </NavLink>
                 </Column>
                 <Column width={6}>
-                  <StarRating />
+                  <StarRating rating={quiz.rating} />
                 </Column>
                 <Column width={1.5}>
                   <Button.Success
@@ -144,10 +144,5 @@ export class Quizzes extends Component {
         this.categories = categories;
         this.category = categories[0].category_name;
       })
-      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
-    quizService
-      .getRating()
-      .then((ratings) => (this.ratings = ratings))
-      .catch((error: Error) => Alert.danger('Error getting ratings: ' + error.message));
-  }
+      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));  }
 }

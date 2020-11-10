@@ -6,6 +6,7 @@ export type Quiz = {
   quizId: number,
   quizName: string,
   quizCategory: string,
+  rating: number,
 };
 
 export type QuizQuestion = {
@@ -23,10 +24,6 @@ export type QuizQuestionOption = {
 
 export type Category = {
   category_name: string,
-};
-
-export type Rating = {
-  avrage_rating: number,
 };
 
 export type QuestionDetails = {
@@ -61,14 +58,6 @@ class QuizService {
   getQuizzesWithCategory(category: string) {
     return axios.get<Quiz[]>('/quizzes/category/' + category).then((response) => response.data);
   }
-
-  /**
-   * Get rating with give quiz_id
-   */
-  getRating(quizId: number, avrage_rating: number) {
-    return axios.get<Rating[]>('/quizzes/' + quizId + '/rating').then((response) => response.data);
-  }
-
   /**
    * Getting quizzes with search
    */
@@ -210,22 +199,17 @@ class QuizService {
       });
   }
 
-
-   /**
+  /**
    * Create new rating having the given quizid
    */
-  createRating(
-    avrage_rating: number,
-    quizId: number,
-  ) {
+  createRating(avrage_rating: number, quizId: number) {
     return axios
-      .post<{}, { avrage_rating: number }>('/quizzes/' + quizQuestionId + "/" + avrage_rating)
+      .post<{}, { avrage_rating: number }>('/quizzes/' + quizQuestionId + '/' + avrage_rating)
       .then((response) => {
         console.log(response);
         return response.data.quizquestionid;
       });
   }
-
 
   /**
    * Create new option to quizquestion having the given quizquestionid

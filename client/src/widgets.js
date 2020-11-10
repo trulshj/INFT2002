@@ -3,31 +3,27 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { NavLink } from 'react-router-dom';
-import ReactStars from "react-rating-stars-component";
-
+import ReactStars from 'react-rating-stars-component';
 
 /**
  * Renders a starrating
  */
 
 export class StarRating extends Component {
-
-  render(){
-    const ratingChanged = (newRating) => {
-      console.log(newRating);
-    };
+  render() {
+    const ratingChanged = (newRating) => {};
     return (
-        <ReactStars
-          count={5}
-          onChange={ratingChanged}
-          size={24}
-          isHalf={true}
-          value={3.5}
-          activeColor="#ffd700"
-          edit={false}
-        />)
+      <ReactStars
+        count={5}
+        onChange={ratingChanged}
+        size={24}
+        isHalf={true}
+        value={this.props.rating}
+        activeColor="#ffd700"
+        edit={false}
+      />
+    );
   }
-
 }
 
 /**
@@ -135,7 +131,7 @@ export class Column extends Component<{ width?: number, right?: boolean, childre
           (this.props.right ? ' text-right' : '')
         }
       >
-        {this.props.children} 
+        {this.props.children}
       </div>
     );
   }
@@ -341,5 +337,3 @@ export class Form {
   static Checkbox = FormCheckbox;
   static Select = FormSelect;
 }
-
-

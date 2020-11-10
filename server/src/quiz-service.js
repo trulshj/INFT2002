@@ -48,11 +48,14 @@ class QuizService {
    */
   getAll() {
     return new Promise<Quiz[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz ORDER BY quiz_category', (error, results) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id GROUP BY q.quiz_id ORDER BY rating DESC',
+        (error, results) => {
+          if (error) return reject(error);
 
-        resolve(results);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 
@@ -200,8 +203,6 @@ class QuizService {
       );
     });
   }
-
-
 
   /**
    * Delete quiz with given quizId.
