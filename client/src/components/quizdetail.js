@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
-import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
+import { Card, Alert, Row, Column, Form, Button, NavBar, StarRating } from '../widgets';
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
@@ -35,6 +35,16 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
               </Card>
             ))}
           </Card>
+          <Card title="Rate quiz">
+          <StarRating onChange={() => {
+            quizService
+              .createRating(this.props.rating, this.props.match.params.quizId)
+              .then(alert(this.props.rating, this.props.match.params.quizId))
+              .catch((error: Error) => Alert.danger('Error creating rating: ' + error.message));
+          }}
+        >></StarRating>
+          </Card>
+          
         </>
       );
     }

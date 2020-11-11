@@ -202,12 +202,12 @@ class QuizService {
   /**
    * Create new rating having the given quizid
    */
-  createRating(avrage_rating: number, quizId: number) {
+  createRating(rating: number, quizId: number) {
     return axios
-      .post<{}, { avrage_rating: number }>('/quizzes/' + quizQuestionId + '/' + avrage_rating)
+      .post<{}, { avrage_rating: number }>('/quizzes/' + quizId + '/' + rating)
       .then((response) => {
         console.log(response);
-        return response.data.quizquestionid;
+        return response.data.rating;
       });
   }
 

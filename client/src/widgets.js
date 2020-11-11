@@ -11,7 +11,10 @@ import ReactStars from 'react-rating-stars-component';
 
 export class StarRating extends Component {
   render() {
-    const ratingChanged = (newRating) => {};
+    const ratingChanged = (newRating) => {
+      console.log(newRating);
+    };
+    
     return (
       <ReactStars
         count={5}
@@ -20,7 +23,7 @@ export class StarRating extends Component {
         isHalf={true}
         value={this.props.rating}
         activeColor="#ffd700"
-        edit={false}
+        edit={true}
       />
     );
   }

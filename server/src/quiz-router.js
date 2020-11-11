@@ -51,17 +51,17 @@ router.get('/quizzes/:quizId/rating', (request, response) => {
 
 //New rating
 router.post('/quizzes/:quizId/rating', (request, response) => {
-  const data = request.body;
+  const quizId = Number(request.params.quizId);
   if (
     data &&
-    typeof data.avrage_rating == 'number' &&
+    typeof data.rating == 'number' &&
     data.avrage_rating.length != 0 &&
     typeof data.quizId == 'number' &&
     data.quizId.length != 0
   )
     quizService
-      .createRating(request.body.avrage_rating, request.body.rating)
-      .then((avrage_rating) => response.send({ avrage_rating: avrage_rating }))
+      .createRating(request.body.rating, request.body.quizId)
+      .then((rating) => response.send({ rating: rating }))
       .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing rating or quizId');
 });

@@ -167,34 +167,15 @@ class QuizService {
       );
     });
   }
-
-  /**
-   * Get avrage rating with given quizId
-   */
-
-  getRating(quizId: number) {
-    return new Promise<?Rating>((resolve, reject) => {
-      pool.query(
-        'SELECT AVG(rating) AS avrage_rating FROM `rating` WHERE quiz_id = ?',
-        [quizId],
-        (error, results) => {
-          if (error) return reject(error + 'Cannot get quiz_id');
-
-          resolve();
-        },
-      );
-    });
-  }
-
   /**
    * Post rating with given quizId
    */
 
-  createRating(avrage_rating: number, quizId: number) {
+  createRating(rating: number, quizId: number) {
     return new Promise<void>((resolve, reject) => {
       pool.query(
         'INSERT INTO rating SET (rating=?, quiz_id) values (?, ?)',
-        [avrage_rating, quizId],
+        [rating, quizId],
         (error, results) => {
           if (error) return reject(error);
 
