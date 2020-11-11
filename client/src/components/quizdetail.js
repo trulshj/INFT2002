@@ -15,7 +15,7 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
   quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
   questions: QuizQuestion[] = [];
-  rating = 1;
+  rating = 0;
 
   render() {
     console.log(this.quiz);
