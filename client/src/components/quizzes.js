@@ -115,6 +115,7 @@ export class Quizzes extends Component {
                   size={24}
         value={quiz.rating}
         edit={false}
+        isHalf={true}
       /> 
                 <Column width={5}>{<h3>{quiz.rating}</h3>}</Column>
               
