@@ -42,8 +42,9 @@ describe('Create new quiz (POST)', () => {
   test('Create new quiz (200 OK)', (done) => {
     axios
       .post<{}, number>('/quizzes', {
+        quizId: "3",
         quizname: 'Fotballag',
-        category: 'Kultur'
+        quizCategory: 'Kultur'
       })
       .then((response) => {
         expect(response.status).toEqual(200);

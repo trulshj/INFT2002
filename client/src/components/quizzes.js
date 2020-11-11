@@ -144,5 +144,6 @@ export class Quizzes extends Component {
         this.categories = categories;
         this.category = categories[0].category_name;
       })
-      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));  }
+      .catch((error: Error) => Alert.danger('Error getting categories: ' + error.message));
+  }
 }

@@ -316,7 +316,7 @@ describe('NavLink widget tests', () => {
     describe('Rating widget test', () => {
         test('Rating widget draws correctly', () => {
           // $FlowExpectedError
-          const wrapper = shallow(<StarRating>{console.log()}</StarRating>);
+          const wrapper = shallow(<StarRating></StarRating>);
       
           expect(
             wrapper.containsMatchingElement(
