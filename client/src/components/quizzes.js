@@ -110,13 +110,14 @@ export class Quizzes extends Component {
                     {quiz.quiz_name + ' - Se fasit'}
                   </NavLink>
                 </Column>
-                <Column width={6}>
+                <Column width={1.8}></Column>
                   <ReactStars
                   size={24}
         value={quiz.rating}
         edit={false}
-      />
-                </Column>
+      /> 
+                <Column width={5}>{<h3>{quiz.rating}</h3>}</Column>
+              
                 <Column width={1.5}>
                   <Button.Success
                     onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
