@@ -6,11 +6,14 @@ A small application for Quizzes
 
 You need to create two configuration files that will contain the database connection details:
 
-1. Copy the file `server/src/config.js.example` to `server/src/config.js` and set `process.env.MYSQL_PASSWORD` to the correct password.
+1. Copy the file `server/src/config.js.example` to `server/src/config.js` and set
+   `process.env.MYSQL_PASSWORD` to the correct password.
 2. Do the same for `server/test/config.js.example`.
 
-The config files that you make should not be included in the git repository as they contain secrets, they should be in your .gitignore file.
+The config files that you make should not be included in the git repository as they contain secrets,
+they should be in your .gitignore file.
 
+npm install react-rating-stars-component --save
 
 ## Start server
 
