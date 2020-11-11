@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar, StarRating } from '../src/widgets';
 import { NavLink } from 'react-router-dom';
+import ReactStars from 'react-rating-stars-component';
 
 //Tests for widgets
 
@@ -311,17 +312,19 @@ describe('NavLink widget tests', () => {
       expect(buttonClicked).toEqual(true);
     });
 
-  //Test for StarRating
+ 
 
-    describe('Rating widget test', () => {
-        test('Rating widget draws correctly', () => {
-          // $FlowExpectedError
-          const wrapper = shallow(<StarRating></StarRating>);
-      
-          expect(
-            wrapper.containsMatchingElement(
-            )
-          ).toEqual(true);
-        });
   });
+
+   //Test for StarRating
+  describe('Rating widget test', () => {
+    test('Rating widget draws correctly', () => {
+      // $FlowExpectedError
+      const wrapper = shallow(<StarRating></StarRating>);
+  
+      expect(
+        wrapper.containsMatchingElement(<ReactStars count={5} size={24} isHalf={true} activeColor="#ffd700" edit={false}></ReactStars>
+        )
+      ).toEqual(true);
+    });
 });

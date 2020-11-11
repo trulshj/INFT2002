@@ -73,7 +73,7 @@ describe('Newquiz tests', () => {
 
         wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Verden' } });
         // $FlowExpectedError
-        expect(wrapper.containsMatchingElement(<Form.Select value="Verden" />)).toEqual(true);
+        expect(wrapper.containsMatchingElement(<Form.Select value='Verden'/>)).toEqual(true);
 
         wrapper.find(Button.Success).simulate('click');
         // Wait for events to complete
