@@ -12,7 +12,6 @@ import ReactStars from 'react-rating-stars-component';
 export class StarRating extends Component {
   render() {
     const ratingChanged = (newRating) => {
-      console.log(newRating);
       
     };
     
