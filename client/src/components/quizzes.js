@@ -6,6 +6,7 @@ import { Card, Alert, Row, Column, Form, Button, NavBar, StarRating } from '../w
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
+import ReactStars from 'react-rating-stars-component';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
@@ -20,7 +21,6 @@ export class Quizzes extends Component {
   ratings: Rating[] = [];
 
   render() {
-    console.log(this.ratings);
     return (
       <>
         <Card title="Quizzes">
@@ -111,7 +111,11 @@ export class Quizzes extends Component {
                   </NavLink>
                 </Column>
                 <Column width={6}>
-                  <StarRating rating={quiz.rating} />
+                  <ReactStars
+                  size={24}
+        value={quiz.rating}
+        edit={false}
+      />
                 </Column>
                 <Column width={1.5}>
                   <Button.Success

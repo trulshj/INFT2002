@@ -4,6 +4,7 @@ import { Card, Alert, Row, Column, Form, Button, NavBar, StarRating } from '../w
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
+import ReactStars from 'react-rating-stars-component';
 
 
 
@@ -42,7 +43,7 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
               .then(alert(this.props.rating, this.props.match.params.quizId))
               .catch((error: Error) => Alert.danger('Error creating rating: ' + error.message));
           }}
-        >></StarRating>
+        ></StarRating>
           </Card>
           
         </>
