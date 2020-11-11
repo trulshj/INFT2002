@@ -6,6 +6,7 @@ export type Quiz = {
   quizId: number,
   quizName: string,
   quizCategory: string,
+  rating: number,
 };
 
 export type QuizQuestion = {
@@ -55,9 +56,8 @@ class QuizService {
    * Get quizzes with given category
    */
   getQuizzesWithCategory(category: string) {
-    return axios.get<Quiz[]>('/quizzes/' + category).then((response) => response.data);
+    return axios.get<Quiz[]>('/quizzes/category/' + category).then((response) => response.data);
   }
-
   /**
    * Getting quizzes with search
    */
@@ -85,6 +85,23 @@ class QuizService {
    */
   deleteQuiz(quizId: number) {
     return axios.delete<void>('/quizzes/' + quizId).then((response) => response.data);
+  }
+
+  /**
+   * Delete quiz questions
+   * Needed for delete quiz and can't be the same as deleteQuestion as deleteQuestion uses quizQuestionId not quizId
+   */
+  deleteQuizQuestions(quizId: number) {
+    return axios
+      .delete<void>('/quizzes/' + quizId + '/questions')
+      .then((response) => response.data);
+  }
+
+  /**
+   * Update quiz
+   */
+  updateQuiz(quiz: Quiz) {
+    return axios.put<Quiz, void>('/quizzes', quiz).then((response) => response.data);
   }
 
   /**
@@ -183,6 +200,18 @@ class QuizService {
   }
 
   /**
+   * Create new rating having the given quizid
+   */
+  createRating(rating: number, quizId: number) {
+    return axios
+      .post<{}, { rating: number }>('/quizzes/' + quizId + '/' + "rating" + "/" + rating)
+      .then((response) => {
+        console.log(response);
+        return response.data.rating;
+      });
+  }
+
+  /**
    * Create new option to quizquestion having the given quizquestionid
    */
   createOption(
@@ -216,6 +245,27 @@ class QuizService {
   deleteQuestion(quizQuestionId: number) {
     return axios
       .delete<void>('/quizzes/question/' + quizQuestionId)
+      .then((response) => response.data);
+  }
+
+  /**
+   * Delete options with given question id
+   */
+  deleteOption(quizQuestionId: number) {
+    return axios
+      .delete<void>('/quizzes/question/' + quizQuestionId + '/options')
+      .then((response) => response.data);
+  }
+
+  updateQuestion(question: QuizQuestion) {
+    return axios
+      .put<QuizQuestion, void>('/quizzes/questions', question)
+      .then((response) => response.data);
+  }
+
+  updateOption(option: QuizQuestionOption) {
+    return axios
+      .put<QuizQuestionOption, void>('/quizzes/questions/options', option)
       .then((response) => response.data);
   }
 }

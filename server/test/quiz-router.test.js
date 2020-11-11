@@ -6,8 +6,8 @@ import app from '../src/app';
 import quizService, { type Quiz, type Category, type Question, type Option } from '../src/quiz-service';
 
 const testQuiz: Quiz[] = [
-  {quizId: 1, quizName: 'Land i Europa', quizCategory: 'Geografi' },
-  {quizId: 2, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' }
+  {quizId: 4, quizName: 'Land i Europa', quizCategory: 'Geografi' },
+  {quizId: 5, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' }
 ];
 
 // Since API is not compatible with v1, API version is increased to v2
@@ -42,8 +42,9 @@ describe('Create new quiz (POST)', () => {
   test('Create new quiz (200 OK)', (done) => {
     axios
       .post<{}, number>('/quizzes', {
+        quizId: "3",
         quizname: 'Fotballag',
-        category: 'Kultur'
+        quizCategory: 'Kultur'
       })
       .then((response) => {
         expect(response.status).toEqual(200);

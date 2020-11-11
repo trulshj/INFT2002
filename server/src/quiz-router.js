@@ -4,7 +4,8 @@ import quizService, {
   type Quiz,
   type Category,
   type Question,
-  type Option
+  type Option,
+  type Rating,
 } from './quiz-service';
 
 /**
@@ -28,13 +29,46 @@ router.get('/quizzes', (request, response) => {
 /**
  * Get quizzes with given category:
  */
-router.get('/quizzes/:category', (request, response) => {
+router.get('/quizzes/category/:category', (request, response) => {
   const category = String(request.params.category);
   quizService
     .getQuizzesWithCategory(category)
     .then((rows) => response.send(rows))
     .catch((error: Error) => response.status(500).send(error));
 });
+
+/**
+ * Get rating to quiz
+ */
+
+router.get('/quizzes/:quizId/rating', (request, response) => {
+  const quizId = Number(request.params.quizId);
+  quizService
+    .getRating(quizId)
+    .then((rows) => response.send(rows))
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+//New rating
+router.post('/quizzes/:quizId/rating/', (request, response) => {
+  const quizId = Number(request.params.quizId);
+  const rating = Number(request.params.rating)
+  if (
+    data &&
+    typeof data.rating == 'number' &&
+    data.avrage_rating.length != 0 &&
+    typeof data.quizId == 'number' &&
+    data.quizId.length != 0
+  )
+    quizService
+      .createRating(request.body.rating, request.body.quizId)
+      .then((rating) => response.send({ rating: rating }))
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing rating or quizId');
+});
+
+
+
 
 /**
  * Get quizzes with search
@@ -90,19 +124,19 @@ router.post('/newQuiz', (request, response) => {
     typeof data.option3 == 'string' &&
     data.option3.length != 0
   )
-  quizService
-    .createQuestion(
-      request.body.quizid,
-      request.body.quizquestion,
-      request.body.option1,
-      request.body.iscorrect1,
-      request.body.option2,
-      request.body.iscorrect2,
-      request.body.option3,
-      request.body.iscorrect3,
-    )
-    .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
-    .catch((error: Error) => response.status(500).send(error));
+    quizService
+      .createQuestion(
+        request.body.quizid,
+        request.body.quizquestion,
+        request.body.option1,
+        request.body.iscorrect1,
+        request.body.option2,
+        request.body.iscorrect2,
+        request.body.option3,
+        request.body.iscorrect3,
+      )
+      .then((quizquestionid) => response.send({ quizquestionid: quizquestionid }))
+      .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing question or options');
 });
 
@@ -189,13 +223,99 @@ router.delete('/quizzes/:quizId', (request, response) => {
     .then((result) => response.send())
     .catch((error: Error) => response.status(500).send(error));
 });
+
+/**
+ * Router for deleting questions with given quiz Id
+ */
+
+router.delete('/quizzes/:quizId/questions', (request, response) => {
+  const quizId = Number(request.params.quizId);
+  quizService
+    .deleteQuizQuestions(quizId)
+    .then((results) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
 /**
  * Router for deleting question with given question Id
  */
 router.delete('/quizzes/question/:quizQuestionId', (request, response) => {
-  const quizQuestionId = Number(request.params.quizId);
+  const quizQuestionId = Number(request.params.quizQuestionId);
   quizService
-    .deleteQuiz(quizQuestionId)
-    .then((result) => response.send())
+    .deleteQuestion(quizQuestionId)
+    .then((results) => response.send())
     .catch((error: Error) => response.status(500).send(error));
+});
+
+router.delete('/quizzes/question/:quizQuestionId/options', (request, response) => {
+  const quizQuestionId = Number(request.params.quizQuestionId);
+  quizService
+    .deleteOption(quizQuestionId)
+    .then((results) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
+/**
+ * Router for updating quiz
+ */
+router.put('/quizzes', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.quiz_id == 'number' &&
+    typeof data.quiz_name == 'string' &&
+    data.quiz_name.length != 0 &&
+    typeof data.quiz_category == 'string'
+  )
+    quizService
+      .updateQuiz({
+        quizId: data.quiz_id,
+        quizName: data.quiz_name,
+        quizCategory: data.quiz_category,
+      })
+      .then(() => response.send())
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing quiz properties');
+});
+
+router.put('/quizzes/questions', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.quiz_question_id == 'number' &&
+    typeof data.quiz_id == 'number' &&
+    typeof data.question == 'string' &&
+    data.question != 0
+  )
+    quizService
+      .updateQuestion({
+        quizQuestionId: data.quiz_question_id,
+        quizId: data.quiz_id,
+        question: data.question,
+      })
+      .then(() => response.send())
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing quiz properties');
+});
+
+router.put('/quizzes/questions/options', (request, response) => {
+  const data = request.body;
+  if (
+    data &&
+    typeof data.quiz_question_option_id == 'number' &&
+    typeof data.quiz_question_id == 'number' &&
+    typeof data.question_answer == 'string' &&
+    data.quiz_answer != 0 &&
+    typeof data.is_correct == 'boolean'
+  )
+    quizService
+      .updateOption({
+        quizQuestionOptionId: data.quiz_question_option_id,
+        quizQuestionId: data.quiz_question_id,
+        questionAnswer: data.question_answer,
+        isCorrect: data.is_correct,
+      })
+      .then(() => response.send())
+      .catch((error: Error) => response.status(500).send(error));
+  else response.status(400).send('Missing quiz properties');
 });

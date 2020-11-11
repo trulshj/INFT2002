@@ -25,6 +25,10 @@ export type Option = {
   isCorrect: boolean,
 };
 
+export type Rating = {
+  avrage_rating: number,
+};
+
 class QuizService {
   /**
    * Get Quiz with given id.
@@ -44,11 +48,14 @@ class QuizService {
    */
   getAll() {
     return new Promise<Quiz[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz ORDER BY quiz_category', (error, results) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id GROUP BY q.quiz_id ORDER BY rating DESC',
+        (error, results) => {
+          if (error) return reject(error);
 
-        resolve(results);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 
@@ -160,9 +167,26 @@ class QuizService {
       );
     });
   }
+  /**
+   * Post rating with given quizId
+   */
+
+  createRating(rating: number, quizId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'INSERT INTO rating SET (rating=?, quiz_id) values (?, ?)',
+        [rating, quizId],
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve();
+        },
+      );
+    });
+  }
 
   /**
-   * Delete quiz with given id.
+   * Delete quiz with given quizId.
    */
   deleteQuiz(quizId: number) {
     return new Promise<void>((resolve, reject) => {
@@ -176,12 +200,32 @@ class QuizService {
   }
 
   /**
-   * Update given quiz.
-   *
-   * NB Not yet inplemented!
+   * Delete quiz questions with given quizId
    */
-  update(quiz: Quiz) {
-    return null;
+  deleteQuizQuestions(quizId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query('DELETE FROM quiz_question WHERE quiz_id = ?', [quizId], (error, results) => {
+        if (error) return reject(error);
+        if (!results.affectedRows) reject(new Error('No row deleted'));
+      });
+    });
+  }
+
+  /**
+   * Update given quiz.
+   */
+  updateQuiz(quiz: Quiz) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'UPDATE quiz SET quiz_name = ?, quiz_category = ? WHERE quiz_id = ?',
+        [quiz.quizName, quiz.quizCategory, quiz.quizId],
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve();
+        },
+      );
+    });
   }
 
   /**
@@ -304,6 +348,49 @@ class QuizService {
         (error, results) => {
           if (error) return reject(error);
           if (!results.affectedRows) reject(new Error('No row deleted'));
+
+          resolve();
+        },
+      );
+    });
+  }
+
+  deleteOption(quizQuestionId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'DELETE FROM quiz_question_option WHERE quiz_question_id = ?',
+        [quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
+          if (!results.affectedRows) reject(new Error('No row deleted'));
+
+          resolve();
+        },
+      );
+    });
+  }
+
+  updateQuestion(question: Question) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'UPDATE quiz_question SET question = ? WHERE quiz_question_id = ?',
+        [question.question, question.quizQuestionId],
+        (error, results) => {
+          if (error) return reject(error);
+
+          resolve();
+        },
+      );
+    });
+  }
+
+  updateOption(option: Option) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query(
+        'UPDATE quiz_question_option SET question_answer = ?, is_correct = ? WHERE quiz_question_option_id = ?',
+        [option.questionAnswer, option.isCorrect, option.quizQuestionOptionId],
+        (error, results) => {
+          if (error) return reject(error);
 
           resolve();
         },
