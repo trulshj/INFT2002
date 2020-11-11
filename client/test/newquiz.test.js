@@ -48,18 +48,6 @@ describe('Newquiz tests', () => {
       });
     });
 
-    test('Alert shows on empty input', (done) => {
-      const wrapper = shallow(<NewQuiz />);
-  
-      wrapper.find(Button.Success).simulate('click');
-
-      // Wait for events to complete
-      setTimeout(() => {
-        expect(wrapper.containsMatchingElement(<Alert.danger>Error creating quiz:</Alert.danger>)).toEqual(true);
-        done();
-      });
-    });
-
     test('NewQuiz draws correctly', (done) => {
         const wrapper = shallow(<NewQuiz />);
     
@@ -142,16 +130,4 @@ describe('NewQuizQuestions tests', () => {
       done();
      });
   })
-
-  test('Alert shows on empty input', (done) => {
-    const wrapper = shallow(<NewQuizQuestions />);
-
-    wrapper.find(Button.Success).simulate('click');
-
-    // Wait for events to complete
-    setTimeout(() => {
-      expect(wrapper.containsMatchingElement(<Alert.danger>Error creating question:</Alert.danger>)).toEqual(true);
-      done();
-    });
-  });
 });
