@@ -50,8 +50,9 @@ router.get('/quizzes/:quizId/rating', (request, response) => {
 });
 
 //New rating
-router.post('/quizzes/:quizId/rating', (request, response) => {
+router.post('/quizzes/:quizId/rating/', (request, response) => {
   const quizId = Number(request.params.quizId);
+  const rating = Number(request.params.rating)
   if (
     data &&
     typeof data.rating == 'number' &&

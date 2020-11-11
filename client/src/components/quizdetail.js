@@ -18,7 +18,8 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
     quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
     questions: QuizQuestion[] = [];
-  
+    rating = 1
+   
     render() {
       console.log(this.quiz);
       return (
@@ -37,13 +38,13 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
             ))}
           </Card>
           <Card title="Rate quiz">
-          <StarRating onChange={() => {
+          <ReactStars size={24} value={this.rating} onChange={(event) => {
             quizService
-              .createRating(this.props.rating, this.props.match.params.quizId)
-              .then(alert(this.props.rating, this.props.match.params.quizId))
+              .createRating(this.rating, this.props.match.params.quizId)
+              .then(alert(this.rating + " " + this.props.match.params.quizId))
               .catch((error: Error) => Alert.danger('Error creating rating: ' + error.message));
           }}
-        ></StarRating>
+        ></ReactStars>
           </Card>
           
         </>
