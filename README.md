@@ -13,8 +13,6 @@ You need to create two configuration files that will contain the database connec
 The config files that you make should not be included in the git repository as they contain secrets,
 they should be in your .gitignore file.
 
-npm install react-rating-stars-component --save
-
 ## Start server
 
 Install dependencies and start server:
