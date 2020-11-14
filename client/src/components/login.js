@@ -4,13 +4,21 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
+import { createHashHistory } from 'history';
 import userService from '../user-service';
+
+const history = createHashHistory();
 
 class Login extends Component {
   username = '';
   password = '';
+  message = '';
 
   render() {
+    // If we're already logged in jsut redirect to profile
+    if (userService.user != '') {
+      history.push('/profile');
+    }
     return (
       <Card title="Login">
         <Column width={3}>
@@ -36,10 +44,25 @@ class Login extends Component {
           <Button.Success
             onClick={() => {
               userService.login(this.username, this.password);
+
+              // Janky way of waiting for the server
+              let i = 0;
+              let interval = setInterval(() => {
+                if (userService.user != '') {
+                  clearInterval(interval);
+                  history.push('/profile');
+                }
+                if (i > 5) {
+                  clearInterval(interval);
+                  this.message = '❌ Wrong password or username';
+                }
+                i++;
+              }, 16);
             }}
           >
             Login
           </Button.Success>
+          {this.message}
           <br />
           Don't have a user? Register <a href="#/register">here</a>!
         </Column>
