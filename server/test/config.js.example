@@ -1,6 +1,6 @@
 // @flow
 
-https://mysqladmin.it.ntnu.no/
+// https://mysqladmin.it.ntnu.no/
 
 
 process.env.MYSQL_HOST = 'mysql.stud.ntnu.no';

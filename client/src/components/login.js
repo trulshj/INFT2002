@@ -4,6 +4,7 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
+import userService from '../user-service';
 
 class Login extends Component {
   username = '';
@@ -40,7 +41,7 @@ class Login extends Component {
           <Column>
             <Button.Success
               onClick={() => {
-                Alert.danger('Not yet implemented');
+                userService.login(this.username, this.password);
               }}
             >
               Login
