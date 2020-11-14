@@ -7,10 +7,16 @@ import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 import userService from '../user-service';
 
 class Profile extends Component {
-  username = '';
-  password = '';
-
   render() {
+    if (userService.user == '') {
+      return (
+        <Card>
+          You're not logged in at the moment ✋
+          <br />
+          Do you want to <a href="#/login">log in</a>? 👈
+        </Card>
+      );
+    }
     return (
       <Card title="Profile">
         <Row>
