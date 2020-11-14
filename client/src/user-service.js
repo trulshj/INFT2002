@@ -29,7 +29,7 @@ class UserService {
   register(username: string, password: string) {
     return axios
       .post<User, string>('/register', { username: username, password: password })
-      .then((response) => console.log(response.data))
+      .then((response) => (this.currentUser = response.data))
       .catch((error: Error) => {
         console.log(error);
       });
