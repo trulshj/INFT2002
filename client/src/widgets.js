@@ -11,10 +11,8 @@ import ReactStars from 'react-rating-stars-component';
 
 export class StarRating extends Component {
   render() {
-    const ratingChanged = (newRating) => {
-      
-    };
-    
+    const ratingChanged = (newRating) => {};
+
     return (
       <ReactStars
         count={5}
@@ -51,7 +49,7 @@ export class Alert extends Component {
     );
   }
 
-   /**
+  /**
    * Show danger alert.
    */
   static danger(text: React.Node) {
@@ -225,7 +223,7 @@ class FormLabel extends Component<{ children?: React.Node }> {
  * Renders a form input using Bootstrap styles.
  */
 class FormInput extends Component<{
-  id: String,
+  id: string,
   type: string,
   value: React.Node,
   onChange: (SyntheticEvent<HTMLInputElement>) => mixed,
