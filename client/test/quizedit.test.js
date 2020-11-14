@@ -15,13 +15,13 @@ import { NavLink, HashRouter, Route } from 'react-router-dom';
 jest.mock('../src/quiz-service', () => {
   class QuizService {
     get(quizId: number) {
-      return Promise.resolve({ quizId: 1, quizName: 'Land i Europa', quizCategory: 'Geografi' });
+      return Promise.resolve({ quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Geografi' });
     }
 
     getAllQuestionsInQuiz(quizId: number) {
       return Promise.resolve([
-        { quizQuestionId: 1, quizId: 1, question: 'Hva heter hovedstaden i Norge?' },
-        { quizQuestionId: 2, quizId: 1, question: 'Hva heter hovedstaden i Sverige?' },
+        { quiz_question_id: 1, quiz_id: 1, question: 'Hva heter hovedstaden i Norge?' },
+        { quiz_question_id: 2, quiz_id: 1, question: 'Hva heter hovedstaden i Sverige?' },
       ]);
     }
 
@@ -31,30 +31,40 @@ jest.mock('../src/quiz-service', () => {
 
     getAll() {
       return Promise.resolve([
-        { quizId: 1, quizName: 'Land i Europa', quizCategory: 'Geografi' },
-        { quizId: 2, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' },
+        { quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Geografi' },
+        { quiz_id: 2, quiz_name: 'Tradisjoner i Norge', quiz_category: 'Kultur' },
       ]);
     }
 
     getQuestion(quizQuestionId: number) {
       return Promise.resolve({
-        quizQuestionId: 1,
-        quizId: 1,
+        quiz_question_id: 1,
+        quiz_id: 1,
         question: 'Hva heter hovedstaden i Norge?',
       });
     }
 
     getQuestionOption(quizQuestionId: number) {
       return Promise.resolve([
-        { quizQuestionOptionId: 1, quizQuestionId: 1, question_answer: 'Oslo', is_correct: 1 },
-        { quizQuestionOptionId: 2, quizQuestionId: 1, question_answer: 'Sverige', is_correct: 0 },
-        { quizQuestionOptionId: 3, quizQuestionId: 1, question_answer: 'Moskva', is_correct: 0 },
+        { quiz_question_option_id: 1, quiz_question_id: 1, question_answer: 'Oslo', is_correct: 1 },
+        {
+          quiz_question_option_id: 2,
+          quiz_question_id: 1,
+          question_answer: 'Sverige',
+          is_correct: 0,
+        },
+        {
+          quiz_question_option_id: 3,
+          quiz_question_id: 1,
+          question_answer: 'Moskva',
+          is_correct: 0,
+        },
       ]);
     }
     getQuestionOptionCorrect(quizQuestionId: number) {
       return Promise.resolve({
-        quizQuestionOptionId: 1,
-        quizQuestionId: 1,
+        quiz_question_option_id: 1,
+        quiz_question_id: 1,
         question_answer: 'Oslo',
         is_correct: 1,
       });
@@ -112,7 +122,23 @@ describe('QuizEdit component tests', () => {
 /**
  * QuestionEdit
  */
-describe('QuestionEdit component tests', () => {});
+describe('QuestionEdit component tests', () => {
+  test('QuestionEdit draws correctly', (done) => {
+    const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input value="Hva heter hovedstaden i Norge?"></Form.Input>,
+          <Form.Input value="Oslo"></Form.Input>,
+          <Form.Input value="Sverige"></Form.Input>,
+          <Form.Input value="Moskva"></Form.Input>,
+        ]),
+      ).toEqual(true);
+      done();
+    });
+  });
+});
 /**
  * QuizAddQuestion
  */
