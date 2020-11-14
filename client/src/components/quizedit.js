@@ -267,6 +267,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column width={4}>
               <Form.Input
+                id="question_id"
                 type="text"
                 value={this.question}
                 onChange={(event) => (this.question = event.currentTarget.value)}
@@ -279,6 +280,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column width={4}>
               <Form.Input
+                id="option1"
                 type="text"
                 value={this.option1}
                 onChange={(event) => (this.option1 = event.currentTarget.value)}
@@ -286,6 +288,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column>
               <Form.Checkbox
+                id="isCorrect1"
                 checked={this.isCorrect1}
                 onChange={(event) => (this.isCorrect1 = event.currentTarget.checked)}
               />
@@ -298,6 +301,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column width={4}>
               <Form.Input
+                id="option2"
                 type="text"
                 value={this.option2}
                 onChange={(event) => (this.option2 = event.currentTarget.value)}
@@ -305,6 +309,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column>
               <Form.Checkbox
+                id="isCorrect2"
                 checked={this.isCorrect2}
                 onChange={(event) => (this.isCorrect2 = event.currentTarget.checked)}
               />
@@ -317,6 +322,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column width={4}>
               <Form.Input
+                id="option3"
                 type="text"
                 value={this.option3}
                 onChange={(event) => (this.option3 = event.currentTarget.value)}
@@ -324,6 +330,7 @@ export class QuizAddQuestion extends Component<{ match: { params: { quizId: numb
             </Column>
             <Column>
               <Form.Checkbox
+                id="isCorrect3"
                 checked={this.isCorrect3}
                 onChange={(event) => (this.isCorrect3 = event.currentTarget.checked)}
               />
