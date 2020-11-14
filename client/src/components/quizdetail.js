@@ -18,13 +18,13 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
   rating = 0;
 
   render() {
-    console.log(this.quiz);
+    //console.log(this.quiz);
     return (
       <>
         <Card title={this.quiz.quiz_name}>
           {this.questions.map((question) => (
-            <Card>
-              <Row key={question.quizQuestionId}>
+            <Card key={question.quiz_question_id}>
+              <Row>
                 <Column width={10}>
                   <NavLink to={'/quizzes/' + question.quiz_id + '/' + question.quiz_question_id}>
                     {question.question}
@@ -72,21 +72,21 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
   questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
-    console.log(this.question);
+    //console.log(this.question);
     return (
       <>
         <Card title={this.question.question}>
           {this.questionOption.map((option) => (
-            <Card>
-              <Row key={option.quizQuestionOptionId}>
+            <Card key={option.quiz_question_option_id}>
+              <Row>
                 <Column width={10}>{option.question_answer}</Column>
               </Row>
             </Card>
           ))}
           <Card title="Correct Answer(s)">
             {this.questionOptionCorrect.map((option) => (
-              <Card>
-                <Row key={option.quizQuestionOptionId}>
+              <Card key={option.quiz_question_option_id}>
+                <Row>
                   <Column width={10}>{option.question_answer}</Column>
                 </Row>
               </Card>
