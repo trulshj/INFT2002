@@ -15,6 +15,7 @@ class Login extends Component {
       <Card title="Login">
         <Row>
           <Column width={3}>
+            {/* $FlowExpectedError */}
             <Form.Input
               value={this.username}
               type="text"
@@ -27,6 +28,7 @@ class Login extends Component {
         </Row>
         <Row>
           <Column width={3}>
+            {/* $FlowExpectedError */}
             <Form.Input
               value={this.password}
               type="password"

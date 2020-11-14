@@ -16,6 +16,7 @@ class Register extends Component {
       <Card title="Enter your username and password">
         <Row>
           <Column width={3}>
+            {/* $FlowExpectedError */}
             <Form.Input
               value={this.username}
               type="text"
@@ -28,6 +29,7 @@ class Register extends Component {
         </Row>
         <Row>
           <Column width={3}>
+            {/* $FlowExpectedError */}
             <Form.Input
               value={this.password}
               type="password"
@@ -40,6 +42,7 @@ class Register extends Component {
         </Row>
         <Row>
           <Column width={3}>
+            {/* $FlowExpectedError */}
             <Form.Input
               type="password"
               placeholder="Confirm Password"
