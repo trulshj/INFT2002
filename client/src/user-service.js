@@ -8,18 +8,25 @@ export type User = {
 };
 
 class UserService {
-  /**
-   * Get quiz with given id.
-   */
-  login(username: string, password: string) {
+  currentUser = '';
+
+  get user() {
+    return this.currentUser;
+  }
+
+  set user(username: String) {
+    this.currentUser = username;
+  }
+
+  login(username: String, password: String) {
     return axios
-      .post<User, String>('/login', { username: username, password: password })
-      .then((response) => console.log(response.data))
+      .post<User, string>('/login', { username: username, password: password })
+      .then((response) => (this.currentUser = response.data))
       .catch((error: Error) => {
         console.log(error);
       });
   }
-  register(username: string, password: string) {
+  register(username: String, password: String) {
     return axios
       .post<User, String>('/register', { username: username, password: password })
       .then((response) => console.log(response.data))
