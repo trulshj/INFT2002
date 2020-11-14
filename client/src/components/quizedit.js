@@ -20,7 +20,7 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
     categories: Category[] = [];
   
     render() {
-      console.log(this.quiz);
+      //console.log(this.quiz);
       return (
         <>
           <Card>
@@ -139,8 +139,8 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
     questionOption: QuizQuestionOption[] = [];
   
     render() {
-      console.log(this.question);
-      console.log(this.questionOption);
+      //(this.question);
+      //console.log(this.questionOption);
       return (
         <>
           <Card>
@@ -178,7 +178,7 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
                       onClick={() =>
                         quizService
                           .updateOption(option)
-                          .then(() => console.log(option))
+                          //.then(() => console.log(option))
                           .catch((error: Error) => Alert.danger('Error editing option: ' + error))
                       }
                     >

@@ -75,7 +75,7 @@ class QuizService {
         category: quizCategory,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.quizid;
       });
   }
@@ -194,7 +194,7 @@ class QuizService {
         iscorrect3: isCorrect3,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.quizquestionid;
       });
   }
@@ -206,7 +206,7 @@ class QuizService {
     return axios
       .post<{}, { rating: number }>('/quizzes/' + quizId + '/' + "rating" + "/" + rating)
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.rating;
       });
   }
@@ -234,7 +234,7 @@ class QuizService {
         iscorrect3: isCorrect1,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.quizquestionoptionid;
       });
   }

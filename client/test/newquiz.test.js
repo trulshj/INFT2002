@@ -63,7 +63,7 @@ describe('Newquiz tests', () => {
         });
       });
       
-      //Krever utbedring på 'select'
+      //Krever utbedring!
     test('NewQuiz correctly sets location on create', (done) => {
         const wrapper = shallow(<NewQuiz />);
     

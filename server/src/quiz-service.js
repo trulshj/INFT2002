@@ -137,7 +137,7 @@ class QuizService {
             [results.insertId, option1, iscorrect1],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error);
+              //console.log(error);
             },
           );
 
@@ -146,7 +146,7 @@ class QuizService {
             [results.insertId, option2, iscorrect2],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error);
+              //console.log(error);
             },
           );
 
@@ -155,12 +155,12 @@ class QuizService {
             [results.insertId, option3, iscorrect3],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error);
+              //console.log(error);
             },
           );
 
           if (error) return reject(error);
-          console.log(error);
+          //console.log(error);
 
           resolve();
         },

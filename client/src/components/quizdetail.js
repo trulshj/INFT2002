@@ -18,7 +18,7 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
   rating = 0;
 
   render() {
-    console.log(this.quiz);
+    //console.log(this.quiz);
     return (
       <>
         <Card title={this.quiz.quiz_name}>
@@ -72,7 +72,7 @@ export class QuestionDetail extends Component<{ match: { params: { quizQuestionI
   questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
-    console.log(this.question);
+    //console.log(this.question);
     return (
       <>
         <Card title={this.question.question}>
