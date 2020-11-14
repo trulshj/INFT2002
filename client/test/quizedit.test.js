@@ -86,7 +86,7 @@ jest.mock('../src/quiz-service', () => {
       return Promise.resolve();
     }
 
-    deleteQuizQuestion(quizId: number) {
+    deleteQuizQuestions(quizId: number) {
       return Promise.resolve();
     }
 
@@ -111,11 +111,106 @@ describe('QuizEdit component tests', () => {
     setTimeout(() => {
       expect(
         wrapper.containsAllMatchingElements([
+          <Form.Input value="Land i Europa" />,
           <NavLink to="/quizzes/1/1/edit">Hva heter hovedstaden i Norge?</NavLink>,
           <NavLink to="/quizzes/1/2/edit">Hva heter hovedstaden i Sverige?</NavLink>,
         ]),
       ).toEqual(true);
       done();
+    });
+  });
+
+  test('QuizEdit correctly changes title and category', (done) => {
+    const wrapper = shallow(<QuizEdit match={{ params: { quizId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input value="Land i Europa" />,
+          <NavLink to="/quizzes/1/1/edit">Hva heter hovedstaden i Norge?</NavLink>,
+          <NavLink to="/quizzes/1/2/edit">Hva heter hovedstaden i Sverige?</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Rundt i Europa' } });
+      wrapper
+        .find({ id: 'categoryValue' })
+        .simulate('change', { currentTarget: { value: 'Kultur' } });
+
+      setTimeout(() => {
+        expect(wrapper.containsMatchingElement('Kultur')).toEqual(true);
+        expect(wrapper.containsMatchingElement(<Form.Input value="Rundt i Europa" />)).toEqual(
+          true,
+        );
+        done();
+      });
+    });
+  });
+
+  test('QuizEdit correctly sets location on add Question', (done) => {
+    const wrapper = shallow(<QuizEdit match={{ params: { quizId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input value="Land i Europa" />,
+          <NavLink to="/quizzes/1/1/edit">Hva heter hovedstaden i Norge?</NavLink>,
+          <NavLink to="/quizzes/1/2/edit">Hva heter hovedstaden i Sverige?</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find(Button.Success).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes/1/edit/addQuestion');
+        done();
+      });
+    });
+  });
+
+  test('QuizEdit correctly sets location on save', (done) => {
+    const wrapper = shallow(<QuizEdit match={{ params: { quizId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input value="Land i Europa" />,
+          <NavLink to="/quizzes/1/1/edit">Hva heter hovedstaden i Norge?</NavLink>,
+          <NavLink to="/quizzes/1/2/edit">Hva heter hovedstaden i Sverige?</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Rundt i Europa' } });
+      // $FlowExpectedError
+      expect(wrapper.containsMatchingElement(<Form.Input value="Rundt i Europa" />)).toEqual(true);
+
+      wrapper.find(Button.Light).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes');
+        done();
+      });
+    });
+  });
+
+  test('QuizEdit correctly sets location on delete', (done) => {
+    const wrapper = shallow(<QuizEdit match={{ params: { quizId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input value="Land i Europa" />,
+          <NavLink to="/quizzes/1/1/edit">Hva heter hovedstaden i Norge?</NavLink>,
+          <NavLink to="/quizzes/1/2/edit">Hva heter hovedstaden i Sverige?</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find(Button.Danger).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes');
+        done();
+      });
     });
   });
 });
@@ -129,13 +224,85 @@ describe('QuestionEdit component tests', () => {
     setTimeout(() => {
       expect(
         wrapper.containsAllMatchingElements([
-          <Form.Input value="Hva heter hovedstaden i Norge?"></Form.Input>,
+          <Form.Input id="questionTitle" value="Hva heter hovedstaden i Norge?"></Form.Input>,
           <Form.Input value="Oslo"></Form.Input>,
           <Form.Input value="Sverige"></Form.Input>,
           <Form.Input value="Moskva"></Form.Input>,
         ]),
       ).toEqual(true);
       done();
+    });
+  });
+
+  test('QuestionEdit correctly changes question name', (done) => {
+    const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input id="questionTitle" value="Hva heter hovedstaden i Norge?"></Form.Input>,
+          <Form.Input value="Oslo"></Form.Input>,
+          <Form.Input value="Sverige"></Form.Input>,
+          <Form.Input value="Moskva"></Form.Input>,
+        ]),
+      ).toEqual(true);
+
+      wrapper
+        .find({ id: 'questionTitle' })
+        .simulate('change', { currentTarget: { value: 'Hva heter hovedstaden i Russland?' } });
+
+      setTimeout(() => {
+        expect(
+          wrapper.containsMatchingElement(
+            <Form.Input id="questionTitle" value="Hva heter hovedstaden i Russland?" />,
+          ),
+        ).toEqual(true);
+        done();
+      });
+    });
+  });
+
+  test('QuestionEdit correctly sets location on save', (done) => {
+    const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input id="questionTitle" value="Hva heter hovedstaden i Norge?"></Form.Input>,
+          <Form.Input value="Oslo"></Form.Input>,
+          <Form.Input value="Sverige"></Form.Input>,
+          <Form.Input value="Moskva"></Form.Input>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find(Button.Light).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes/1/edit');
+        done();
+      });
+    });
+  });
+
+  test('QuestionEdit correctly sets location on delete', (done) => {
+    const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input id="questionTitle" value="Hva heter hovedstaden i Norge?" />,
+          <Form.Input value="Oslo" />,
+          <Form.Input value="Sverige" />,
+          <Form.Input value="Moskva" />,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find(Button.Danger).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes/1/edit');
+        done();
+      });
     });
   });
 });
