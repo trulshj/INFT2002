@@ -5,8 +5,6 @@ import quizService, { type Quiz, type Category, type QuizQuestion } from '../qui
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
 
-
-
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
 /**
