@@ -13,47 +13,35 @@ class Login extends Component {
   render() {
     return (
       <Card title="Login">
-        <Row>
-          <Column width={3}>
-            {/* $FlowExpectedError */}
-            <Form.Input
-              value={this.username}
-              type="text"
-              placeholder="Username"
-              onChange={(event) => {
-                this.username = event.currentTarget.value;
-              }}
-            />
-          </Column>
-        </Row>
-        <Row>
-          <Column width={3}>
-            {/* $FlowExpectedError */}
-            <Form.Input
-              value={this.password}
-              type="password"
-              placeholder="Password"
-              onChange={(event) => {
-                this.password = event.currentTarget.value;
-              }}
-            />
-          </Column>
-        </Row>
-        <Row>
-          <Column>
-            <Button.Success
-              onClick={() => {
-                userService.login(this.username, this.password);
-              }}
-            >
-              Login
-            </Button.Success>
-          </Column>
-        </Row>
-        <Column>
-          <Row>
-            Don't have an account? <NavBar.Link to="/register">Sign up</NavBar.Link>
-          </Row>
+        <Column width={3}>
+          <Form.Input
+            id={'username'}
+            value={this.username}
+            type="text"
+            placeholder="Username"
+            onChange={(event) => {
+              this.username = event.currentTarget.value;
+            }}
+          />
+          <Form.Input
+            id={'password'}
+            value={this.password}
+            type="password"
+            placeholder="Password"
+            onChange={(event) => {
+              this.password = event.currentTarget.value;
+            }}
+          />
+          <br />
+          <Button.Success
+            onClick={() => {
+              userService.login(this.username, this.password);
+            }}
+          >
+            Login
+          </Button.Success>
+          <br />
+          Don't have a user? Register <a href="#/register">here</a>!
         </Column>
       </Card>
     );
