@@ -101,8 +101,8 @@ export class Quizzes extends Component {
             </Row>
           </Card>
           {this.quizzes.map((quiz) => (
-            <Card>
-              <Row key={quiz.quizId}>
+            <Card key={quiz.quiz_id}>
+              <Row>
                 <Column width={4}>
                   {quiz.quiz_category}
                   {' - '}
@@ -111,14 +111,9 @@ export class Quizzes extends Component {
                   </NavLink>
                 </Column>
                 <Column width={1.8}></Column>
-                  <ReactStars
-                  size={24}
-        value={quiz.rating}
-        edit={false}
-        isHalf={true}
-      /> 
+                <ReactStars size={24} value={quiz.rating} edit={false} isHalf={true} />
                 <Column width={5}>{<h3>{quiz.rating}</h3>}</Column>
-              
+
                 <Column width={1.5}>
                   <Button.Success
                     onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
