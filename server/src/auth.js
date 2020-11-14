@@ -35,9 +35,9 @@ function hashPassword(password: string, salt: string) {
   return hasher(password, salt);
 }
 
-const funcs = {
+const auth = {
   hashPassword,
   makeSalt,
 };
 
-export default funcs;
+export default auth;

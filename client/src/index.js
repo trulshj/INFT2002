@@ -7,19 +7,12 @@ import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 import Login from './components/login';
 import { NewQuiz, NewQuizQuestions } from './components/newquiz';
-import {
-  Quizzes,
-} from './components/quizzes';
-import {
-  QuizEdit, QuestionEdit, QuizAddQuestion,
-} from './components/quizedit';
+import { Quizzes } from './components/quizzes';
+import { QuizEdit, QuestionEdit, QuizAddQuestion } from './components/quizedit';
 
-import {
-  QuizDetail, QuestionDetail,
-} from './components/quizdetail';
+import { QuizDetail, QuestionDetail } from './components/quizdetail';
 
 import Register from './components/register';
-
 
 class Menu extends Component {
   render() {

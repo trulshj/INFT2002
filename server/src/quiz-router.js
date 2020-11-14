@@ -8,6 +8,8 @@ import quizService, {
   type Rating,
 } from './quiz-service';
 
+import userService from './user-service';
+
 /**
  * Express router containing quiz methods.
  */
@@ -52,7 +54,7 @@ router.get('/quizzes/:quizId/rating', (request, response) => {
 //New rating
 router.post('/quizzes/:quizId/rating/', (request, response) => {
   const quizId = Number(request.params.quizId);
-  const rating = Number(request.params.rating)
+  const rating = Number(request.params.rating);
   if (
     data &&
     typeof data.rating == 'number' &&
@@ -66,9 +68,6 @@ router.post('/quizzes/:quizId/rating/', (request, response) => {
       .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing rating or quizId');
 });
-
-
-
 
 /**
  * Get quizzes with search
@@ -318,4 +317,36 @@ router.put('/quizzes/questions/options', (request, response) => {
       .then(() => response.send())
       .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing quiz properties');
+});
+
+/*
+USER LOGIN AND REGISTRATION ROUTING
+*/
+
+// User login
+router.post('/login', (request, response) => {
+  const username = request.body.username;
+  const password = request.body.password;
+  if (typeof username != 'string' || typeof password != 'string') {
+    response.status(400).send('Username and password must be strings');
+  } else {
+    userService
+      .login(username, password)
+      .then((result) => response.send(result))
+      .catch((error: Error) => response.status(500).send(error));
+  }
+});
+
+// User registration
+router.post('/register', (request, response) => {
+  const username = request.body.username;
+  const password = request.body.password;
+  if (typeof username != 'string' || typeof password != 'string') {
+    response.status(400).send('Username and password must be strings');
+  } else {
+    userService
+      .register(username, password)
+      .then((result) => response.send(result))
+      .catch((error: Error) => response.status(500).send(error));
+  }
 });
