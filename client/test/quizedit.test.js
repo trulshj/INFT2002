@@ -309,4 +309,68 @@ describe('QuestionEdit component tests', () => {
 /**
  * QuizAddQuestion
  */
-describe('QuizAddQuestion component tests', () => {});
+describe('QuizAddQuestion component tests', () => {
+  test('QuizAddQuestion draws correctly', (done) => {
+    const wrapper = shallow(<QuizAddQuestion match={{ params: { quizId: 1 } }} />);
+
+    wrapper
+      .find({ id: 'question_id' })
+      .simulate('change', { currentTarget: { value: 'Hvilket land ligger i Europa?' } });
+    wrapper.find({ id: 'option1' }).simulate('change', { currentTarget: { value: 'Norge' } });
+    wrapper.find({ id: 'isCorrect1' }).simulate('change', { currentTarget: { checked: 'true' } });
+    wrapper.find({ id: 'option2' }).simulate('change', { currentTarget: { value: 'USA' } });
+    wrapper.find({ id: 'isCorrect2' }).simulate('change', { currentTarget: { checked: 'false' } });
+    wrapper.find({ id: 'option3' }).simulate('change', { currentTarget: { value: 'Kina' } });
+    wrapper.find({ id: 'isCorrect3' }).simulate('change', { currentTarget: { checked: 'false' } });
+
+    // Wait for events to complete
+    setTimeout(() => {
+      // $FlowExpectedError
+      expect(
+        wrapper.containsMatchingElement(<Form.Input value="Hvilket land ligger i Europa?" />),
+      ).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Input value="Norge" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Input value="USA" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="false" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Input value="Kina" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="false" />)).toEqual(true);
+      done();
+    });
+  });
+
+  test('QuizAddQuestion correctly sets location on add', (done) => {
+    const wrapper = shallow(<QuizAddQuestion match={{ params: { quizId: 1 } }} />);
+
+    wrapper
+      .find({ id: 'question_id' })
+      .simulate('change', { currentTarget: { value: 'Hvilket land ligger i Europa?' } });
+    wrapper.find({ id: 'option1' }).simulate('change', { currentTarget: { value: 'Norge' } });
+    wrapper.find({ id: 'isCorrect1' }).simulate('change', { currentTarget: { checked: 'true' } });
+    wrapper.find({ id: 'option2' }).simulate('change', { currentTarget: { value: 'USA' } });
+    wrapper.find({ id: 'isCorrect2' }).simulate('change', { currentTarget: { checked: 'false' } });
+    wrapper.find({ id: 'option3' }).simulate('change', { currentTarget: { value: 'Kina' } });
+    wrapper.find({ id: 'isCorrect3' }).simulate('change', { currentTarget: { checked: 'false' } });
+
+    // Wait for events to complete
+    setTimeout(() => {
+      // $FlowExpectedError
+      expect(
+        wrapper.containsMatchingElement(<Form.Input value="Hvilket land ligger i Europa?" />),
+      ).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Input value="Norge" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Input value="USA" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="false" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Input value="Kina" />)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Form.Checkbox checked="false" />)).toEqual(true);
+
+      wrapper.find(Button.Success).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes/1/edit');
+        done();
+      });
+    });
+  });
+});
