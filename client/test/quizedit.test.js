@@ -262,6 +262,32 @@ describe('QuestionEdit component tests', () => {
     });
   });
 
+  //.at(2) temp solution untill good way to find id for Form.Input
+  test('QuestionEdit correctly changes option 2 name', (done) => {
+    const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input id="questionTitle" value="Hva heter hovedstaden i Norge?"></Form.Input>,
+          <Form.Input value="Oslo"></Form.Input>,
+          <Form.Input value="Sverige"></Form.Input>,
+          <Form.Input value="Moskva"></Form.Input>,
+        ]),
+      ).toEqual(true);
+
+      wrapper
+        .find(Form.Input)
+        .at(2)
+        .simulate('change', { currentTarget: { value: 'Stockholm' } });
+
+      setTimeout(() => {
+        expect(wrapper.containsMatchingElement(<Form.Input value="Stockholm" />)).toEqual(true);
+        done();
+      });
+    });
+  });
+
   test('QuestionEdit correctly sets location on save', (done) => {
     const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
 
