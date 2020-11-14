@@ -51,40 +51,7 @@ export class Alert extends Component {
     );
   }
 
-  /**
-   * Show success alert.
-   */
-  static success(text: React.Node) {
-    // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
-    setTimeout(() => {
-      const instance = Alert.instance(); // Get rendered Alert component instance
-      instance?.alerts.push({ id: instance.nextId++, text: text, type: 'success' });
-    });
-  }
-
-  /**
-   * Show info alert.
-   */
-  static info(text: React.Node) {
-    // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
-    setTimeout(() => {
-      const instance = Alert.instance(); // Get rendered Alert component instance
-      instance?.alerts.push({ id: instance.nextId++, text: text, type: 'info' });
-    });
-  }
-
-  /**
-   * Show warning alert.
-   */
-  static warning(text: React.Node) {
-    // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
-    setTimeout(() => {
-      const instance = Alert.instance(); // Get rendered Alert component instance
-      instance?.alerts.push({ id: instance.nextId++, text: text, type: 'warning' });
-    });
-  }
-
-  /**
+   /**
    * Show danger alert.
    */
   static danger(text: React.Node) {

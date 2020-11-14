@@ -87,8 +87,8 @@ describe('QuestionDetail tests', () => {
 
     // Wait for events to complete
     setTimeout(() => {
+      expect(wrapper.containsMatchingElement(<Column>Russland</Column>)).toEqual(true);
       expect(wrapper.containsMatchingElement(<Column>Norge</Column>)).toEqual(true);
-      expect(wrapper.containsMatchingElement(<Column>Sverige</Column>)).toEqual(true);
       expect(wrapper.containsMatchingElement(<Column>Sverige</Column>)).toEqual(true);
       done();
     });

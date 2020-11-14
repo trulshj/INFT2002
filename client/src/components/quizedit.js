@@ -27,6 +27,7 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
               <Column width={1}>Edit Quiz title:</Column>
               <Column width={4}>
                 <Form.Input
+                  id="quizTitle"
                   type="text"
                   value={this.quiz.quiz_name}
                   onChange={(event) => (this.quiz.quiz_name = event.currentTarget.value)}
@@ -146,7 +147,7 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
               <Column width={1}>Edit Question title:</Column>
               <Column width={4}>
                 <Form.Input
-                  id="TitleEdit"
+                  id="questionTitle"
                   type="text"
                   value={this.question.question}
                   onChange={(event) => (this.question.question = event.currentTarget.value)}
