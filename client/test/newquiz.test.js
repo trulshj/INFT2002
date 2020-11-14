@@ -62,27 +62,7 @@ describe('Newquiz tests', () => {
           done();
         });
       });
-      
-      //Krever utbedring!
-    test('NewQuiz correctly sets location on create', (done) => {
-        const wrapper = shallow(<NewQuiz />);
-    
-        wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Land i Europa' } });
-        // $FlowExpectedError
-        expect(wrapper.containsMatchingElement(<Form.Input value="Land i Europa" />)).toEqual(true);
-
-        wrapper.find(Form.Select).simulate('change', { currentTarget: { value: 'Verden' } });
-        // $FlowExpectedError
-        expect(wrapper.containsMatchingElement(<Form.Select value='Verden'/>)).toEqual(true);
-
-        wrapper.find(Button.Success).simulate('click');
-        // Wait for events to complete
-        setTimeout(() => {
-          expect(location.hash).toEqual('#/newQuiz/1');
-          done();
-        });
-      });
-      });
+    });
 
 describe('NewQuizQuestions tests', () => {
   test('NewQuizQuestions draws correctly', (done) => {
@@ -106,27 +86,6 @@ describe('NewQuizQuestions tests', () => {
       expect(wrapper.containsMatchingElement(<Form.Checkbox checked="false" />)).toEqual(true);
       expect(wrapper.containsMatchingElement(<Form.Input value="Kina" />)).toEqual(true);
       expect(wrapper.containsMatchingElement(<Form.Checkbox checked="false" />)).toEqual(true);
-      done();
-     });
-  })
-
-  test('NewQuizQuestions correctly sets location on create', (done) => {
-    const wrapper = shallow(<NewQuizQuestions />);
-    
-    wrapper.find({ id: 'question_id'}).simulate('change', { currentTarget: { value: 'Hvilket land ligger i Europa?' } })
-    wrapper.find({ id: 'option1'}).simulate('change', { currentTarget: { value: 'Norge' } })
-    wrapper.find({ id: 'isCorrect1'}).simulate('change', { currentTarget: { checked: 'true' }})
-    wrapper.find({ id: 'option2'}).simulate('change', { currentTarget: { value: 'USA' } })
-    wrapper.find({ id: 'isCorrect2'}).simulate('change', { currentTarget: { checked: 'false' }})
-    wrapper.find({ id: 'option3'}).simulate('change', { currentTarget: { value: 'Kina' } })
-    wrapper.find({ id: 'isCorrect3'}).simulate('change', { currentTarget: { checked: 'false' }})
-
-    wrapper.find(Button.Success).simulate('click');
-    
-    // Wait for events to complete
-    setTimeout(() => {
-      // $FlowExpectedError
-      expect(location.hash).toEqual('#/newQuiz/3');
       done();
      });
   })

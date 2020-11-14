@@ -311,20 +311,4 @@ describe('NavLink widget tests', () => {
       wrapper.find(Button.Danger).simulate('click');
       expect(buttonClicked).toEqual(true);
     });
-
- 
-
   });
-
-   //Test for StarRating
-  describe('Rating widget test', () => {
-    test('Rating widget draws correctly', () => {
-      // $FlowExpectedError
-      const wrapper = shallow(<StarRating></StarRating>);
-  
-      expect(
-        wrapper.containsMatchingElement(<ReactStars count={5} size={24} isHalf={true} activeColor="#ffd700" edit={false}></ReactStars>
-        )
-      ).toEqual(true);
-    });
-});
