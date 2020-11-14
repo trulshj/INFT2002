@@ -4,10 +4,8 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
-import { createHashHistory } from 'history';
+import history from '../history';
 import userService from '../user-service';
-
-const history = createHashHistory();
 
 class Login extends Component {
   username = '';

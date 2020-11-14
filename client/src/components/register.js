@@ -4,6 +4,7 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
+import history from '../history';
 import userService from '../user-service';
 
 class Register extends Component {
@@ -64,6 +65,19 @@ class Register extends Component {
                 this.password.length >= 8
               ) {
                 userService.register(this.username, this.password);
+
+                // Janky way of waiting for the server
+                let i = 0;
+                let interval = setInterval(() => {
+                  if (userService.user != '') {
+                    clearInterval(interval);
+                    history.push('/profile');
+                  }
+                  if (i > 5) {
+                    clearInterval(interval);
+                  }
+                  i++;
+                }, 16);
               } else {
                 Alert.danger('Password criteria not satisfied');
               }
