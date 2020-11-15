@@ -65,7 +65,7 @@ class QuizService {
   getQuizzesWithCategory(category: string) {
     return new Promise<Quiz[]>((resolve, reject) => {
       pool.query(
-        'SELECT * FROM quiz WHERE quiz_category = ?',
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE q.quiz_category = ? GROUP BY q.quiz_id ORDER BY rating DESC',
         [category],
         (error, results: Quiz[]) => {
           if (error) return reject(error);
@@ -82,7 +82,7 @@ class QuizService {
   getQuizzesSearch(search: string) {
     return new Promise<Quiz[]>((resolve, reject) => {
       pool.query(
-        "SELECT * FROM quiz WHERE quiz_name LIKE '%' ? '%'",
+        "SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE quiz_name LIKE '%' ? '%' GROUP BY q.quiz_id ORDER BY rating DESC",
         [search],
         (error, results: Quiz[]) => {
           if (error) return reject(error);
