@@ -203,21 +203,17 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
             Save changes
           </Button.Light>
           <Button.Danger
-            onClick={() =>
+            onClick={() => {
               quizService
                 .deleteOption(this.question.quiz_question_id)
-                .then(() =>
-                  quizService
-                    .deleteQuestion(this.question.quiz_question_id)
-                    .then(() => history.push('/quizzes/' + this.question.quiz_id + '/edit'))
-                    .catch((error: Error) =>
-                      Alert.danger('Error deleting question: ' + error.message),
-                    ),
-                )
                 .catch((error: Error) =>
-                  Alert.danger('Error deleting options for question: ' + error.message),
-                )
-            }
+                  Alert.danger('Error deleting options for questions for quiz'),
+                );
+              quizService
+                .deleteQuestion(this.question.quiz_question_id)
+                .then(() => history.push('/quizzes/' + this.question.quiz_id + '/edit'))
+                .catch((error: Error) => Alert.danger('Error deleting question: ' + error.message));
+            }}
           >
             Delete question
           </Button.Danger>
