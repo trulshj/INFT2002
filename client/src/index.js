@@ -15,6 +15,7 @@ import {
   QuestionEdit,
   QuizAddQuestion,
 } from './components/quizzes';
+import { QuizPlay } from './components/quizPlay';
 import Register from './components/register';
 
 
@@ -45,6 +46,7 @@ if (root)
         <Menu />
         <Route exact path="/" component={Home} />
         <Route exact path="/quizzes" component={Quizzes} />
+        <Route exact path="/quizzes/:quizId(\d+)/play" component={QuizPlay} />
         <Route exact path="/quizzes/:quizId(\d+)" component={QuizDetail} />
         <Route exact path="/quizzes/:quizId(\d+)/edit" component={QuizEdit} />
         <Route exact path="/quizzes/:quizId(\d+)/edit/addQuestion" component={QuizAddQuestion} />
