@@ -180,4 +180,44 @@ describe('Quizzes tests', () => {
       });
     });
   });
+
+  test('Quizzes correctly sets location on play', (done) => {
+    const wrapper = shallow(<Quizzes />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <NavLink to="/quizzes/1">Land i Europa - Se fasit</NavLink>,
+          <NavLink to="/quizzes/2">Tradisjoner i Norge - Se fasit</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find({ id: 'playButton' }).at(0).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes/1/play');
+        done();
+      });
+    });
+  });
+
+  test('Quizzes correctly sets location on Edit', (done) => {
+    const wrapper = shallow(<Quizzes />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <NavLink to="/quizzes/1">Land i Europa - Se fasit</NavLink>,
+          <NavLink to="/quizzes/2">Tradisjoner i Norge - Se fasit</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find({ id: 'editButton' }).at(0).simulate('click');
+
+      setTimeout(() => {
+        expect(location.hash).toEqual('#/quizzes/1/edit');
+        done();
+      });
+    });
+  });
 });

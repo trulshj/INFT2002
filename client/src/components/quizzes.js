@@ -120,13 +120,17 @@ export class Quizzes extends Component {
 
                 <Column width={1.5}>
                   <Button.Success
+                    id="playButton"
                     onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/play')}
                   >
                     Start Quiz
                   </Button.Success>
                 </Column>
                 <Column width={0.5}>
-                  <Button.Light onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}>
+                  <Button.Light
+                    id="editButton"
+                    onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}
+                  >
                     Edit
                   </Button.Light>
                 </Column>
