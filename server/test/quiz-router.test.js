@@ -46,9 +46,7 @@ beforeEach((done) => {
       .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
       .then(() => done());
   });
-});
 
-beforeEach((done) => {
   pool.query('TRUNCATE TABLE quiz_question', (error) => {
     if (error) return done.fail(error);
 
@@ -57,9 +55,7 @@ beforeEach((done) => {
       .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question)) 
       .then(() => done());
   });
-});
 
-beforeEach((done) => {
   pool.query('TRUNCATE TABLE quiz_question_option', (error) => {
     if (error) return done.fail(error);
 
@@ -69,9 +65,7 @@ beforeEach((done) => {
       .then(() => quizService.create(testQuestionOption[2].quizQuestionId, testQuestionOption[2].questionAnswer, testQuestionOption[2].isCorrect)) 
       .then(() => done());
   });
-});
 
-beforeEach((done) => {
   pool.query('TRUNCATE TABLE category', (error) => {
     if (error) return done.fail(error);
 
@@ -103,12 +97,12 @@ describe('Create new quiz (POST)', () => {
       });
   });
 
-  test('Create new quiz (404 Not Found)', (done) => {
+  test('Create new quiz (400 Bad Request)', (done) => {
     axios
       .post<{}, number>('/quizzes', { category: '' })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 404');
+        expect(error.message).toEqual('Request failed with status code 400');
         done();
       });
   });
@@ -330,7 +324,7 @@ describe('Update quiz (UPDATE)', () => {
       });
   });
   
-  test('Update quiz (404 Not Found)', (done) => {
+  test('Update quiz (400 Not Found)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
@@ -339,7 +333,7 @@ describe('Update quiz (UPDATE)', () => {
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 404');
+        expect(error.message).toEqual('Request failed with status code 400');
         done();
       });
   });
@@ -360,7 +354,7 @@ describe('Update question (UPDATE)', () => {
       });
   });
   
-  test('Update question (404 Not Found)', (done) => {
+  test('Update question (400 Bad Request)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
@@ -368,7 +362,7 @@ describe('Update question (UPDATE)', () => {
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 404');
+        expect(error.message).toEqual('Request failed with status code 400');
         done();
       });
   });
@@ -390,7 +384,7 @@ describe('Update option (UPDATE)', () => {
       });
   });
   
-  test('Update option (404 Not Found)', (done) => {
+  test('Update option (400 Bad Request)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
@@ -398,7 +392,7 @@ describe('Update option (UPDATE)', () => {
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 404');
+        expect(error.message).toEqual('Request failed with status code 400');
         done();
       });
   });
