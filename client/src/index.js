@@ -8,6 +8,7 @@ import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 import { NewQuiz, NewQuizQuestions } from './components/newquiz';
+import { QuizPlay } from './components/quizPlay';
 import { Quizzes } from './components/quizzes';
 import { QuizEdit, QuestionEdit, QuizAddQuestion } from './components/quizedit';
 import { QuizDetail, QuestionDetail } from './components/quizdetail';
@@ -44,6 +45,7 @@ if (root)
         <Menu />
         <Route exact path="/" component={Home} />
         <Route exact path="/quizzes" component={Quizzes} />
+        <Route exact path="/quizzes/:quizId(\d+)/play" component={QuizPlay} />
         <Route exact path="/quizzes/:quizId(\d+)" component={QuizDetail} />
         <Route exact path="/quizzes/:quizId(\d+)/edit" component={QuizEdit} />
         <Route exact path="/quizzes/:quizId(\d+)/edit/addQuestion" component={QuizAddQuestion} />
