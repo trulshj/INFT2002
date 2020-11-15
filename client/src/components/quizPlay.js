@@ -6,46 +6,41 @@ import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
-import { StarRating } from '../rating';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
 export class QuizPlay extends Component<{ match: { params: { quizId: number } } }> {
-    quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
-    question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
-    questionOption: QuizQuestionOption[] = [];
-    questions: QuizQuestion[] = [];
-    
+  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
+  question: QuizQuestion = { quizQuestionId: 0, quizId: 0, question: '' };
+  questionOption: QuizQuestionOption[] = [];
+  questions: QuizQuestion[] = [];
+
   render() {
     return (
-      <>       
-        {this.questions.map((question) => (        
-          <Row key={question.quizQuestionId}>               
-            <Column width={5}>                                                                                    
+      <>
+        {this.questions.map((question) => (
+          <Row key={question.quizQuestionId}>
+            <Column width={5}>
               <PlayOptions quizQuestionId={question.quiz_question_id} />
-            </Column>              
-            <Column>
             </Column>
-          </Row>                      
-        ))}          
-          <Button.Success         
-          >
-            Done
-          </Button.Success>
+            <Column></Column>
+          </Row>
+        ))}
+        <Button.Success>Done</Button.Success>
       </>
     );
   }
-    
-      mounted() {
-        quizService
+
+  mounted() {
+    quizService
       .get(this.props.match.params.quizId)
       .then((quiz) => (this.quiz = quiz))
       .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
     quizService
       .getAllQuestionsInQuiz(this.props.match.params.quizId)
       .then((quizQuestions) => (this.questions = quizQuestions))
-      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));      
-      }
+      .catch((error: Error) => Alert.danger('Error getting quiz questions: ' + error.message));
+  }
 }
 
 export class PlayOptions extends Component {
@@ -64,9 +59,9 @@ export class PlayOptions extends Component {
               <Row key={option.quizQuestionOptionId}>
                 <Column width={10}>{option.question_answer}</Column>
                 <Form.Checkbox
-                  checked = {(this.question_answer)}
-                  onChange={(event) => (this.question_answer = event.currentTarget.checked)}/>
-                  
+                  checked={this.question_answer}
+                  onChange={(event) => (this.question_answer = event.currentTarget.checked)}
+                />
               </Row>
             </Card>
           ))}
@@ -98,7 +93,6 @@ export class PlayOptionAnswer extends Component {
   questionOption: QuizQuestionOption[] = [];
   questionOptionCorrect: QuizQuestionOption[] = [];
 
-
   render() {
     console.log(this.props.quizQuestionId);
     return (
@@ -109,8 +103,9 @@ export class PlayOptionAnswer extends Component {
               <Row key={option.quizQuestionOptionId}>
                 <Column width={10}>{option.question_answer}</Column>
                 <Form.Checkbox
-                checked={option.is_correct}
-                onChange={(event) => (option.is_correct = event.currentTarget.checked)}/>
+                  checked={option.is_correct}
+                  onChange={(event) => (option.is_correct = event.currentTarget.checked)}
+                />
               </Row>
             </Card>
           ))}
