@@ -29,7 +29,7 @@ export class Quizzes extends Component {
               <Column width={1}>Search for name:</Column>
               <Column width={2}>
                 <Form.Input
-                id="quizNameSearch"
+                  id="quizNameSearch"
                   type="text"
                   value={this.search}
                   onChange={(event) => (this.search = event.currentTarget.value)}
@@ -37,7 +37,7 @@ export class Quizzes extends Component {
               </Column>
               <Column width={2}>
                 <Button.Success
-                id="buttonQuizNameSearch"
+                  id="buttonQuizNameSearch"
                   onClick={() =>
                     quizService
                       .getQuizzesSearch(this.search)
@@ -72,6 +72,7 @@ export class Quizzes extends Component {
               </Column>
               <Column width={2}>
                 <Button.Success
+                  id="buttonCategorySearch"
                   onClick={() =>
                     quizService
                       .getQuizzesWithCategory(this.category)
@@ -88,6 +89,7 @@ export class Quizzes extends Component {
             <Row>
               <Column>
                 <Button.Light
+                  id="buttonClearSearch"
                   onClick={() =>
                     quizService
                       .getAll()
