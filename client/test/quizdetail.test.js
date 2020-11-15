@@ -60,6 +60,10 @@ jest.mock('../src/quiz-service', () => {
         is_correct: true,
       });
     }
+
+    createRating(rating: number, quizId: number) {
+      return Promise.resolve();
+    }
   }
   return new QuizService();
 });
@@ -76,8 +80,29 @@ describe('QuizDetail tests', () => {
           <NavLink to="/quizzes/1/2">Hva heter det minste landet?</NavLink>,
         ]),
       ).toEqual(true);
-      done();
     });
+    done();
+  });
+
+  test('QuizDetail correctly sets rating on change', (done) => {
+    const wrapper = shallow(<QuizDetail match={{ params: { quizId: 1 } }} />);
+
+    // Wait for events to complete
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <NavLink to="/quizzes/1/1">Hva heter det største landet?</NavLink>,
+          <NavLink to="/quizzes/1/2">Hva heter det minste landet?</NavLink>,
+        ]),
+      ).toEqual(true);
+
+      wrapper.find({ id: 'ratingStars' }).simulate('change', { currentTarget: { value: 4 } });
+
+      setTimeout(() => {
+        expect(wrapper.containsMatchingElement(<ReactStars value="4" />));
+      });
+    });
+    done();
   });
 });
 
@@ -87,9 +112,13 @@ describe('QuestionDetail tests', () => {
 
     // Wait for events to complete
     setTimeout(() => {
-      expect(wrapper.containsMatchingElement(<Column>Russland</Column>)).toEqual(true);
-      expect(wrapper.containsMatchingElement(<Column>Norge</Column>)).toEqual(true);
-      expect(wrapper.containsMatchingElement(<Column>Sverige</Column>)).toEqual(true);
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Column>Russland</Column>,
+          <Column>Norge</Column>,
+          <Column>Sverige</Column>,
+        ]),
+      ).toEqual(true);
       done();
     });
   });

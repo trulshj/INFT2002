@@ -36,6 +36,7 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
         </Card>
         <Card title="Rate quiz">
           <ReactStars
+            id="ratingStars"
             size={24}
             value={this.rating}
             onChange={(newRating) => {
