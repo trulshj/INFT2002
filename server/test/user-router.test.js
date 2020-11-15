@@ -32,9 +32,9 @@ beforeEach((done) => {
     // Create testTasks sequentially in order to set correct id, and call done() when finished
     userService
       .register(testUsers[0].username, testUsers[0].password)
-      .then(() => userService.register(testUsers[1].username, testUsers[1].password)) // Create testTask[1] after testTask[0] has been created
-      .then(() => userService.register(testUsers[2].username, testUsers[2].password)) // Create testTask[2] after testTask[1] has been created
-      .then(() => done()); // Call done() after testTask[2] has been created
+      .then(() => userService.register(testUsers[1].username, testUsers[1].password)) // Create testUser[1] after testUser[0] has been created
+      .then(() => userService.register(testUsers[2].username, testUsers[2].password)) // Create testUser[2] after testUser[1] has been created
+      .then(() => done()); // Call done() after testUser[2] has been created
   });
 });
 
