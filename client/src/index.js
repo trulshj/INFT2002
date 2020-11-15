@@ -2,22 +2,21 @@
 
 import ReactDOM from 'react-dom';
 import * as React from 'react';
+
+// Quiz Components
 import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
-import Login from './components/login';
 import { NewQuiz, NewQuizQuestions } from './components/newquiz';
-import {
-  Quizzes,
-  QuizDetail,
-  QuizEdit,
-  QuestionDetail,
-  QuestionEdit,
-  QuizAddQuestion,
-} from './components/quizzes';
 import { QuizPlay } from './components/quizPlay';
-import Register from './components/register';
+import { Quizzes } from './components/quizzes';
+import { QuizEdit, QuestionEdit, QuizAddQuestion } from './components/quizedit';
+import { QuizDetail, QuestionDetail } from './components/quizdetail';
 
+// User Components
+import Login from './components/login';
+import Register from './components/register';
+import Profile from './components/profile';
 
 class Menu extends Component {
   render() {
@@ -59,6 +58,7 @@ if (root)
         <Route exact path="/newQuiz" component={NewQuiz} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/newQuiz/:id(\d+)" component={NewQuizQuestions} />{' '}
         {/* id must be number */}
       </div>

@@ -48,11 +48,14 @@ class QuizService {
    */
   getAll() {
     return new Promise<Quiz[]>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz ORDER BY quiz_category', (error, results) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id GROUP BY q.quiz_id ORDER BY rating DESC',
+        (error, results) => {
+          if (error) return reject(error);
 
-        resolve(results);
-      });
+          resolve(results);
+        },
+      );
     });
   }
 
@@ -134,7 +137,7 @@ class QuizService {
             [results.insertId, option1, iscorrect1],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error);
+              //console.log(error);
             },
           );
 
@@ -143,7 +146,7 @@ class QuizService {
             [results.insertId, option2, iscorrect2],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error);
+              //console.log(error);
             },
           );
 
@@ -152,30 +155,29 @@ class QuizService {
             [results.insertId, option3, iscorrect3],
             (error, results) => {
               if (error) return reject(error);
-              console.log(error);
+              //console.log(error);
             },
           );
 
           if (error) return reject(error);
-          console.log(error);
+          //console.log(error);
 
           resolve();
         },
       );
     });
   }
-
   /**
-   * Get avrage rating with given quizId
+   * Post rating with given quizId
    */
 
-  getRating(quizId: number) {
-    return new Promise<?Rating>((resolve, reject) => {
+  createRating(rating: number, quizId: number) {
+    return new Promise<void>((resolve, reject) => {
       pool.query(
-        'SELECT AVG(rating) AS avrage_rating FROM `rating` WHERE quiz_id = ?',
-        [quizId],
+        'INSERT INTO rating SET (rating=?, quiz_id) values (?, ?)',
+        [rating, quizId],
         (error, results) => {
-          if (error) return reject(error + 'Cannot get quiz_id');
+          if (error) return reject(error);
 
           resolve();
         },

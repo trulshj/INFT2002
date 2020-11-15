@@ -6,6 +6,7 @@ export type Quiz = {
   quizId: number,
   quizName: string,
   quizCategory: string,
+  rating: number,
 };
 
 export type QuizQuestion = {
@@ -23,10 +24,6 @@ export type QuizQuestionOption = {
 
 export type Category = {
   category_name: string,
-};
-
-export type Rating = {
-  avrage_rating: number,
 };
 
 export type QuestionDetails = {
@@ -61,14 +58,6 @@ class QuizService {
   getQuizzesWithCategory(category: string) {
     return axios.get<Quiz[]>('/quizzes/category/' + category).then((response) => response.data);
   }
-
-  /**
-   * Get rating with give quiz_id
-   */
-  getRating(quizId: number, avrage_rating: number) {
-    return axios.get<Rating[]>('/quizzes/' + quizId + '/rating').then((response) => response.data);
-  }
-
   /**
    * Getting quizzes with search
    */
@@ -86,7 +75,7 @@ class QuizService {
         category: quizCategory,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.quizid;
       });
   }
@@ -205,8 +194,20 @@ class QuizService {
         iscorrect3: isCorrect3,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.quizquestionid;
+      });
+  }
+
+  /**
+   * Create new rating having the given quizid
+   */
+  createRating(rating: number, quizId: number) {
+    return axios
+      .post<{}, { rating: number }>('/quizzes/' + quizId + '/' + "rating" + "/" + rating)
+      .then((response) => {
+        //console.log(response);
+        return response.data.rating;
       });
   }
 
@@ -233,7 +234,7 @@ class QuizService {
         iscorrect3: isCorrect1,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         return response.data.quizquestionoptionid;
       });
   }
