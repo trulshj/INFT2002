@@ -360,7 +360,7 @@ describe('Update question (UPDATE)', () => {
       });
   });
   
-  test('Update question (400 Not Found)', (done) => {
+  test('Update question (404 Not Found)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
@@ -368,7 +368,7 @@ describe('Update question (UPDATE)', () => {
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 400');
+        expect(error.message).toEqual('Request failed with status code 404');
         done();
       });
   });
@@ -390,7 +390,7 @@ describe('Update option (UPDATE)', () => {
       });
   });
   
-  test('Update option (400 Not Found)', (done) => {
+  test('Update option (404 Not Found)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
@@ -398,7 +398,7 @@ describe('Update option (UPDATE)', () => {
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 400');
+        expect(error.message).toEqual('Request failed with status code 404');
         done();
       });
   });
