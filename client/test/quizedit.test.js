@@ -277,8 +277,8 @@ describe('QuestionEdit component tests', () => {
       ).toEqual(true);
 
       wrapper
-        .find(Form.Input)
-        .at(2)
+        .find({ id: 'optionAnswer' })
+        .at(1)
         .simulate('change', { currentTarget: { value: 'Stockholm' } });
 
       setTimeout(() => {
@@ -286,6 +286,40 @@ describe('QuestionEdit component tests', () => {
         done();
       });
     });
+  });
+
+  test('QuestionEdit correctly changes option 1 and 2 correct status', (done) => {
+    const wrapper = shallow(<QuestionEdit match={{ params: { quizQuestionId: 1 } }} />);
+
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Form.Input id="questionTitle" value="Hva heter hovedstaden i Norge?"></Form.Input>,
+          <Form.Input value="Oslo"></Form.Input>,
+          <Form.Input value="Sverige"></Form.Input>,
+          <Form.Input value="Moskva"></Form.Input>,
+        ]),
+      ).toEqual(true);
+
+      wrapper
+        .find({ id: 'optionCheckbox' })
+        .at(0)
+        .simulate('change', { currentTarget: { checked: 'false' } });
+
+      setTimeout(() => {
+        expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(false);
+
+        wrapper
+          .find({ id: 'optionCheckbox' })
+          .at(1)
+          .simulate('change', { currentTarget: { checked: 'true' } });
+
+        setTimeout(() => {
+          expect(wrapper.containsMatchingElement(<Form.Checkbox checked="true" />)).toEqual(true);
+        });
+      });
+    });
+    done();
   });
 
   test('QuestionEdit correctly sets location on save', (done) => {

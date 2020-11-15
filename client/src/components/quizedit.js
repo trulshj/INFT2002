@@ -160,7 +160,7 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
               <Row>
                 <Column width={4}>
                   <Form.Input
-                    id={option.quiz_question_option_id}
+                    id="optionAnswer"
                     type="text"
                     value={option.question_answer}
                     onChange={(event) => (option.question_answer = event.currentTarget.value)}
@@ -168,7 +168,7 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
                 </Column>
                 <Column>
                   <Form.Checkbox
-                    id={option.quiz_question_option_id}
+                    id="optionCheckbox"
                     checked={option.is_correct}
                     onChange={(event) => (option.is_correct = event.currentTarget.checked)}
                   />{' '}
@@ -176,6 +176,7 @@ export class QuestionEdit extends Component<{ match: { params: { quizQuestionId:
                 </Column>
                 <Column>
                   <Button.Success
+                    id="optionUpdateButton"
                     onClick={() =>
                       quizService
                         .updateOption(option)
