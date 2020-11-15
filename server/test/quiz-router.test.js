@@ -37,7 +37,7 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-  pool.query('TRUNCATE TABLE quiz', (error) => {
+  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
     if (error) return done.fail(error);
 
     quizService
@@ -46,8 +46,10 @@ beforeEach((done) => {
       .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
       .then(() => done());
   });
+});
 
-  pool.query('TRUNCATE TABLE quiz_question', (error) => {
+beforeEach((done) => {
+  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
     if (error) return done.fail(error);
 
     quizService
@@ -55,8 +57,10 @@ beforeEach((done) => {
       .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question)) 
       .then(() => done());
   });
+});
 
-  pool.query('TRUNCATE TABLE quiz_question_option', (error) => {
+beforeEach((done) => {
+  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question_option; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
     if (error) return done.fail(error);
 
     quizService
@@ -65,8 +69,10 @@ beforeEach((done) => {
       .then(() => quizService.create(testQuestionOption[2].quizQuestionId, testQuestionOption[2].questionAnswer, testQuestionOption[2].isCorrect)) 
       .then(() => done());
   });
+});
 
-  pool.query('TRUNCATE TABLE category', (error) => {
+beforeEach((done) => {
+  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE category; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
     if (error) return done.fail(error);
 
     quizService
