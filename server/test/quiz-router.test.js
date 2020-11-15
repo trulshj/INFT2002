@@ -330,7 +330,7 @@ describe('Update quiz (UPDATE)', () => {
       });
   });
   
-  test('Update quiz (400 Not Found)', (done) => {
+  test('Update quiz (404 Not Found)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
@@ -339,7 +339,7 @@ describe('Update quiz (UPDATE)', () => {
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 400');
+        expect(error.message).toEqual('Request failed with status code 404');
         done();
       });
   });
