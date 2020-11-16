@@ -107,6 +107,7 @@ export class PlayOptionAnswer extends Component {
   questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
+
     return (
       <>
         <Card title={this.question.question}>

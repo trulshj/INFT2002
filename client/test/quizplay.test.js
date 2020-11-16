@@ -43,7 +43,10 @@ jest.mock('../src/quiz-service', () => {
   
       getQuestionOption(quizQuestionId: number) {
         return Promise.resolve([
-          { quiz_question_option_id: 1, quiz_question_id: 1, question_answer: 'Oslo', is_correct: 1 },
+          { quiz_question_option_id: 1, 
+            quiz_question_id: 1, 
+            question_answer: 'Oslo', 
+            is_correct: 1 },
           {
             quiz_question_option_id: 2,
             quiz_question_id: 1,
@@ -66,38 +69,6 @@ jest.mock('../src/quiz-service', () => {
           is_correct: 1,
         });
       }
-  
-      updateQuiz(quiz: Quiz) {
-        return Promise.resolve();
-      }
-  
-      updateOption(option: QuizQuestionOption) {
-        return Promise.resolve();
-      }
-  
-      updateQuestion(question: QuizQuestion) {
-        return Promise.resolve();
-      }
-  
-      deleteOption(quizQuestionId: number) {
-        return Promise.resolve();
-      }
-  
-      deleteQuestion(quizQuestionId: number) {
-        return Promise.resolve();
-      }
-  
-      deleteQuizQuestions(quizId: number) {
-        return Promise.resolve();
-      }
-  
-      deleteQuiz(quizId: number) {
-        return Promise.resolve();
-      }
-  
-      createQuestion() {
-        return Promise.resolve();
-      }
     }
     return new QuizService();
   });
@@ -107,28 +78,13 @@ jest.mock('../src/quiz-service', () => {
 describe('QuizPlay', () => {
 
     describe('QuizPlay tests', () => {
-        test('QuizPlay draws correctly', (done) => {
-          const wrapper = shallow(<QuizPlay match={{ params: { quizId: 1 } }} />);
-      
-          // Wait for events to complete
-          setTimeout(() => {
-            expect(
-              wrapper.containsAllMatchingElements([
-               ,
-              ]),
-            ).toEqual(true);
-          });
-          done();
-        });
-      });
-      
       test('PlayOptions draws correctly', (done) => {
-        const wrapper = shallow(<PlayOptions match={{ params: { quizQuestionId: 1 } }} />);
+        const wrapper = shallow(<QuizPlay match={{ params: { quizQuestionId: 1 } }} />);
     
         setTimeout(() => {
           expect(
             wrapper.containsAllMatchingElements([
-            <Card title="Hva heter hovedstaden i Norge?"></Card>,
+            <Column width={5}></Column>,
             ]),
           ).toEqual(true);
           done();
@@ -141,6 +97,7 @@ describe('QuizPlay', () => {
         setTimeout(() => {
           expect(
             wrapper.containsAllMatchingElements([
+            <Card title="Hva heter hovedstaden i Norge?"></Card>,
               <Column value="Oslo"></Column>,
               <Column value="Sverige"></Column>,
               <Column value="Moskva"></Column>,
@@ -166,7 +123,4 @@ describe('QuizPlay', () => {
         });
       });
   });
-
-
-
-
+});
