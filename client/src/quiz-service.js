@@ -204,7 +204,7 @@ class QuizService {
    */
   createRating(rating: number, quizId: number) {
     return axios
-      .post<{}, { rating: number }>('/quizzes/' + quizId + '/' + "rating" + "/" + rating)
+      .post<{}, { rating: number }>('/quizzes/' + quizId + '/' + rating.rating_id + "/" + rating)
       .then((response) => {
         //console.log(response);
         return response.data.rating;

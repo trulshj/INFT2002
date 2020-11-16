@@ -52,18 +52,21 @@ router.get('/quizzes/:quizId/rating', (request, response) => {
 });
 
 //New rating
-router.post('/quizzes/:quizId/rating/', (request, response) => {
+router.post('/quizzes/:quizId/:ratingId/rating', (request, response) => {
   const quizId = Number(request.params.quizId);
+  const ratingId = Number(request.params.ratingId);
   const rating = Number(request.params.rating);
   if (
     data &&
-    typeof data.rating == 'number' &&
-    data.avrage_rating.length != 0 &&
+    typeof data.ratingId == 'number' &&
+    data.ratingId.length != 0 &&
     typeof data.quizId == 'number' &&
-    data.quizId.length != 0
+    data.quizId.length != 0 &&
+    typeof data.rating == 'number' &&
+    data.rating.length != 0
   )
     quizService
-      .createRating(request.body.rating, request.body.quizId)
+      .createRating(request.body.rating, request.body.quizId, ratingId)
       .then((rating) => response.send({ rating: rating }))
       .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing rating or quizId');

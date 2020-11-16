@@ -6,6 +6,7 @@ import { Card, Alert, Row, Column, Form, Button, NavBar } from '../widgets';
 import quizService, { type Quiz, type Category, type QuizQuestion } from '../quiz-service';
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
+import ReactStars from 'react-rating-stars-component';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
@@ -23,10 +24,23 @@ export class QuizPlay extends Component<{ match: { params: { quizId: number } } 
             <Column width={5}>
               <PlayOptions quizQuestionId={question.quiz_question_id} />
             </Column>
-            <Column></Column>
           </Row>
         ))}
         <Button.Success>Done</Button.Success>
+        <Card title="Rate quiz">
+          <ReactStars
+            id="ratingStars"
+            size={24}
+            value={this.rating}
+            onChange={(newRating) => {
+              this.rating = newRating;
+              quizService
+                .createRating(this.rating, this.props.match.params.quizId)
+                .then(alert(this.rating + ' ' + this.props.match.params.quizId))
+                .catch((error: Error) => Alert.danger('Error creating rating: ' + error.message));
+            }}
+          ></ReactStars>
+        </Card>
       </>
     );
   }
@@ -50,7 +64,6 @@ export class PlayOptions extends Component {
   questionAnswers: QuizQuestionOption[] = [];
 
   render() {
-    console.log();
     return (
       <>
         <Card title={this.question.question}>
@@ -94,7 +107,6 @@ export class PlayOptionAnswer extends Component {
   questionOptionCorrect: QuizQuestionOption[] = [];
 
   render() {
-    console.log(this.props.quizQuestionId);
     return (
       <>
         <Card title={this.question.question}>

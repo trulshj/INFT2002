@@ -34,20 +34,6 @@ export class QuizDetail extends Component<{ match: { params: { quizId: number } 
             </Card>
           ))}
         </Card>
-        <Card title="Rate quiz">
-          <ReactStars
-            id="ratingStars"
-            size={24}
-            value={this.rating}
-            onChange={(newRating) => {
-              this.rating = newRating;
-              quizService
-                .createRating(this.rating, this.props.match.params.quizId)
-                .then(alert(this.rating + ' ' + this.props.match.params.quizId))
-                .catch((error: Error) => Alert.danger('Error creating rating: ' + error.message));
-            }}
-          ></ReactStars>
-        </Card>
       </>
     );
   }

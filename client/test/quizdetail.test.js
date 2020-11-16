@@ -11,7 +11,7 @@ import ReactStars from 'react-rating-stars-component';
 jest.mock('../src/quiz-service', () => {
   class QuizService {
     get(quizId: number) {
-      return Promise.resolve({ quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Geografi' });
+      return Promise.resolve({ quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Verden' });
     }
 
     getAllQuestionsInQuiz(quizId: number) {
@@ -80,27 +80,6 @@ describe('QuizDetail tests', () => {
           <NavLink to="/quizzes/1/2">Hva heter det minste landet?</NavLink>,
         ]),
       ).toEqual(true);
-    });
-    done();
-  });
-
-  test('QuizDetail correctly sets rating on change', (done) => {
-    const wrapper = shallow(<QuizDetail match={{ params: { quizId: 1 } }} />);
-
-    // Wait for events to complete
-    setTimeout(() => {
-      expect(
-        wrapper.containsAllMatchingElements([
-          <NavLink to="/quizzes/1/1">Hva heter det største landet?</NavLink>,
-          <NavLink to="/quizzes/1/2">Hva heter det minste landet?</NavLink>,
-        ]),
-      ).toEqual(true);
-
-      wrapper.find({ id: 'ratingStars' }).simulate('change', { currentTarget: { value: 4 } });
-
-      setTimeout(() => {
-        expect(wrapper.containsMatchingElement(<ReactStars value="4" />));
-      });
     });
     done();
   });

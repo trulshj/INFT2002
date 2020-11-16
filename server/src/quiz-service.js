@@ -174,7 +174,7 @@ class QuizService {
   createRating(rating: number, quizId: number) {
     return new Promise<void>((resolve, reject) => {
       pool.query(
-        'INSERT INTO rating SET (rating=?, quiz_id) values (?, ?)',
+        'INSERT INTO rating SET (rating, quiz_id) values (?, ?)',
         [rating, quizId],
         (error, results) => {
           if (error) return reject(error);
