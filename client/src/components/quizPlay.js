@@ -72,6 +72,7 @@ export class PlayOptions extends Component {
               <Row key={option.quizQuestionOptionId}>
                 <Column width={10}>{option.question_answer}</Column>
                 <Form.Checkbox
+                  id="questionChecked"
                   checked={this.question_answer}
                   onChange={(event) => (this.question_answer = event.currentTarget.checked)}
                 />

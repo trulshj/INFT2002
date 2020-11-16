@@ -40,6 +40,11 @@ jest.mock('../src/quiz-service', () => {
           question: 'Hva heter hovedstaden i Norge?',
         });
       }
+
+      createRating(rating: number, quizId: number) {
+        return Promise.resolve({rating: 5, quizId: 1,         
+        });
+      }
   
       getQuestionOption(quizQuestionId: number) {
         return Promise.resolve([
@@ -80,7 +85,7 @@ describe('QuizPlay', () => {
     describe('QuizPlay tests', () => {
       test('PlayOptions draws correctly', (done) => {
         const wrapper = shallow(<QuizPlay match={{ params: { quizQuestionId: 1 } }} />);
-    
+       
         setTimeout(() => {
           expect(
             wrapper.containsAllMatchingElements([
@@ -91,9 +96,26 @@ describe('QuizPlay', () => {
         });
       });
 
+
+      test('ReactStars draws correctly', (done) => {
+        const wrapper = shallow(<QuizPlay />);
+        
+        wrapper.find({ id: 'ratingStars'}).simulate('change', { currentTarget: { value: "4" } })
+        
+        // Wait for events to complete
+        setTimeout(() => {
+          // $FlowExpectedError
+              
+      expect(wrapper.containsMatchingElement(<ReactStars value="4" />)).toEqual(true);
+          done();
+         });
+      })
+
+
+
       test('PlayOptions draws correctly', (done) => {
         const wrapper = shallow(<PlayOptions match={{ params: { quizQuestionId: 1 } }} />);
-    
+        wrapper.find({ id: 'questionChecked'}).simulate('change', { currentTarget: { checked: 'true' } })
         setTimeout(() => {
           expect(
             wrapper.containsAllMatchingElements([
@@ -101,6 +123,7 @@ describe('QuizPlay', () => {
               <Column value="Oslo"></Column>,
               <Column value="Sverige"></Column>,
               <Column value="Moskva"></Column>,
+            <Form.Checkbox checked="true" />,
             ]),
           ).toEqual(true);
           done();
