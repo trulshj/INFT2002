@@ -25,11 +25,11 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-  // Delete all tasks, and reset id auto-increment start value
+  // Delete all users, and reset id auto-increment start value
   pool.query('TRUNCATE TABLE user_info', (error) => {
     if (error) return done.fail(error);
 
-    // Create testTasks sequentially in order to set correct id, and call done() when finished
+    // Create testUsers sequentially in order to set correct id, and call done() when finished
     userService
       .register(testUsers[0].username, testUsers[0].password)
       .then(() => userService.register(testUsers[1].username, testUsers[1].password)) // Create testUser[1] after testUser[0] has been created
