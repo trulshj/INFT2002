@@ -21,6 +21,7 @@ export class Quizzes extends Component {
   ratings: Rating[] = [];
 
   render() {
+    console.log(this.quizzes)
     return (
       <>
         <Card title="Quizzes">
@@ -116,7 +117,8 @@ export class Quizzes extends Component {
                 </Column>
                 <Column width={1.8}></Column>
                 <ReactStars size={24} value={quiz.rating} edit={false} isHalf={true} />
-                <Column width={5}>{<h3>{quiz.rating}</h3>}</Column>
+                <Column width={1}>{<h3>{quiz.rating}</h3>}</Column>
+                <Column width={3}>Created by: {<h6>{quiz.username}</h6>}</Column>
 
                 <Column width={1.5}>
                   <Button.Success
