@@ -15,7 +15,6 @@ export class NewQuiz extends Component {
 
 
   render() {
-    console.log(userService.user)
     return (
       <>
         <Card title="New Quiz">
