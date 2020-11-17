@@ -1,4 +1,4 @@
-# INFT2002
+# INFT2002 - Gruppe 2
 
 A small application for Quizzes
 
