@@ -21,7 +21,7 @@ export class Quizzes extends Component {
   ratings: Rating[] = [];
 
   render() {
-    console.log(this.quizzes)
+    //console.log(this.quizzes)
     return (
       <>
         <Card title="Quizzes">
