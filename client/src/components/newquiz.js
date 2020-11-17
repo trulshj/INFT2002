@@ -3,7 +3,12 @@
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button } from '../widgets';
-import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz} from '../quiz-service';
+import quizService, {
+  type Category,
+  type QuizQuestionOption,
+  type QuizQuestion,
+  type Quiz,
+} from '../quiz-service';
 import { HashRouter, Route } from 'react-router-dom';
 import userService from '../user-service';
 
@@ -12,7 +17,6 @@ export class NewQuiz extends Component {
   quizName = '';
   categories: Category[] = [];
   category = '';
-
 
   render() {
     return (
@@ -24,7 +28,7 @@ export class NewQuiz extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
-              id="quizName"
+                id="quizName"
                 type="text"
                 value={this.quizName}
                 onChange={(event) => (this.quizName = event.currentTarget.value)}
@@ -36,30 +40,34 @@ export class NewQuiz extends Component {
               <Form.Label>Category:</Form.Label>
             </Column>
             <Column width={4}>
-            <Form.Select
-              id="categoryValue"
-              onChange={(event) => (this.category = event.currentTarget.value)}
-              value={this.category}
+              <Form.Select
+                id="categoryValue"
+                onChange={(event) => (this.category = event.currentTarget.value)}
+                value={this.category}
               >
-              {this.categories.map((category) => (
-              <option
-              key={category.category_name}
-              value={category.category_name}
-              placeholder="Select an option"
-              >
-              {category.category_name}
-              </option>
-              ))}
-            </Form.Select>
+                {this.categories.map((category) => (
+                  <option
+                    key={category.category_name}
+                    value={category.category_name}
+                    placeholder="Select an option"
+                  >
+                    {category.category_name}
+                  </option>
+                ))}
+              </Form.Select>
             </Column>
           </Row>
         </Card>
         <Button.Success
           onClick={() => {
-            quizService
-              .create(this.quizName, this.category, userService.user)
-              .then((quizId) => this.props.history.push('/newQuiz/' + quizId))
-              .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
+            if (userService.user != '') {
+              quizService
+                .create(this.quizName, this.category, userService.user)
+                .then((quizId) => this.props.history.push('/newQuiz/' + quizId))
+                .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
+            } else {
+              Alert.danger('You need to be logged in to create a quiz');
+            }
           }}
         >
           Create quiz
@@ -68,12 +76,10 @@ export class NewQuiz extends Component {
     );
   }
   mounted() {
-    quizService
-      .getAllcategories()
-      .then((categories) => {
-        this.categories = categories;
-        this.category = categories[0].category_name;
-      })
+    quizService.getAllcategories().then((categories) => {
+      this.categories = categories;
+      this.category = categories[0].category_name;
+    });
   }
 }
 
@@ -102,7 +108,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
-                id = "question_id"
+                id="question_id"
                 type="text"
                 value={this.question}
                 onChange={(event) => (this.question = event.currentTarget.value)}
@@ -115,7 +121,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
-                id = "option1"
+                id="option1"
                 type="text"
                 value={this.option1}
                 onChange={(event) => (this.option1 = event.currentTarget.value)}
@@ -123,7 +129,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column>
               <Form.Checkbox
-                id = "isCorrect1"
+                id="isCorrect1"
                 checked={this.isCorrect1}
                 onChange={(event) => (this.isCorrect1 = event.currentTarget.checked)}
               />
@@ -136,7 +142,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
-                id = "option2"
+                id="option2"
                 type="text"
                 value={this.option2}
                 onChange={(event) => (this.option2 = event.currentTarget.value)}
@@ -144,7 +150,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column>
               <Form.Checkbox
-              id = "isCorrect2"
+                id="isCorrect2"
                 checked={this.isCorrect2}
                 onChange={(event) => (this.isCorrect2 = event.currentTarget.checked)}
               />
@@ -157,7 +163,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column width={4}>
               <Form.Input
-              id = "option3"
+                id="option3"
                 type="text"
                 value={this.option3}
                 onChange={(event) => (this.option3 = event.currentTarget.value)}
@@ -165,7 +171,7 @@ export class NewQuizQuestions extends Component {
             </Column>
             <Column>
               <Form.Checkbox
-              id = "isCorrect3"
+                id="isCorrect3"
                 checked={this.isCorrect3}
                 onChange={(event) => (this.isCorrect3 = event.currentTarget.checked)}
               />
@@ -186,21 +192,23 @@ export class NewQuizQuestions extends Component {
                 this.option3,
                 this.isCorrect3,
               )
-              .then(this.question = '',
-              this.option1 = '',
-              this.isCorrect1 = false,
-              this.option2 = '',
-              this.isCorrect2 = false,
-              this.option3 = '',
-              this.isCorrect3 = false,)
+              .then(
+                (this.question = ''),
+                (this.option1 = ''),
+                (this.isCorrect1 = false),
+                (this.option2 = ''),
+                (this.isCorrect2 = false),
+                (this.option3 = ''),
+                (this.isCorrect3 = false),
+              )
               .catch((error: Error) => Alert.danger('Error creating question: ' + error.message));
-                this.question = '',
-                this.option1 = '',
-                this.isCorrect1 = false,
-                this.option2 = '',
-                this.isCorrect2 = false,
-                this.option3 = '',
-                this.isCorrect3 = false;
+            (this.question = ''),
+              (this.option1 = ''),
+              (this.isCorrect1 = false),
+              (this.option2 = ''),
+              (this.isCorrect2 = false),
+              (this.option3 = ''),
+              (this.isCorrect3 = false);
           }}
         >
           Add question

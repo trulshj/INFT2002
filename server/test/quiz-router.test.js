@@ -3,29 +3,31 @@
 import axios from 'axios';
 import pool from '../src/mysql-pool';
 import app from '../src/app';
-import quizService, { type Quiz, type Category, type Question, type Option } from '../src/quiz-service';
+import quizService, {
+  type Quiz,
+  type Category,
+  type Question,
+  type Option,
+} from '../src/quiz-service';
 
 const testQuiz: Quiz[] = [
-  {quizId: 1, quizName: 'Fotballag', quizCategory: 'Kultur' },
-  {quizId: 2, quizName: 'Land i Europa', quizCategory: 'Geografi' },
-  {quizId: 3, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' }
+  { quizId: 1, quizName: 'Fotballag', quizCategory: 'Kultur' },
+  { quizId: 2, quizName: 'Land i Europa', quizCategory: 'Geografi' },
+  { quizId: 3, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' },
 ];
 
 const testQuestion: QuizQuestion[] = [
-  {quizQuestionId: 1, quizId: 2, question: 'Hva heter det største landet?' },
-  {quizQuestionId: 2, quizId: 2, question: 'Hva heter det minste landet?' }
+  { quizQuestionId: 1, quizId: 2, question: 'Hva heter det største landet?' },
+  { quizQuestionId: 2, quizId: 2, question: 'Hva heter det minste landet?' },
 ];
 
 const testQuestionOption: QuizQuestionOption[] = [
-  {quizQuestionOptionId: 1, quizQuestionId: 1, questionAnswer: 'Russland', isCorrect: true },
-  {quizQuestionOptionId: 2, quizQuestionId: 1, questionAnswer: 'Norge', isCorrect: false },
-  {quizQuestionOptionId: 3, quizQuestionId: 1, questionAnswer: 'Sverige', isCorrect: false }
+  { quizQuestionOptionId: 1, quizQuestionId: 1, questionAnswer: 'Russland', isCorrect: true },
+  { quizQuestionOptionId: 2, quizQuestionId: 1, questionAnswer: 'Norge', isCorrect: false },
+  { quizQuestionOptionId: 3, quizQuestionId: 1, questionAnswer: 'Sverige', isCorrect: false },
 ];
 
-const testCategory: Category[] = [
-  {category_name: 'Geografi'},
-  {category_name: 'Kultur'},
-];
+const testCategory: Category[] = [{ category_name: 'Geografi' }, { category_name: 'Kultur' }];
 
 // Since API is not compatible with v1, API version is increased to v2
 axios.defaults.baseURL = 'http://localhost:3001/api/v2';
@@ -37,43 +39,71 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
-    if (error) return done.fail(error);
+  pool.query(
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz; SET FOREIGN_KEY_CHECKS = 1;',
+    (error) => {
+      if (error) return done.fail(error);
 
-    quizService
-      .create(testQuiz[0].quizName, testQuiz[0].quizCategory)
-      .then(() => quizService.create(testQuiz[1].quizName, testQuiz[1].quizCategory)) 
-      .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
-      .then(() => done());
-  });
+      quizService
+        .create(testQuiz[0].quizName, testQuiz[0].quizCategory)
+        .then(() => quizService.create(testQuiz[1].quizName, testQuiz[1].quizCategory))
+        .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
+        .then(() => done());
+    },
+  );
 
-  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
-    if (error) return done.fail(error);
+  pool.query(
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question; SET FOREIGN_KEY_CHECKS = 1;',
+    (error) => {
+      if (error) return done.fail(error);
 
-    quizService
-      .create(testQuestion[0].quizId, testQuiz[0].question)
-      .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question)) 
-      .then(() => done());
-  });
+      quizService
+        .create(testQuestion[0].quizId, testQuiz[0].question)
+        .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question))
+        .then(() => done());
+    },
+  );
 
-  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question_option; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
-    if (error) return done.fail(error);
+  pool.query(
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question_option; SET FOREIGN_KEY_CHECKS = 1;',
+    (error) => {
+      if (error) return done.fail(error);
 
-    quizService
-      .create(testQuestionOption[0].quizQuestionId, testQuestionOption[0].questionAnswer, testQuestionOption[0].isCorrect)
-      .then(() => quizService.create(testQuestionOption[1].quizQuestionId, testQuestionOption[1].questionAnswer, testQuestionOption[1].isCorrect)) 
-      .then(() => quizService.create(testQuestionOption[2].quizQuestionId, testQuestionOption[2].questionAnswer, testQuestionOption[2].isCorrect)) 
-      .then(() => done());
-  });
+      quizService
+        .create(
+          testQuestionOption[0].quizQuestionId,
+          testQuestionOption[0].questionAnswer,
+          testQuestionOption[0].isCorrect,
+        )
+        .then(() =>
+          quizService.create(
+            testQuestionOption[1].quizQuestionId,
+            testQuestionOption[1].questionAnswer,
+            testQuestionOption[1].isCorrect,
+          ),
+        )
+        .then(() =>
+          quizService.create(
+            testQuestionOption[2].quizQuestionId,
+            testQuestionOption[2].questionAnswer,
+            testQuestionOption[2].isCorrect,
+          ),
+        )
+        .then(() => done());
+    },
+  );
 
-  pool.query('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE category; SET FOREIGN_KEY_CHECKS = 1;', (error) => {
-    if (error) return done.fail(error);
+  pool.query(
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE category; SET FOREIGN_KEY_CHECKS = 1;',
+    (error) => {
+      if (error) return done.fail(error);
 
-    quizService
-      .create(testCategory[0].category_name)
-      .then(() => quizService.create(testCategory[1].category_name)) 
-      .then(() => done());
-  });
+      quizService
+        .create(testCategory[0].category_name)
+        .then(() => quizService.create(testCategory[1].category_name))
+        .then(() => done());
+    },
+  );
 });
 
 // Stop web server and close connection to MySQL server
@@ -88,7 +118,7 @@ describe('Create new quiz (POST)', () => {
     axios
       .post<{}, number>('/quizzes', {
         quizname: 'Fotballag',
-        quizCategory: 'Kultur'
+        quizCategory: 'Kultur',
       })
       .then((response) => {
         expect(response.status).toEqual(200);
@@ -316,20 +346,20 @@ describe('Update quiz (UPDATE)', () => {
       .put<{}, void>('/quizzes', {
         quizid: 1,
         quizName: 'Fotballag',
-        quizCategory: 'Geografi'
+        quizCategory: 'Geografi',
       })
       .then((response) => {
         expect(response.status).toEqual(200);
         done();
       });
   });
-  
+
   test('Update quiz (400 Not Found)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
         quizid: 1,
-        quizName: 'Fotballag'
+        quizName: 'Fotballag',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
@@ -346,19 +376,19 @@ describe('Update question (UPDATE)', () => {
       .put<{}, void>('/quizzes', {
         quizQuestionId: 1,
         quizId: 2,
-        question: 'Hva er befolkningen i Norge?'
+        question: 'Hva er befolkningen i Norge?',
       })
       .then((response) => {
         expect(response.status).toEqual(200);
         done();
       });
   });
-  
+
   test('Update question (400 Bad Request)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
-        question: 'Hva er befolkningen i Norge?'
+        question: 'Hva er befolkningen i Norge?',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
@@ -376,19 +406,19 @@ describe('Update option (UPDATE)', () => {
         quizQuestionOptionId: 2,
         quizQuestionId: 1,
         questionAnswer: 'Danmark',
-        isCorrect: false
+        isCorrect: false,
       })
       .then((response) => {
         expect(response.status).toEqual(200);
         done();
       });
   });
-  
+
   test('Update option (400 Bad Request)', (done) => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
-        questionAnswer: 'Danmark'
+        questionAnswer: 'Danmark',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
