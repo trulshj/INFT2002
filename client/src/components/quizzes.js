@@ -7,6 +7,7 @@ import quizService, { type Quiz, type Category, type QuizQuestion } from '../qui
 import { createHashHistory, Route } from 'history';
 import { NavLink } from 'react-router-dom';
 import ReactStars from 'react-rating-stars-component';
+import userService from '../user-service';
 
 const history = createHashHistory(); // Use history.push(...) to programmatically change path
 
@@ -131,7 +132,13 @@ export class Quizzes extends Component {
                 <Column width={0.5}>
                   <Button.Light
                     id="editButton"
-                    onClick={() => history.push('/quizzes/' + quiz.quiz_id + '/edit')}
+                    onClick={() => {
+                      if (userService.user == quiz.username) {
+                        history.push('/quizzes/' + quiz.quiz_id + '/edit');
+                      } else {
+                        Alert.danger('Only ' + quiz.username + ' can edit this quiz');
+                      }
+                    }}
                   >
                     Edit
                   </Button.Light>
