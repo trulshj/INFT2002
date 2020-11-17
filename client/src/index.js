@@ -8,7 +8,7 @@ import { Component } from 'react-simplified';
 import { HashRouter, Route } from 'react-router-dom';
 import { NavBar, Card, Alert, Row, Column, Form, Button } from './widgets';
 import { NewQuiz, NewQuizQuestions } from './components/newquiz';
-import { QuizPlay } from './components/quizPlay';
+import { QuizPlay } from './components/quizplay';
 import { Quizzes } from './components/quizzes';
 import { QuizEdit, QuestionEdit, QuizAddQuestion } from './components/quizedit';
 import { QuizDetail, QuestionDetail } from './components/quizdetail';
@@ -33,7 +33,7 @@ class Menu extends Component {
 
 class Home extends Component {
   render() {
-    return <Card title="Welcome">Quiz App for Quizzes</Card>;
+    return <Card title="Welcome">Quiz App for Quizzes!</Card>;
   }
 }
 

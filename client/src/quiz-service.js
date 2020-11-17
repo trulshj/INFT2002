@@ -10,7 +10,7 @@ export type Quiz = {
 };
 
 export type QuizQuestion = {
-  quizQuestionId: number,
+  quiz_question_id: number,
   quizId: number,
   question: string,
 };
@@ -205,7 +205,7 @@ class QuizService {
    */
   createRating(rating: number, quizId: number) {
     return axios
-      .post<{}, { rating: number }>('/quizzes/' + quizId  + "/" + rating)
+      .post<{}, { rating: number }>('/quizzes/' + quizId + '/' + rating)
       .then((response) => {
         //console.log(response);
         return response.data.rating;

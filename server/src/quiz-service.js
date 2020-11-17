@@ -35,11 +35,15 @@ class QuizService {
    */
   get(quizId: number) {
     return new Promise<?Quiz>((resolve, reject) => {
-      pool.query('SELECT * FROM quiz WHERE quiz_id = ?', [quizId], (error, results: Quiz[]) => {
-        if (error) return reject(error);
+      pool.query(
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, q.username, AVG(r.rating) FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE q.quiz_id = ? GROUP BY q.quiz_id',
+        [quizId],
+        (error, results: Quiz[]) => {
+          if (error) return reject(error);
 
-        resolve(results[0]);
-      });
+          resolve(results[0]);
+        },
+      );
     });
   }
 
