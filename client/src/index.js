@@ -17,6 +17,7 @@ import { QuizDetail, QuestionDetail } from './components/quizdetail';
 import Login from './components/login';
 import Register from './components/register';
 import Profile from './components/profile';
+import userService from './user-service';
 
 class Menu extends Component {
   render() {
@@ -25,6 +26,7 @@ class Menu extends Component {
         <NavBar.Link to="/quizzes">Quizzes</NavBar.Link>
         <NavBar.Link to="/newQuiz">New Quiz</NavBar.Link>
         <NavBar.Link to="/login">Login</NavBar.Link>
+        <NavBar.Link to="/profile">userService.user</NavBar.Link>
       </NavBar>
     );
   }
