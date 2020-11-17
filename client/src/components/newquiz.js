@@ -5,6 +5,7 @@ import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button } from '../widgets';
 import quizService, {type Category, type QuizQuestionOption, type QuizQuestion, type Quiz} from '../quiz-service';
 import { HashRouter, Route } from 'react-router-dom';
+import userService from '../user-service';
 
 //Component for creating new quizzes
 export class NewQuiz extends Component {
@@ -12,7 +13,9 @@ export class NewQuiz extends Component {
   categories: Category[] = [];
   category = '';
 
+
   render() {
+    console.log(userService.user)
     return (
       <>
         <Card title="New Quiz">
@@ -55,7 +58,7 @@ export class NewQuiz extends Component {
         <Button.Success
           onClick={() => {
             quizService
-              .create(this.quizName, this.category)
+              .create(this.quizName, this.category, userService.user)
               .then((quizId) => this.props.history.push('/newQuiz/' + quizId))
               .catch((error: Error) => Alert.danger('Error creating quiz: ' + error.message));
           }}
@@ -72,7 +75,6 @@ export class NewQuiz extends Component {
         this.categories = categories;
         this.category = categories[0].category_name;
       })
-      .catch((error: Error) => Alert.danger('Error getting quiz: ' + error.message));
   }
 }
 

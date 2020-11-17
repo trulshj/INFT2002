@@ -98,10 +98,12 @@ router.post('/quizzes', (request, response) => {
     typeof data.quizname == 'string' &&
     data.quizname.length != 0 &&
     typeof data.category == 'string' &&
-    data.category.length != 0
+    data.category.length != 0 &&
+    typeof data.user == 'string' &&
+    data.user.length != 0
   )
     quizService
-      .create(request.body.quizname, request.body.category)
+      .create(request.body.quizname, request.body.category, request.body.user)
       .then((quizid) => response.send({ quizid: quizid }))
       .catch((error: Error) => response.status(500).send(error));
   else response.status(400).send('Missing quizname or category');

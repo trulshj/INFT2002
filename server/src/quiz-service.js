@@ -98,11 +98,11 @@ class QuizService {
    *
    * Resolves the newly created quiz id.
    */
-  create(quizName: string, quizCategory: string) {
+  create(quizName: string, quizCategory: string, user: string) {
     return new Promise<number>((resolve, reject) => {
       pool.query(
-        'INSERT INTO quiz SET quiz_name=?, quiz_category=?',
-        [quizName, quizCategory],
+        'INSERT INTO quiz SET quiz_name=?, quiz_category=?, username=?',
+        [quizName, quizCategory, user],
         (error, results) => {
           if (error) return reject(error);
           if (!results.insertId) return reject(new Error('No row inserted'));

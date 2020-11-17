@@ -68,11 +68,12 @@ class QuizService {
   /**
    * Create new quiz having the given quizname.
    */
-  create(quizName: string, quizCategory: string) {
+  create(quizName: string, quizCategory: string, user: string) {
     return axios
       .post<{}, { quizId: number }>('/quizzes', {
         quizname: quizName,
         category: quizCategory,
+        user: user,
       })
       .then((response) => {
         //console.log(response);
