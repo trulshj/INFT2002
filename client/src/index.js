@@ -25,8 +25,7 @@ class Menu extends Component {
       <NavBar brand="Quiz App">
         <NavBar.Link to="/quizzes">Quizzes</NavBar.Link>
         <NavBar.Link to="/newQuiz">New Quiz</NavBar.Link>
-        <NavBar.Link to="/login">Login</NavBar.Link>
-        <NavBar.Link to="/profile">userService.user</NavBar.Link>
+        <NavBar.Link to="/profile">Profile</NavBar.Link>
       </NavBar>
     );
   }
