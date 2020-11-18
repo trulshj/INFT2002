@@ -19,11 +19,15 @@ class PlayService {
     }
   }
 
+  clearAnswers(): null {
+    this.questions = [];
+  }
+
   checkAnswers(): number {
     let points = 0;
 
     for (const question of this.questions) {
-      console.table(question);
+      console.log(question);
       if (question.givenAnswers.length == question.correctAnswers.length) {
         for (let i = 0; i < question.givenAnswers.length; i++) {
           if (question.givenAnswers[i] == question.correctAnswers[i]) {
@@ -34,7 +38,8 @@ class PlayService {
         }
       }
     }
-    console.log('Points:', points);
+    // Clear the answers, we don't need em
+    this.clearAnswers();
 
     return points;
   }

@@ -104,8 +104,8 @@ export class PlayOptions extends Component {
       <>
         <Card title={this.question.question}>
           {this.questionOption.map((option) => (
-            <Card>
-              <Row key={option.quiz_question_option_id}>
+            <Card key={option.quiz_question_option_id}>
+              <Row>
                 <Column width={10}>{option.question_answer}</Column>
                 <Form.Checkbox
                   id={option.quiz_question_option_id}
@@ -153,7 +153,7 @@ export class PlayOptions extends Component {
       }
       const ans = { questionId: id, givenAnswers: [false, false, false], correctAnswers: corr };
       playService.addQuestionAnswers(ans);
-    }, 100);
+    }, 1000);
   }
 }
 
@@ -167,8 +167,8 @@ export class PlayOptionAnswer extends Component {
       <>
         <Card title={this.question.question}>
           {this.questionOption.map((option) => (
-            <Card>
-              <Row key={option.quizQuestionOptionId}>
+            <Card key={option.quiz_question_option_id}>
+              <Row>
                 <Column width={10}>{option.question_answer}</Column>
                 <Form.Checkbox checked={option.is_correct} readOnly={true} />
               </Row>

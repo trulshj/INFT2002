@@ -22,27 +22,12 @@ jest.mock('../src/quiz-service', () => {
       ]);
     }
 
-    getAllcategories() {
-      return Promise.resolve([{ category_name: 'Geografi' }, { category_name: 'Kultur' }]);
-    }
-
-    getAll() {
-      return Promise.resolve([
-        { quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Geografi' },
-        { quiz_id: 2, quiz_name: 'Tradisjoner i Norge', quiz_category: 'Kultur' },
-      ]);
-    }
-
     getQuestion(quizQuestionId: number) {
       return Promise.resolve({
         quiz_question_id: 1,
         quiz_id: 1,
         question: 'Hva heter hovedstaden i Norge?',
       });
-    }
-
-    createRating(rating: number, quizId: number) {
-      return Promise.resolve({ rating: 5, quizId: 1 });
     }
 
     getQuestionOption(quizQuestionId: number) {
@@ -62,6 +47,7 @@ jest.mock('../src/quiz-service', () => {
         },
       ]);
     }
+
     getQuestionOptionCorrect(quizQuestionId: number) {
       return Promise.resolve({
         quiz_question_option_id: 1,
@@ -70,70 +56,57 @@ jest.mock('../src/quiz-service', () => {
         is_correct: 1,
       });
     }
+
+    createRating(rating: number, quizId: number) {
+      return Promise.resolve();
+    }
   }
   return new QuizService();
 });
 
-//Test for NavBar
-describe('QuizPlay', () => {
-  describe('QuizPlay tests', () => {
-    test('PlayOptions draws correctly', (done) => {
-      const wrapper = shallow(<QuizPlay match={{ params: { quizQuestionId: 1 } }} />);
+describe('QuizPlay tests', () => {
+  test('QuizPlay draws correctly', (done) => {
+    const wrapper = shallow(<QuizPlay match={{ params: { quizId: 1 } }} />);
 
-      setTimeout(() => {
-        expect(wrapper.containsMatchingElement(<h3>Questions:</h3>)).toEqual(true);
-        done();
-      });
+    setTimeout(() => {
+      expect(wrapper.containsAllMatchingElements([<PlayOptions />])).toEqual(true);
+      done();
     });
+  });
+});
 
-    test('ReactStars draws correctly', (done) => {
-      const wrapper = shallow(<QuizPlay match={{ params: { quizQuestionId: 1 } }} />);
+describe('PlayOptions tests', () => {
+  test('PlayOptions draws correctly', (done) => {
+    const wrapper = shallow(<PlayOptions quizQuestionId="1" />);
 
-      wrapper.find({ id: 'buttonFinishQuiz' }).simulate('click');
-      wrapper.find({ id: 'ratingStars' }).simulate('change', { currentTarget: { value: 4 } });
-
-      // Wait for events to complete
-      setTimeout(() => {
-        // $FlowExpectedError
-
-        expect(wrapper.find({ id: 'ratingStars', value: 4 }).length).toEqual(1);
-        done();
-      });
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Card>Hva heter hovedstaden i Norge?</Card>,
+          <Column>Oslo</Column>,
+          <Column>Sverige</Column>,
+          <Column>Moskva</Column>,
+        ]),
+      ).toEqual(true);
+      done();
     });
+  });
+});
 
-    test('PlayOptions draws correctly', (done) => {
-      const wrapper = shallow(<PlayOptions match={{ params: { quizQuestionId: 1 } }} />);
-      wrapper
-        .find({ id: 'questionChecked' })
-        .simulate('change', { currentTarget: { checked: 'true' } });
-      setTimeout(() => {
-        expect(
-          wrapper.containsAllMatchingElements([
-            <Card title="Hva heter hovedstaden i Norge?"></Card>,
-            <Column value="Oslo"></Column>,
-            <Column value="Sverige"></Column>,
-            <Column value="Moskva"></Column>,
-            <Form.Checkbox checked="true" />,
-          ]),
-        ).toEqual(true);
-        done();
-      });
-    });
+describe('PlayOptionAnswer', () => {
+  test('PlayOptionAnswer draws correctly', (done) => {
+    const wrapper = shallow(<PlayOptionAnswer quizQuestionId="1" />);
 
-    test('PlayOptionAnswer draws correctly', (done) => {
-      const wrapper = shallow(<PlayOptionAnswer match={{ params: { quizQuestionId: 1 } }} />);
-
-      setTimeout(() => {
-        expect(
-          wrapper.containsAllMatchingElements([
-            <Card title="Hva heter hovedstaden i Norge?"></Card>,
-            <Column value="Oslo"></Column>,
-            <Column value="Sverige"></Column>,
-            <Column value="Moskva"></Column>,
-          ]),
-        ).toEqual(true);
-        done();
-      });
+    setTimeout(() => {
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Card>Hva heter hovedstaden i Norge?</Card>,
+          <Column>Oslo</Column>,
+          <Column>Sverige</Column>,
+          <Column>Moskva</Column>,
+        ]),
+      ).toEqual(true);
+      done();
     });
   });
 });
