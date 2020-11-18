@@ -153,7 +153,7 @@ export class PlayOptions extends Component {
       }
       const ans = { questionId: id, givenAnswers: [false, false, false], correctAnswers: corr };
       playService.addQuestionAnswers(ans);
-    }, 400);
+    }, 1000);
   }
 }
 
