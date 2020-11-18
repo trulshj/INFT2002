@@ -36,7 +36,7 @@ class QuizService {
   get(quizId: number) {
     return new Promise<?Quiz>((resolve, reject) => {
       pool.query(
-        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, q.username, AVG(r.rating) FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE q.quiz_id = ? GROUP BY q.quiz_id',
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, q.username, ROUND(AVG(r.rating),2) FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE q.quiz_id = ? GROUP BY q.quiz_id',
         [quizId],
         (error, results: Quiz[]) => {
           if (error) return reject(error);
@@ -53,7 +53,7 @@ class QuizService {
   getAll() {
     return new Promise<Quiz[]>((resolve, reject) => {
       pool.query(
-        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating, q.username FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id GROUP BY q.quiz_id ORDER BY rating DESC',
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, ROUND(AVG(r.rating),2) AS rating, q.username FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id GROUP BY q.quiz_id ORDER BY rating DESC',
         (error, results) => {
           if (error) return reject(error);
 
@@ -69,7 +69,7 @@ class QuizService {
   getQuizzesWithCategory(category: string) {
     return new Promise<Quiz[]>((resolve, reject) => {
       pool.query(
-        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating, q.username FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE q.quiz_category = ? GROUP BY q.quiz_id ORDER BY rating DESC',
+        'SELECT q.quiz_id, q.quiz_name, q.quiz_category, ROUND(AVG(r.rating),2) AS rating, q.username FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE q.quiz_category = ? GROUP BY q.quiz_id ORDER BY rating DESC',
         [category],
         (error, results: Quiz[]) => {
           if (error) return reject(error);
@@ -86,7 +86,7 @@ class QuizService {
   getQuizzesSearch(search: string) {
     return new Promise<Quiz[]>((resolve, reject) => {
       pool.query(
-        "SELECT q.quiz_id, q.quiz_name, q.quiz_category, AVG(r.rating) AS rating, q.username FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE quiz_name LIKE '%' ? '%' GROUP BY q.quiz_id ORDER BY rating DESC",
+        "SELECT q.quiz_id, q.quiz_name, q.quiz_category, ROUND(AVG(r.rating),2) AS rating, q.username FROM quiz q LEFT JOIN rating r ON q.quiz_id = r.quiz_id WHERE quiz_name LIKE '%' ? '%' GROUP BY q.quiz_id ORDER BY rating DESC",
         [search],
         (error, results: Quiz[]) => {
           if (error) return reject(error);

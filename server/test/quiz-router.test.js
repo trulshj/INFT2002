@@ -49,9 +49,10 @@ beforeEach((done) => {
         .then(() => quizService.create(testQuiz[1].quizName, testQuiz[1].quizCategory))
         .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
         .then(() => done());
-    },
-  );
+      });
+    });
 
+  beforeEach((done) => {
   pool.query(
     'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question; SET FOREIGN_KEY_CHECKS = 1;',
     (error) => {
@@ -61,9 +62,10 @@ beforeEach((done) => {
         .create(testQuestion[0].quizId, testQuiz[0].question)
         .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question))
         .then(() => done());
-    },
-  );
+    });
+  });
 
+  beforeEach((done) => {
   pool.query(
     'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question_option; SET FOREIGN_KEY_CHECKS = 1;',
     (error) => {
@@ -90,9 +92,10 @@ beforeEach((done) => {
           ),
         )
         .then(() => done());
-    },
-  );
+      });
+    });
 
+  beforeEach((done) => {
   pool.query(
     'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE category; SET FOREIGN_KEY_CHECKS = 1;',
     (error) => {
@@ -102,8 +105,7 @@ beforeEach((done) => {
         .create(testCategory[0].category_name)
         .then(() => quizService.create(testCategory[1].category_name))
         .then(() => done());
-    },
-  );
+      });
 });
 
 // Stop web server and close connection to MySQL server
