@@ -11,9 +11,9 @@ import quizService, {
 } from '../src/quiz-service';
 
 const testQuiz: Quiz[] = [
-  { quizId: 1, quizName: 'Fotballag', quizCategory: 'Kultur' },
-  { quizId: 2, quizName: 'Land i Europa', quizCategory: 'Geografi' },
-  { quizId: 3, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur' },
+  { quizId: 1, quizName: 'Fotballag', quizCategory: 'Kultur', user: "Bruker1" },
+  { quizId: 2, quizName: 'Land i Europa', quizCategory: 'Geografi', user: "Bruker2" },
+  { quizId: 3, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur', user: "Bruker3" },
 ];
 
 const testQuestion: QuizQuestion[] = [
@@ -40,7 +40,7 @@ beforeAll((done) => {
 
 beforeEach((done) => {
   pool.query(
-    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz; SET FOREIGN_KEY_CHECKS = 1;',
+    'DELETE FROM quiz;',
     (error) => {
       if (error) return done.fail(error);
 
@@ -54,7 +54,7 @@ beforeEach((done) => {
 
   beforeEach((done) => {
   pool.query(
-    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question; SET FOREIGN_KEY_CHECKS = 1;',
+    'DELETE FROM quiz_question;',
     (error) => {
       if (error) return done.fail(error);
 
@@ -67,7 +67,7 @@ beforeEach((done) => {
 
   beforeEach((done) => {
   pool.query(
-    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question_option; SET FOREIGN_KEY_CHECKS = 1;',
+    'DELETE FROM quiz_question_option;',
     (error) => {
       if (error) return done.fail(error);
 
@@ -97,7 +97,7 @@ beforeEach((done) => {
 
   beforeEach((done) => {
   pool.query(
-    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE category; SET FOREIGN_KEY_CHECKS = 1;',
+    'DELETE FROM category;',
     (error) => {
       if (error) return done.fail(error);
 
@@ -111,7 +111,7 @@ beforeEach((done) => {
 // Stop web server and close connection to MySQL server
 afterAll((done) => {
   if (!webServer) return done.fail(new Error());
-  webServer.close(() => pool.end(() => done()));
+  webServer.close(() => done());
 });
 
 //Create new quiz (POST)
@@ -119,8 +119,9 @@ describe('Create new quiz (POST)', () => {
   test('Create new quiz (200 OK)', (done) => {
     axios
       .post<{}, number>('/quizzes', {
-        quizname: 'Fotballag',
+        quizName: 'Fotballag',
         quizCategory: 'Kultur',
+        user: "Bruker1"
       })
       .then((response) => {
         expect(response.status).toEqual(200);
@@ -129,12 +130,12 @@ describe('Create new quiz (POST)', () => {
       });
   });
 
-  test('Create new quiz (400 Bad Request)', (done) => {
+  test('Create new quiz (404 Bad Request)', (done) => {
     axios
       .post<{}, number>('/quizzes', { category: '' })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
-        expect(error.message).toEqual('Request failed with status code 400');
+        expect(error.message).toEqual('Request failed with status code 404');
         done();
       });
   });

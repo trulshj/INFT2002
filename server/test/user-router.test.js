@@ -26,7 +26,7 @@ beforeAll((done) => {
 
 beforeEach((done) => {
   // Delete all users, and reset id auto-increment start value
-  pool.query('TRUNCATE TABLE user_info', (error) => {
+  pool.query('DELETE FROM user_info', (error) => {
     if (error) return done.fail(error);
 
     // Create testUsers sequentially in order to set correct id, and call done() when finished
@@ -40,7 +40,7 @@ beforeEach((done) => {
 
 afterAll((done) => {
   if (!webServer) return done.fail(new Error());
-  webServer.close(() => pool.end(() => done()));
+  webServer.close(() => done());
 });
 
 describe('Test login', () => {
