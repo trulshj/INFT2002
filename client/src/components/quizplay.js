@@ -48,6 +48,7 @@ export class QuizPlay extends Component<{ match: { params: { quizId: number } } 
           <Button.Success
             id="buttonFinishQuiz"
             onClick={() => {
+              this.points = 0;
               if (!this.quizFinished) {
                 this.quizFinished = true;
               }
