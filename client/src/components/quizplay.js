@@ -113,7 +113,7 @@ export class PlayOptions extends Component {
                     event.currentTarget.checked = event.currentTarget.checked;
 
                     playService.setAnswer(
-                      this.props.quiz_question_id,
+                      this.props.quizQuestionId,
                       (event.currentTarget.id + 2) % 3,
                       event.currentTarget.checked,
                     );
