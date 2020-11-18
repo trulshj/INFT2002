@@ -12,8 +12,8 @@ jest.mock('../src/quiz-service', () => {
   class QuizService {
     getAll() {
       return Promise.resolve([
-        { quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Geografi' },
-        { quiz_id: 2, quiz_name: 'Tradisjoner i Norge', quiz_category: 'Kultur' },
+        { quiz_id: 1, quiz_name: 'Land i Europa', quiz_category: 'Geografi', username: '' },
+        { quiz_id: 2, quiz_name: 'Tradisjoner i Norge', quiz_category: 'Kultur', username: '' },
       ]);
     }
 
