@@ -17,14 +17,14 @@ const testQuiz: Quiz[] = [
 ];
 
 const testQuestion: QuizQuestion[] = [
-  { quiz_question_id: 1, quiz_id: 2, question: 'Hva heter det største landet?' },
-  { quiz_question_id: 2, quiz_id: 2, question: 'Hva heter det minste landet?' },
+  { quizQuestionId: 1, quizId: 2, question: 'Hva heter det største landet?' },
+  { quizQuestionId: 2, quizId: 2, question: 'Hva heter det minste landet?' },
 ];
 
 const testQuestionOption: QuizQuestionOption[] = [
-  { quiz_question_option_id: 1, quiz_question_id: 1, question_answer: 'Russland', is_correct: true },
-  { quiz_question_option_id: 2, quiz_question_id: 1, question_answer: 'Norge', is_correct: false },
-  { quiz_question_option_id: 3, quiz_question_id: 1, question_answer: 'Sverige', is_correct: false },
+  { quizQuestionOptionId: 1, quizQuestionId: 1, questionAnswer: 'Russland', isCorrect: true },
+  { quizQuestionOptionId: 2, quizQuestionId: 1, questionAnswer: 'Norge', isCorrect: false },
+  { quizQuestionOptionId: 3, quizQuestionId: 1, questionAnswer: 'Sverige', isCorrect: false },
 ];
 
 const testCategory: Category[] = [{ category_name: 'Geografi' }, { category_name: 'Kultur' }];
@@ -45,9 +45,9 @@ beforeEach((done) => {
       if (error) return done.fail(error);
 
       quizService
-        .create(testQuiz[0].quiz_name, testQuiz[0].quiz_category)
-        .then(() => quizService.create(testQuiz[1].quiz_name, testQuiz[1].quiz_category))
-        .then(() => quizService.create(testQuiz[2].quiz_name, testQuiz[2].quiz_category))
+        .create(testQuiz[0].quizName, testQuiz[0].quizCategory)
+        .then(() => quizService.create(testQuiz[1].quizName, testQuiz[1].quizCategory))
+        .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
         .then(() => done());
       });
     });
@@ -59,8 +59,8 @@ beforeEach((done) => {
       if (error) return done.fail(error);
 
       quizService
-        .create(testQuestion[0].quiz_id, testQuiz[0].question)
-        .then(() => quizService.create(testQuestion[1].quiz_id, testQuiz[1].question))
+        .create(testQuestion[0].quizId, testQuiz[0].question)
+        .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question))
         .then(() => done());
     });
   });
@@ -73,22 +73,22 @@ beforeEach((done) => {
 
       quizService
         .create(
-          testQuestionOption[0].quiz_question_id,
-          testQuestionOption[0].question_answer,
-          testQuestionOption[0].is_correct,
+          testQuestionOption[0].quizQuestionId,
+          testQuestionOption[0].questionAnswer,
+          testQuestionOption[0].isCorrect,
         )
         .then(() =>
           quizService.create(
-            testQuestionOption[1].quiz_question_id,
-            testQuestionOption[1].question_answer,
-            testQuestionOption[1].is_correct,
+            testQuestionOption[1].quizQuestionId,
+            testQuestionOption[1].questionAnswer,
+            testQuestionOption[1].isCorrect,
           ),
         )
         .then(() =>
           quizService.create(
-            testQuestionOption[2].quiz_question_id,
-            testQuestionOption[2].question_answer,
-            testQuestionOption[2].is_correct,
+            testQuestionOption[2].quizQuestionId,
+            testQuestionOption[2].questionAnswer,
+            testQuestionOption[2].isCorrect,
           ),
         )
         .then(() => done());
@@ -125,7 +125,7 @@ describe('Create new quiz (POST)', () => {
       })
       .then((response) => {
         expect(response.status).toEqual(200);
-        expect(response.data).toEqual({ quiz_id: 4 });
+        expect(response.data).toEqual({ quizid: 4 });
         done();
       });
   });
@@ -347,9 +347,9 @@ describe('Update quiz (UPDATE)', () => {
   test('Update quiz (200 OK)', (done) => {
     axios
       .put<{}, void>('/quizzes', {
-        quiz_id: 1,
-        quiz_name: 'Fotballag',
-        quiz_category: 'Geografi',
+        quizid: 1,
+        quizName: 'Fotballag',
+        quizCategory: 'Geografi',
       })
       .then((response) => {
         expect(response.status).toEqual(200);
@@ -361,8 +361,8 @@ describe('Update quiz (UPDATE)', () => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
-        quiz_id: 1,
-        quiz_name: 'Fotballag',
+        quizid: 1,
+        quizName: 'Fotballag',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
@@ -377,8 +377,8 @@ describe('Update question (UPDATE)', () => {
   test('Update question (200 OK)', (done) => {
     axios
       .put<{}, void>('/quizzes', {
-        quiz_question_id: 1,
-        quiz_id: 2,
+        quizQuestionId: 1,
+        quizId: 2,
         question: 'Hva er befolkningen i Norge?',
       })
       .then((response) => {
@@ -406,10 +406,10 @@ describe('Update option (UPDATE)', () => {
   test('Update option (200 OK)', (done) => {
     axios
       .put<{}, void>('/quizzes', {
-        quiz_question_option_id: 2,
-        quiz_question_id: 1,
-        question_answer: 'Danmark',
-        is_correct: false,
+        quizQuestionOptionId: 2,
+        quizQuestionId: 1,
+        questionAnswer: 'Danmark',
+        isCorrect: false,
       })
       .then((response) => {
         expect(response.status).toEqual(200);
@@ -421,7 +421,7 @@ describe('Update option (UPDATE)', () => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
-        question_answer: 'Danmark',
+        questionAnswer: 'Danmark',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
