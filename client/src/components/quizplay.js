@@ -114,7 +114,7 @@ export class PlayOptions extends Component {
 
                     playService.setAnswer(
                       this.props.quizQuestionId,
-                      (event.currentTarget.id + 2) % 3,
+                      Number(event.currentTarget.id + 2) % 3,
                       event.currentTarget.checked,
                     );
                   }}
@@ -153,7 +153,7 @@ export class PlayOptions extends Component {
       }
       const ans = { questionId: id, givenAnswers: [false, false, false], correctAnswers: corr };
       playService.addQuestionAnswers(ans);
-    }, 1000);
+    }, 400);
   }
 }
 

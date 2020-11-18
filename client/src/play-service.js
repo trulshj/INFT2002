@@ -27,12 +27,12 @@ class PlayService {
     let points = 0;
 
     for (const question of this.questions) {
-      console.table(question);
       if (question.givenAnswers.length == question.correctAnswers.length) {
         for (let i = 0; i < question.givenAnswers.length; i++) {
           if (question.givenAnswers[i] == true && question.correctAnswers[i] == true) {
             points++;
-          } if (question.givenAnswers[i] == true && question.correctAnswers[i] == false) {
+          }
+          if (question.givenAnswers[i] == true && question.correctAnswers[i] == false) {
             points--;
           }
         }
@@ -40,7 +40,7 @@ class PlayService {
     }
     // Clear the answers, we don't need em
     this.clearAnswers();
-    
+
     //console.log(points);
     return points;
   }
