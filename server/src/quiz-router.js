@@ -55,11 +55,7 @@ router.get('/quizzes/:quizId/rating', (request, response) => {
 router.post('/quizzes/:quizId/:rating', (request, response) => {
   const quizId = Number(request.params.quizId);
   const rating = Number(request.params.rating);
-  if (
-    
-    typeof quizId === 'number' &&
-    typeof rating === 'number' 
-  )
+  if (typeof quizId === 'number' && typeof rating === 'number')
     quizService
       .createRating(rating, quizId)
       .then((rating) => response.send({ rating: rating }))
@@ -223,10 +219,17 @@ router.delete('/quizzes/:quizId', (request, response) => {
     .catch((error: Error) => response.status(500).send(error));
 });
 
+router.delete('/quizzes/:quizId/ratings', (request, response) => {
+  const quizId = Number(request.params.quizId);
+  quizService
+    .deleteRating(quizId)
+    .then((result) => response.send())
+    .catch((error: Error) => response.status(500).send(error));
+});
+
 /**
  * Router for deleting questions with given quiz Id
  */
-
 router.delete('/quizzes/:quizId/questions', (request, response) => {
   const quizId = Number(request.params.quizId);
   quizService

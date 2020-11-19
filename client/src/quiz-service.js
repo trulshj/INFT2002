@@ -89,6 +89,14 @@ class QuizService {
   }
 
   /**
+   * Delete quiz ratings
+   * Needed for delete quiz
+   */
+  deleteRating(quizId: number) {
+    return axios.delete<void>('/quizzes/' + quizId + '/ratings').then((response) => response.data);
+  }
+
+  /**
    * Delete quiz questions
    * Needed for delete quiz and can't be the same as deleteQuestion as deleteQuestion uses quizQuestionId not quizId
    */

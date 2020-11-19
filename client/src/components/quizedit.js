@@ -97,6 +97,9 @@ export class QuizEdit extends Component<{ match: { params: { quizId: number } } 
                   Alert.danger('Error deleting questions for quiz: ' + error.message),
                 );
               quizService
+                .deleteRating(this.quiz.quiz_id)
+                .catch((error: Error) => Alert.danger('Error deleting ratings for quiz'));
+              quizService
                 .deleteQuiz(this.quiz.quiz_id)
                 .then(() => history.push('/quizzes'))
                 .catch((error: Error) => Alert.danger('Error deleting quiz: ' + error.message));

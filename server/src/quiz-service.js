@@ -204,6 +204,20 @@ class QuizService {
   }
 
   /**
+   * Delete spesific rating with given quizId
+   */
+  deleteRating(quizId: number) {
+    return new Promise<void>((resolve, reject) => {
+      pool.query('DELETE FROM rating WHERE quiz_id = ?', [quizId], (error, results) => {
+        if (error) return reject(error);
+        if (!results.affectedRows) reject(new Error('No row deleted'));
+
+        resolve();
+      });
+    });
+  }
+
+  /**
    * Delete quiz questions with given quizId
    */
   deleteQuizQuestions(quizId: number) {
