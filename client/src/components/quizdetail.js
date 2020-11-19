@@ -1,3 +1,5 @@
+// @flow
+
 import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Card, Alert, Row, Column, Form, Button, NavBar, StarRating } from '../widgets';
@@ -13,7 +15,7 @@ const history = createHashHistory(); // Use history.push(...) to programmaticall
  *
  */
 export class QuizDetail extends Component<{ match: { params: { quizId: number } } }> {
-  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '' };
+  quiz: Quiz = { quizId: 0, quizName: '', quizCategory: '', rating: 0 };
   questions: QuizQuestion[] = [];
   rating = 0;
 
