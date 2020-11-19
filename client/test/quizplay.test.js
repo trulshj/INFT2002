@@ -65,47 +65,33 @@ jest.mock('../src/quiz-service', () => {
 });
 
 describe('QuizPlay tests', () => {
-  test('QuizPlay draws correctly', (done) => {
+  test('QuizPlay draws consitently', (done) => {
     const wrapper = shallow(<QuizPlay match={{ params: { quizId: 1 } }} />);
 
     setTimeout(() => {
-      expect(wrapper.containsAllMatchingElements([<PlayOptions />])).toEqual(true);
+      expect(wrapper).toMatchSnapshot();
       done();
     });
   });
 });
 
 describe('PlayOptions tests', () => {
-  test('PlayOptions draws correctly', (done) => {
+  test('PlayOptions draws consitently', (done) => {
     const wrapper = shallow(<PlayOptions quizQuestionId="1" />);
 
     setTimeout(() => {
-      expect(
-        wrapper.containsAllMatchingElements([
-          <Card>Hva heter hovedstaden i Norge?</Card>,
-          <Column>Oslo</Column>,
-          <Column>Sverige</Column>,
-          <Column>Moskva</Column>,
-        ]),
-      ).toEqual(true);
+      expect(wrapper).toMatchSnapshot();
       done();
     });
   });
 });
 
 describe('PlayOptionAnswer', () => {
-  test('PlayOptionAnswer draws correctly', (done) => {
+  test('PlayOptionAnswer draws consitently', (done) => {
     const wrapper = shallow(<PlayOptionAnswer quizQuestionId="1" />);
 
     setTimeout(() => {
-      expect(
-        wrapper.containsAllMatchingElements([
-          <Card>Hva heter hovedstaden i Norge?</Card>,
-          <Column>Oslo</Column>,
-          <Column>Sverige</Column>,
-          <Column>Moskva</Column>,
-        ]),
-      ).toEqual(true);
+      expect(wrapper).toMatchSnapshot();
       done();
     });
   });

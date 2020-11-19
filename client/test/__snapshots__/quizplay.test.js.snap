@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayOptionAnswer PlayOptionAnswer draws consitently 1`] = `
+<Fragment>
+  <Card
+    title="Hva heter hovedstaden i Norge?"
+  >
+    <Card
+      key="1"
+    >
+      <Row>
+        <Column
+          width={10}
+        >
+          Oslo
+        </Column>
+        <FormCheckbox
+          checked={1}
+          readOnly={true}
+        />
+      </Row>
+    </Card>
+    <Card
+      key="2"
+    >
+      <Row>
+        <Column
+          width={10}
+        >
+          Sverige
+        </Column>
+        <FormCheckbox
+          checked={0}
+          readOnly={true}
+        />
+      </Row>
+    </Card>
+    <Card
+      key="3"
+    >
+      <Row>
+        <Column
+          width={10}
+        >
+          Moskva
+        </Column>
+        <FormCheckbox
+          checked={0}
+          readOnly={true}
+        />
+      </Row>
+    </Card>
+  </Card>
+</Fragment>
+`;
+
+exports[`PlayOptions tests PlayOptions draws consitently 1`] = `
+<Fragment>
+  <Card
+    title="Hva heter hovedstaden i Norge?"
+  >
+    <Card
+      key="1"
+    >
+      <Row>
+        <Column
+          width={10}
+        >
+          Oslo
+        </Column>
+        <FormCheckbox
+          id={1}
+          onChange={[Function]}
+        />
+      </Row>
+    </Card>
+    <Card
+      key="2"
+    >
+      <Row>
+        <Column
+          width={10}
+        >
+          Sverige
+        </Column>
+        <FormCheckbox
+          id={2}
+          onChange={[Function]}
+        />
+      </Row>
+    </Card>
+    <Card
+      key="3"
+    >
+      <Row>
+        <Column
+          width={10}
+        >
+          Moskva
+        </Column>
+        <FormCheckbox
+          id={3}
+          onChange={[Function]}
+        />
+      </Row>
+    </Card>
+  </Card>
+</Fragment>
+`;
+
+exports[`QuizPlay tests QuizPlay draws consitently 1`] = `
+<Fragment>
+  <Row>
+    <Column
+      width={5}
+    >
+      <h3>
+        Questions:
+      </h3>
+    </Column>
+    <Column
+      width={5}
+    />
+  </Row>
+  <Row
+    key="1"
+  >
+    <Column
+      width={5}
+    >
+      <PlayOptions
+        quizQuestionId={1}
+      />
+    </Column>
+    <Column
+      width={5}
+    />
+  </Row>
+  <Row
+    key="2"
+  >
+    <Column
+      width={5}
+    >
+      <PlayOptions
+        quizQuestionId={2}
+      />
+    </Column>
+    <Column
+      width={5}
+    />
+  </Row>
+  <ButtonSuccess
+    id="buttonFinishQuiz"
+    onClick={[Function]}
+  >
+    Submit Answer
+  </ButtonSuccess>
+</Fragment>
+`;

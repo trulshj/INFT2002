@@ -98,6 +98,10 @@ jest.mock('../src/quiz-service', () => {
       return Promise.resolve();
     }
 
+    deleteRating(quizId: number) {
+      return Promise.resolve();
+    }
+
     createQuestion() {
       return Promise.resolve();
     }
