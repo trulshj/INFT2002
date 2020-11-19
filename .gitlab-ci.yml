@@ -1,0 +1,59 @@
+image: node:latest # Use a docker image from https://hub.docker.com with latest Node.js already installed
+stages:
+  - build # Jobs placed in build stage will run first
+  - test # Jobs placed in test stage will run after build jobs
+
+install-client:
+  stage: build
+  script:
+    - cd client
+    - npm install
+  artifacts: # Keep node_modules folder for the following stages
+    paths:
+      - client/node_modules
+
+install-server:
+  stage: build
+  script:
+    - cd server
+    - npm install
+  artifacts: # Keep node_modules folder for the following stages
+    paths:
+      - server/node_modules
+
+prettier-client:
+  stage: test # The prettier job will run in parallel with the flow and test jobs script:
+  script:
+    - cd client
+    - ./node_modules/.bin/prettier --check src/*
+
+prettier-server:
+  stage: test # The prettier job will run in parallel with the flow and test jobs script:
+  script:
+    - cd server
+    - ./node_modules/.bin/prettier --check src/*
+
+flow-client:
+  stage: test # The flow job will run in parallel with the prettier and test jobs script:
+  script:
+    - cd client
+    - ./node_modules/.bin/flow check
+
+flow-server:
+  stage: test # The flow job will run in parallel with the prettier and test jobs script:
+  script:
+    - cd server
+    - ./node_modules/.bin/flow check
+
+test-client:
+  stage: test # The test job will run in parallel with the prettier and flow jobs script:
+  script:
+    - cd client
+    - npm test
+
+test-server:
+  stage: test # The test job will run in parallel with the prettier and flow jobs script:
+  script:
+    - pwd
+    - cd server
+    - npm test
