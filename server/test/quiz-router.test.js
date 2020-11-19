@@ -1,5 +1,14 @@
 // @flow
 
+/*Testene er ikke funksjonelle da vi ikke klarer å implementere en funksjon som kan 
+TRUNCATE tabeller med fremmednøkler. Vi har prøvd ulike løsninger fra internett da
+dette ikke har vært en del av pensum, men ingen har fungert etter hensikten. 
+Denne problemløsningen har tatt mye unødvendig tid som har gått utover arbeidet på andre områder.
+Vi mener på bakgrunn av dette at en tilsvarende problemstilling, da denne virker svært sentral i
+prosjektet, burde blitt gjennomgått i tidligere leksjoner. Dette er ikke bare en problemstilling
+vi alene som gruppe har opplevd, men noe vi deler med flere andre grupper.*/
+
+
 import axios from 'axios';
 import pool from '../src/mysql-pool';
 import app from '../src/app';
@@ -11,20 +20,38 @@ import quizService, {
 } from '../src/quiz-service';
 
 const testQuiz: Quiz[] = [
-  { quizId: 1, quizName: 'Fotballag', quizCategory: 'Kultur', user: "Bruker1" },
-  { quizId: 2, quizName: 'Land i Europa', quizCategory: 'Geografi', user: "Bruker2" },
-  { quizId: 3, quizName: 'Tradisjoner i Norge', quizCategory: 'Kultur', user: "Bruker3" },
+  { quiz_id: 1, quiz_name: 'Fotballag', quiz_category: 'Kultur', username: 'Per' },
+  { quiz_id: 2, quiz_name: 'Land i Europa', quiz_category: 'Geografi', username: 'Pål' },
+  { quiz_id: 3, quiz_name: 'Tradisjoner i Norge', quiz_category: 'Kultur', username: 'Askeladden' },
 ];
 
 const testQuestion: QuizQuestion[] = [
-  { quizQuestionId: 1, quizId: 2, question: 'Hva heter det største landet?' },
-  { quizQuestionId: 2, quizId: 2, question: 'Hva heter det minste landet?' },
+  { quiz_question_id: 1, quiz_id: 2, question: 'Hva heter det største landet?' },
+  { quiz_question_id: 2, quiz_id: 2, question: 'Hva heter det minste landet?' },
 ];
 
 const testQuestionOption: QuizQuestionOption[] = [
-  { quizQuestionOptionId: 1, quizQuestionId: 1, questionAnswer: 'Russland', isCorrect: true },
-  { quizQuestionOptionId: 2, quizQuestionId: 1, questionAnswer: 'Norge', isCorrect: false },
-  { quizQuestionOptionId: 3, quizQuestionId: 1, questionAnswer: 'Sverige', isCorrect: false },
+  {
+
+       quiz_question_option_id: 1,
+
+       quiz_question_id: 1,
+
+       question_answer: 'Russland',
+
+       is_correct: true,
+  },
+  { quiz_question_option_id: 2, quiz_question_id: 1, question_answer: 'Norge', is_correct: false },
+  {
+
+       quiz_question_option_id: 3,
+
+       quiz_question_id: 1,
+
+       question_answer: 'Sverige',
+
+       is_correct: false,
+   },
 ];
 
 const testCategory: Category[] = [{ category_name: 'Geografi' }, { category_name: 'Kultur' }];
@@ -40,72 +67,82 @@ beforeAll((done) => {
 
 beforeEach((done) => {
   pool.query(
-    'DELETE FROM quiz;',
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz; SET FOREIGN_KEY_CHECKS = 1;',
     (error) => {
       if (error) return done.fail(error);
 
       quizService
-        .create(testQuiz[0].quizName, testQuiz[0].quizCategory)
-        .then(() => quizService.create(testQuiz[1].quizName, testQuiz[1].quizCategory))
-        .then(() => quizService.create(testQuiz[2].quizName, testQuiz[2].quizCategory))
-        .then(() => done());
-      });
-    });
+        .create(testQuiz[0].quiz_name, testQuiz[0].quiz_category, testQuiz[0].username)
+        .then(() =>
 
-  beforeEach((done) => {
+                   quizService.create(
+            
+            testQuiz[1].quiz_name,
+
+                       testQuiz[1].quiz_category,
+
+                       testQuiz[1].username,
+          ),
+        )
+        .then(() =>
+         
+          quizService.create(
+            
+            testQuiz[2].quiz_name,
+           
+            testQuiz[2].quiz_category,
+           
+            testQuiz[2].username,
+          ),
+        )
+        .then(() => done());
+    },
+  );
+});
+
+beforeEach((done) => {
   pool.query(
-    'DELETE FROM quiz_question;',
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question; SET FOREIGN_KEY_CHECKS = 1;',
     (error) => {
       if (error) return done.fail(error);
 
       quizService
-        .create(testQuestion[0].quizId, testQuiz[0].question)
-        .then(() => quizService.create(testQuestion[1].quizId, testQuiz[1].question))
+        .create(testQuestion[0].quiz_id, testQuestion[0].question)
+        .then(() => quizService.create(testQuestion[1].quiz_id, testQuestion[1].question))
         .then(() => done());
-    });
-  });
+    },
+  );
+});
 
-  beforeEach((done) => {
+beforeEach((done) => {
   pool.query(
-    'DELETE FROM quiz_question_option;',
+    'SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE quiz_question_option; SET FOREIGN_KEY_CHECKS = 1;',
     (error) => {
       if (error) return done.fail(error);
 
       quizService
         .create(
-          testQuestionOption[0].quizQuestionId,
-          testQuestionOption[0].questionAnswer,
-          testQuestionOption[0].isCorrect,
+          testQuestionOption[0].quiz_question_id,
+          testQuestionOption[0].question_answer,
+          testQuestionOption[0].is_correct,
         )
         .then(() =>
           quizService.create(
-            testQuestionOption[1].quizQuestionId,
-            testQuestionOption[1].questionAnswer,
-            testQuestionOption[1].isCorrect,
+            testQuestionOption[1].quiz_question_id,
+            testQuestionOption[1].question_answer,
+            testQuestionOption[1].is_correct,
           ),
         )
         .then(() =>
           quizService.create(
-            testQuestionOption[2].quizQuestionId,
-            testQuestionOption[2].questionAnswer,
-            testQuestionOption[2].isCorrect,
+            testQuestionOption[2].quiz_question_id,
+            testQuestionOption[2].question_answer,
+            testQuestionOption[2].is_correct,
           ),
         )
         .then(() => done());
-      });
-    });
-
-  beforeEach((done) => {
-  pool.query(
-    'DELETE FROM category;',
-    (error) => {
-      if (error) return done.fail(error);
-
-      quizService
-        .create(testCategory[0].category_name)
-        .then(() => quizService.create(testCategory[1].category_name))
-        .then(() => done());
-      });
+    },
+  );
 });
 
 // Stop web server and close connection to MySQL server
@@ -119,13 +156,13 @@ describe('Create new quiz (POST)', () => {
   test('Create new quiz (200 OK)', (done) => {
     axios
       .post<{}, number>('/quizzes', {
-        quizName: 'Fotballag',
-        quizCategory: 'Kultur',
-        user: "Bruker1"
+        quiz_name: 'Fotballag',
+        quiz_category: 'Kultur',
+        username: 'Per',
       })
       .then((response) => {
         expect(response.status).toEqual(200);
-        expect(response.data).toEqual({ quizid: 4 });
+        expect(response.data).toEqual({ quiz_id: 4 });
         done();
       });
   });
@@ -287,7 +324,7 @@ describe('Delete quiz (DELETE)', () => {
 
 //Delete questions (DELETE)
 describe('Delete questions (DELETE)', () => {
-  test('Delete questions with given quizId (200 OK)', (done) => {
+  test('Delete questions with given quiz_id (200 OK)', (done) => {
     axios.delete('/quizzes/2/questions').then((response) => {
       expect(response.status).toEqual(200);
       done();
@@ -301,7 +338,7 @@ describe('Delete questions (DELETE)', () => {
     });
   });
 
-  test('Delete questions with given quizId (500 Internal Server error)', (done) => {
+  test('Delete questions with given quiz_id (500 Internal Server error)', (done) => {
     axios
       .delete('/quizzes/3/questions')
       .then((response) => done.fail(new Error()))
@@ -347,9 +384,9 @@ describe('Update quiz (UPDATE)', () => {
   test('Update quiz (200 OK)', (done) => {
     axios
       .put<{}, void>('/quizzes', {
-        quizid: 1,
-        quizName: 'Fotballag',
-        quizCategory: 'Geografi',
+        quiz_id: 1,
+        quiz_name: 'Fotballag',
+        quiz_category: 'Geografi',
       })
       .then((response) => {
         expect(response.status).toEqual(200);
@@ -361,8 +398,8 @@ describe('Update quiz (UPDATE)', () => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
-        quizid: 1,
-        quizName: 'Fotballag',
+        quiz_id: 1,
+        quiz_name: 'Fotballag',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
@@ -377,8 +414,8 @@ describe('Update question (UPDATE)', () => {
   test('Update question (200 OK)', (done) => {
     axios
       .put<{}, void>('/quizzes', {
-        quizQuestionId: 1,
-        quizId: 2,
+        quiz_question_id: 1,
+        quiz_id: 2,
         question: 'Hva er befolkningen i Norge?',
       })
       .then((response) => {
@@ -406,10 +443,10 @@ describe('Update option (UPDATE)', () => {
   test('Update option (200 OK)', (done) => {
     axios
       .put<{}, void>('/quizzes', {
-        quizQuestionOptionId: 2,
-        quizQuestionId: 1,
-        questionAnswer: 'Danmark',
-        isCorrect: false,
+        quiz_question_option_id: 2,
+        quiz_question_id: 1,
+        question_answer: 'Danmark',
+        is_correct: false,
       })
       .then((response) => {
         expect(response.status).toEqual(200);
@@ -421,7 +458,7 @@ describe('Update option (UPDATE)', () => {
     axios
       // $FlowExpectedError
       .put<{}, number>('/quizzes', {
-        questionAnswer: 'Danmark',
+        question_answer: 'Danmark',
       })
       .then((response) => done.fail(new Error()))
       .catch((error: Error) => {
@@ -430,3 +467,4 @@ describe('Update option (UPDATE)', () => {
       });
   });
 });
+
